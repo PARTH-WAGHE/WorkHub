@@ -8,7 +8,7 @@
     "dev": "live-server --port=3000 --open",
     "build": "node build.js",
     "build:simple": "echo 'Static site ready for deployment'",
-    "clean": "rimraf dist",
+    "clean": "rimraf build dist",
     "deploy": "npm run build && echo 'Ready for deployment'",
     "test": "echo 'No tests specified'"
   },

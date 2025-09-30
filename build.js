@@ -3,10 +3,10 @@ const path = require('path');
 
 console.log('🚀 Building QueueFree...');
 
-// Create dist directory
-const distDir = path.join(__dirname, 'dist');
-if (!fs.existsSync(distDir)) {
-    fs.mkdirSync(distDir, { recursive: true });
+// Create build directory (Render expects 'build' folder)
+const buildDir = path.join(__dirname, 'build');
+if (!fs.existsSync(buildDir)) {
+    fs.mkdirSync(buildDir, { recursive: true });
 }
 
 // Function to copy files recursively
@@ -30,20 +30,20 @@ try {
     console.log('📁 Copying static files...');
     
     // Copy main files
-    fs.copyFileSync('index.html', path.join(distDir, 'index.html'));
-    fs.copyFileSync('server.js', path.join(distDir, 'server.js'));
-    fs.copyFileSync('package.json', path.join(distDir, 'package.json'));
+    fs.copyFileSync('index.html', path.join(buildDir, 'index.html'));
+    fs.copyFileSync('server.js', path.join(buildDir, 'server.js'));
+    fs.copyFileSync('package.json', path.join(buildDir, 'package.json'));
     
     // Copy render.yaml if exists
     if (fs.existsSync('render.yaml')) {
-        fs.copyFileSync('render.yaml', path.join(distDir, 'render.yaml'));
+        fs.copyFileSync('render.yaml', path.join(buildDir, 'render.yaml'));
     }
     
     // Copy directories
     const dirsToCopy = ['css', 'js', 'assets'];
     dirsToCopy.forEach(dir => {
         if (fs.existsSync(dir)) {
-            copyFiles(dir, path.join(distDir, dir));
+            copyFiles(dir, path.join(buildDir, dir));
         }
     });
     
@@ -77,27 +77,27 @@ RewriteRule . /index.html [L]
     ExpiresByType image/jpeg "access plus 1 year"
 </IfModule>`;
     
-    fs.writeFileSync(path.join(distDir, '.htaccess'), htaccess);
+    fs.writeFileSync(path.join(buildDir, '.htaccess'), htaccess);
     
     // Create _redirects for Netlify
     const redirects = `# QueueFree - Netlify Configuration
 /*    /index.html   200`;
     
-    fs.writeFileSync(path.join(distDir, '_redirects'), redirects);
+    fs.writeFileSync(path.join(buildDir, '_redirects'), redirects);
     
     console.log('✅ Build completed successfully!');
-    console.log('📦 Built files are in the "dist" directory');
+    console.log('📦 Built files are in the "build" directory');
     console.log('🌐 Ready for deployment to:');
-    console.log('   - Render (use dist/ as root)');
-    console.log('   - Netlify (drag & drop dist/ folder)');
-    console.log('   - Vercel (deploy dist/ folder)');
+    console.log('   - Render (use build/ as root)');
+    console.log('   - Netlify (drag & drop build/ folder)');
+    console.log('   - Vercel (deploy build/ folder)');
     console.log('   - Any static hosting service');
     
     // List contents
-    const files = fs.readdirSync(distDir);
+    const files = fs.readdirSync(buildDir);
     console.log('\n📁 Built files:');
     files.forEach(file => {
-        const filePath = path.join(distDir, file);
+        const filePath = path.join(buildDir, file);
         const stats = fs.statSync(filePath);
         const type = stats.isDirectory() ? '📂' : '📄';
         console.log(`   ${type} ${file}`);
