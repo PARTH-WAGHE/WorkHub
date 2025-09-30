@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QueueFree - Live Crowd Tracking & Booking Platform">
+    <title>QueueFree - Live Crowd Tracking & Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-200 dark:border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold text-gray-900 dark:text-white">
+                Queue<span class="text-teal-500 dark:text-teal-400">Free</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#features" class="text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors font-medium">How It Works</a>
+                <a href="#places" class="text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400 transition-colors font-medium">Find a Venue</a>
+                <button id="my-bookings-btn-desktop" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors">My Bookings</button>
+                <button id="theme-toggle-desktop" class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg id="theme-toggle-dark-icon-desktop" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon-desktop" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm-.707 10.607a1 1 0 011.414 0l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+            <div class="flex md:hidden items-center">
+                 <button id="theme-toggle-mobile" class="p-2 mr-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg id="theme-toggle-dark-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon-mobile" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm-.707 10.607a1 1 0 011.414 0l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden text-gray-800 dark:text-white">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#features" class="block py-2 text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400">How It Works</a>
+            <a href="#places" class="block py-2 text-gray-600 dark:text-gray-300 hover:text-teal-500 dark:hover:text-teal-400">Find a Venue</a>
+            <button id="my-bookings-btn-mobile" class="block w-full text-center mt-2 bg-teal-500 hover:bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg">My Bookings</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-[60vh] flex items-center justify-center bg-gray-800 dark:bg-gray-900 bg-cover bg-center" style="background-image: linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.85)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop');">
+            <div class="text-center text-white p-6">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">Skip the Queue, Every Time.</h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Discover live crowd levels in Pune, book your spot in advance, and pre-order. Your seamless experience awaits.</p>
+                <div class="max-w-xl mx-auto">
+                    <div class="relative flex gap-2">
+                        <div class="relative w-full">
+                            <svg class="w-6 h-6 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            <input id="search-bar" type="text" placeholder="Search restaurants, gyms, salons in Pune..." class="w-full py-3 pl-12 pr-5 rounded-full bg-gray-700 dark:bg-gray-800 text-white border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400 transition">
+                        </div>
+                        <button id="ai-filter-btn" class="bg-gray-600 dark:bg-gray-700 hover:bg-gray-500 dark:hover:bg-gray-600 text-white font-semibold px-5 py-2 rounded-full transition-colors flex-shrink-0">Filters</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-gray-100 dark:bg-gray-800">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-2">A Smarter Way to Go Out</h2>
+                <p class="text-gray-500 dark:text-gray-400 mb-12">Just three simple steps to a hassle-free outing.</p>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-transform">
+                         <div class="bg-teal-500/10 text-teal-500 dark:text-teal-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-3">1. Find Your Spot</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Browse places and check their real-time crowd levels so you know what to expect.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-transform">
+                        <div class="bg-teal-500/10 text-teal-500 dark:text-teal-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-3">2. Book & Pre-Order</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Book your table or service instantly. Place your order in advance to save even more time.</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-transform">
+                        <div class="bg-teal-500/10 text-teal-500 dark:text-teal-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"><svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-3">3. Enjoy & Relax</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Arrive and be seated immediately. Your pre-ordered items will be ready for you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Places Section -->
+        <section id="places" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold mb-12 text-center">Explore Venues in Pune</h2>
+                <div id="places-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Venue cards are injected here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Queue<span class="text-teal-500 dark:text-teal-400">Free</span></p>
+            <div class="mb-6 border-t border-gray-200 dark:border-gray-700 pt-6">
+                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Founders:</p>
+                <p class="text-sm">Parth Waghe • Venuparmesh Kumarlingam • Yash Sawant • Hari Sharma</p>
+                 <div class="mt-4 text-sm">
+                    <a href="mailto:parth.2403093105@vcet.edu.in" class="hover:text-teal-500 dark:hover:text-teal-400">parth.2403093105@vcet.edu.in</a>
+                    <span class="mx-2 text-gray-500 dark:text-gray-600">|</span>
+                    <a href="tel:+918070006402" class="hover:text-teal-500 dark:hover:text-teal-400">8070006402</a>
+                </div>
+            </div>
+            <p>&copy; 2025 QueueFree. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Modals -->
+    <div id="modal-container">
+        <!-- Modals will be injected here -->
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg opacity-0 transform translate-y-10 transition-all duration-300">
+        <p id="toast-message"></p>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

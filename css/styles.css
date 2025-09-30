@@ -1,0 +1,195 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.crowd-bar-inner {
+    transition: width 0.5s ease-in-out;
+}
+
+/* Custom scrollbar for better aesthetics */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #2d3748;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+/* Style for the date picker icon */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: invert(0.5);
+}
+
+.dark input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* Filter button styles for modals */
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    background-color: #e5e7eb;
+    color: #374151;
+    transition: all 0.2s ease-in-out;
+}
+
+.dark .filter-btn {
+    background-color: #374151;
+    color: #d1d5db;
+}
+
+.filter-btn.active {
+    background-color: #14b8a6;
+    color: white;
+}
+
+.filter-btn:hover:not(.active) {
+    background-color: #d1d5db;
+}
+
+.dark .filter-btn:hover:not(.active) {
+    background-color: #4b5563;
+}
+
+/* Input field styles for modals */
+.input-field {
+    margin-top: 4px;
+    width: 100%;
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 0.5rem 0.75rem;
+    color: #111827;
+    transition: all 0.2s ease-in-out;
+}
+
+.dark .input-field {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #ffffff;
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #14b8a6;
+    border-color: #14b8a6;
+}
+
+/* Label styles for modals */
+.label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.dark .label {
+    color: #d1d5db;
+}
+
+/* Hover effects for venue cards */
+.venue-card {
+    transition: all 0.3s ease-in-out;
+}
+
+.venue-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Loading animation for crowd bars */
+@keyframes crowdPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.crowd-loading {
+    animation: crowdPulse 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+}
+
+/* Toast notification animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast-enter {
+    animation: slideInRight 0.3s ease-out;
+}
+
+.toast-exit {
+    animation: slideOutRight 0.3s ease-out;
+}
