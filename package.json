@@ -5,8 +5,11 @@
   "main": "index.html",
   "scripts": {
     "start": "node server.js",
-    "dev": "live-server --port=3000",
-    "build": "echo 'Static site ready for deployment'",
+    "dev": "live-server --port=3000 --open",
+    "build": "node build.js",
+    "build:simple": "echo 'Static site ready for deployment'",
+    "clean": "rimraf dist",
+    "deploy": "npm run build && echo 'Ready for deployment'",
     "test": "echo 'No tests specified'"
   },
   "keywords": [
@@ -29,7 +32,8 @@
     "serve": "^14.2.1"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "rimraf": "^5.0.5"
   },
   "repository": {
     "type": "git",
