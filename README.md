@@ -1,50 +1,143 @@
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_NAME=queuefree_db
-DB_USER=QUEUEFREE
-DB_PASSWORD=ChangeMe_S3cure!
-DB_SSL=false
+# QUEUEFREE Employee Management System
 
-# Optional unified URL (for ORMs/clients that support it)
-DATABASE_URL=mysql://QUEUEFREE:ChangeMe_S3cure!@127.0.0.1:3306/queuefree_db
-# QUEUEFREE - Employee Data Management
+QUEUEFREE is a modern, full-stack, interactive employee management platform. It features a beautiful UI, secure authentication, and robust role-based access for teams of any size.
 
-Prereqs:
+---
 
-- Node.js 18+
-- Java 17+
-- Maven 3.9+
-- MySQL 8+
+## 🚀 Features
 
-Backend:
+- **Authentication:** Secure login/register, password hashing, admin/user roles
+- **Employee CRUD:** Add, edit, delete, and view employee profiles
+- **Role-based Access:** Admin dashboard, user self-edit, access control
+- **Search & Filter:** Find employees by name, department, and status
+- **Responsive UI:** Mobile-friendly, animated gradients, glassmorphism cards
+- **Pagination & Modals:** Paginated lists, info modals, skeleton loading
+- **Interactive Feedback:** Animated modals, error handling, confirmation dialogs
 
-1. Update backend/src/main/resources/application.properties with your DB username/password.
-2. Create DB (auto-created if user has perms): queuefree
-3. From c:\Project\QUEUEFREE\backend run: mvn spring-boot:run
+---
 
-Frontend:
-Quick fix for MySQL [28000][1045] Access denied for user 'QUEUEFREE'@'localhost'
+## 🛠 Tech Stack
 
-Steps:
-- Log in as admin: mysql -u root -p -h 127.0.0.1 -P 3306
-- Run the provisioning script:
-  - Windows PowerShell:
-    mysql -u root -p -h 127.0.0.1 -P 3306 < .\database\provision-queuefree-user.sql
-- Test login:
-  mysql -u QUEUEFREE -p -h 127.0.0.1 -P 3306 -D queuefree_db -e "SELECT 1;"
-- Configure the app using .env (copy .env.example to .env and adjust the password).
-- Prefer 127.0.0.1 to avoid host/resolve differences.
-- If using older MySQL clients, switch the user to mysql_native_password (see comments in the SQL script).
+- **Frontend:** React + Vite + TailwindCSS
+- **Backend:** Spring Boot (Java 17+) + MySQL
+- **Database:** MySQL 8+
+- **Deployment:** Vercel (frontend), Render (backend & database)
 
-Troubleshooting:
-- SHOW GRANTS FOR 'QUEUEFREE'@'localhost';
-- SHOW GRANTS FOR 'QUEUEFREE'@'127.0.0.1';
-- Ensure the DB name, user, and password in your app exactly match MySQL.
+---
 
-1. From c:\Project\QUEUEFREE\frontend run: npm install
-2. Start dev server: npm run dev (http://localhost:5173)
+## ⚡ Getting Started
 
-Notes:
+### 1. Clone the Repository
 
-- Vite proxy forwards /api to http://localhost:8080.
-- If you deploy differently, adjust vite.config.js or backend CORS.
+```bash
+git clone https://github.com/<your-username>/queuefree.git
+cd queuefree
+```
+
+### 2. Setup the Database
+
+- Create a MySQL database and user (see `database/provision-queuefree-user.sql`)
+- Update backend `src/main/resources/application.properties` with your DB credentials
+
+### 3. Backend Setup
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+### 4. Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### 5. Environment Variables
+
+**Frontend (`frontend/.env`):**
+
+```
+VITE_API_BASE_URL=http://localhost:8080
+```
+
+**Backend (`src/main/resources/application.properties`):**
+
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/queuefree_db?createDatabaseIfNotExist=true&useSSL=false
+spring.datasource.username=QUEUEFREE
+spring.datasource.password=ChangeMe_S3cure!
+```
+
+---
+
+## 🌐 Deployment
+
+- **Frontend:** Import repo to [Vercel](https://vercel.com/), set build command/output directory, add env vars
+- **Backend:** Import repo to [Render](https://render.com/), set build/start commands, add env vars
+- **Database:** Use Render Managed MySQL or your own MySQL server
+
+---
+
+## 👥 Team
+
+- Parth Waghe
+- Sameer Balgar
+- Nidhish Vartak
+- Vedika Takke
+
+---
+
+## 📸 Screenshots
+
+![Login Page](screenshots/login.png)
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 💡 Interactive Usage
+
+- **Live Search:** Instantly filter employees by name, email, or position.
+- **Animated Modals:** Get feedback for actions, errors, and confirmations.
+- **Role-based UI:** Admins see extra controls; users can edit their own profile.
+- **Pagination:** Browse large teams with smooth page transitions.
+
+---
+
+## 🗂️ Directory Structure
+
+```
+queuefree/
+├── backend/
+│   └── src/
+│       └── main/
+│           └── java/
+│           └── resources/
+├── frontend/
+│   └── src/
+│       └── components/
+│       └── services/
+│   └── public/
+├── database/
+│   └── provision-queuefree-user.sql
+└── README.md
+```
+
+---
+
+## 🤝 Contributing
+
+Pull requests and issues are welcome! Please open an issue for bugs or feature requests.
+
+---
+
+## 📬 Contact
+
+For support or collaboration, open a GitHub issue or reach out to the team.
