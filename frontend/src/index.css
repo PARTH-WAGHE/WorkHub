@@ -1,3 +1,122 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .btn-gradient {
+        background: linear-gradient(90deg, #f59e0b, #f97316, #dc2626, #f59e0b);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    .btn-gradient-blue {
+        background: linear-gradient(90deg, #3b82f6, #6366f1, #8b5cf6, #3b82f6);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    .btn-gradient-red {
+        background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #ef4444);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    .btn-gradient-slate {
+        background: linear-gradient(90deg, #64748b, #6366f1, #8b5cf6, #64748b);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    .btn-gradient-purple {
+        background: linear-gradient(90deg, #8b5cf6, #a855f7, #6366f1, #8b5cf6);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    .btn-gradient-orange {
+        background: linear-gradient(90deg, #f59e0b, #f97316, #fb923c, #f59e0b);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    .btn-gradient-violet {
+        background: linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa, #7c3aed);
+        background-size: 200% 100%;
+        animation: gradient-flow 2s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        100% {
+            background-position: -200% 50%;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .animate-fadeInUp {
+        animation: fadeInUp 0.5s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .animate-slideInLeft {
+        animation: slideInLeft 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-slideInRight {
+        animation: slideInRight 0.6s ease-out forwards;
+        opacity: 0;
+    }
+}

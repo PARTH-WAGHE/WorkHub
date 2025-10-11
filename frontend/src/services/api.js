@@ -1,4 +1,5 @@
 const base = "/api/employees";
+const adminBase = "/api/admin/employees";
 
 export async function listEmployees() {
   const res = await fetch(base);
@@ -37,6 +38,32 @@ export async function login(email, password) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) throw new Error("Invalid credentials");
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      const data = await res.json();
+      throw new Error(
+        data.error || "User not registered. Please create an account."
+      );
+    }
+    if (res.status === 401) {
+      const data = await res.json();
+      throw new Error(data.error || "Invalid password");
+    }
+    throw new Error("Login failed");
+  }
+
   return res.json();
+}
+
+// Admin functions
+export async function adminListEmployees() {
+  const res = await fetch(adminBase);
+  if (!res.ok) throw new Error("Failed to load employees");
+  return res.json();
+}
+
+export async function adminDeleteEmployee(id) {
+  const res = await fetch(`${adminBase}/${id}`, { method: "DELETE" });
+  if (!res.ok) throw new Error("Delete failed");
 }

@@ -1,13 +1,23 @@
 package com.queuefree.backend.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.queuefree.backend.entity.Employee;
 import com.queuefree.backend.repository.EmployeeRepository;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -38,6 +48,9 @@ public class EmployeeController {
       return ResponseEntity.badRequest().build();
     }
     e.setPasswordHash(passwordEncoder.encode(e.getPassword()));
+    if (e.getRole() == null || e.getRole().isEmpty()) {
+      e.setRole("USER");
+    }
     return ResponseEntity.ok(repo.save(e));
   }
 
@@ -51,15 +64,21 @@ public class EmployeeController {
         } else {
           e.setPasswordHash(found.getPasswordHash());
         }
+        if (e.getRole() == null || e.getRole().isEmpty()) {
+          e.setRole(found.getRole());
+        }
         return ResponseEntity.ok(repo.save(e));
       })
       .orElse(ResponseEntity.notFound().build());
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Object> delete(@PathVariable Long id) {
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
     return repo.findById(id)
-      .map(found -> { repo.delete(found); return ResponseEntity.noContent().build(); })
+      .map(found -> { 
+        repo.delete(found); 
+        return ResponseEntity.noContent().<Void>build(); 
+      })
       .orElse(ResponseEntity.notFound().build());
   }
 }
