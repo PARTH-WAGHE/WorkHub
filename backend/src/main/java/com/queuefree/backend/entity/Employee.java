@@ -1,12 +1,20 @@
 package com.queuefree.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "employees")
@@ -29,9 +37,17 @@ public class Employee {
   @Column(nullable = false, unique = true)
   private String email;
 
+  private String phone;
+
+  private String department;
+
   private String position;
 
+  private String address;
+
   private BigDecimal salary;
+
+  private LocalDate dateOfBirth;
 
   private LocalDate hireDate;
 
@@ -57,6 +73,18 @@ public class Employee {
 
   public String getEmail() { return email; }
   public void setEmail(String email) { this.email = email; }
+
+  public String getPhone() { return phone; }
+  public void setPhone(String phone) { this.phone = phone; }
+
+  public String getDepartment() { return department; }
+  public void setDepartment(String department) { this.department = department; }
+
+  public String getAddress() { return address; }
+  public void setAddress(String address) { this.address = address; }
+
+  public LocalDate getDateOfBirth() { return dateOfBirth; }
+  public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
   public String getPosition() { return position; }
   public void setPosition(String position) { this.position = position; }
