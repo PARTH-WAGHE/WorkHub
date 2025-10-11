@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - QUEUEFREE</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="container dashboard-container">
+      <aside class="sidebar">
+        <div class="logo">
+          <h2>QUEUEFREE</h2>
+        </div>
+
+        <nav class="side-nav">
+          <ul>
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="employees.html">Employees</a></li>
+            <li><a href="departments.html">Departments</a></li>
+            <li><a href="attendance.html">Attendance</a></li>
+            <li><a href="reports.html">Reports</a></li>
+            <li><a href="settings.html">Settings</a></li>
+          </ul>
+        </nav>
+
+        <div class="user-info">
+          <img src="../assets/img/avatar.png" alt="User Avatar" />
+          <div>
+            <p class="user-name">John Doe</p>
+            <p class="user-role">Administrator</p>
+            <a href="#" id="logoutBtn">Logout</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="dashboard-header">
+          <h1>Dashboard</h1>
+          <div class="actions">
+            <input type="text" placeholder="Search..." />
+            <button class="btn">Notifications</button>
+          </div>
+        </header>
+
+        <section class="stats-overview">
+          <div class="stat-card">
+            <h3>Total Employees</h3>
+            <p class="stat-value">245</p>
+            <p class="stat-change positive">+3.5% from last month</p>
+          </div>
+          <div class="stat-card">
+            <h3>Departments</h3>
+            <p class="stat-value">8</p>
+          </div>
+          <div class="stat-card">
+            <h3>Attendance Rate</h3>
+            <p class="stat-value">96%</p>
+            <p class="stat-change positive">+1.2% from last month</p>
+          </div>
+          <div class="stat-card">
+            <h3>Open Positions</h3>
+            <p class="stat-value">12</p>
+          </div>
+        </section>
+
+        <section class="recent-employees">
+          <div class="section-header">
+            <h2>Recent Employees</h2>
+            <a href="employees.html">View All</a>
+          </div>
+          <div class="table-container">
+            <table id="recentEmployeesTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Position</th>
+                  <th>Joining Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data will be populated via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/api.js"></script>
+  </body>
+</html>
