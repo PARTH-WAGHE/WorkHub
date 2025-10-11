@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUEUEFREE - Employee Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>QUEUEFREE Employee Data Management</h1>
+      <button id="logout-button">Logout</button>
+    </header>
+    <main>
+      <div class="container">
+        <h2>Employee List</h2>
+        <table id="employee-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Job Title</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Employee data will be populated here by JavaScript -->
+          </tbody>
+        </table>
+
+        <h2>Add/Edit Employee</h2>
+        <form id="employee-form">
+          <input type="hidden" id="employee-id" />
+          <input type="text" id="name" placeholder="Name" required />
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="text" id="job-title" placeholder="Job Title" required />
+          <button type="submit">Save Employee</button>
+        </form>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2024 QUEUEFREE</p>
+    </footer>
+    <script src="js/script.js"></script>
+  </body>
+</html>
