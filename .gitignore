@@ -1,5 +1,5 @@
 # ==============================================
-# 🌍 Universal .gitignore (All-in-One)
+# Universal .gitignore (All-in-One)
 # Covers: Java, Spring Boot, React, Node.js, IntelliJ, VSCode, OS files, Logs, Builds
 # ==============================================
 
@@ -159,7 +159,3 @@ bower_components/
 *.swo
 *.tmp
 *.old
-
-# ==============================================
-# END OF UNIVERSAL .gitignore
-# ==============================================

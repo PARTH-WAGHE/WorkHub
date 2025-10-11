@@ -39,6 +39,9 @@ public class Employee {
 
   private String phone;
 
+  @Column(length = 5)
+  private String phoneCountryCode = "+1";
+
   private String department;
 
   private String position;
@@ -47,12 +50,18 @@ public class Employee {
 
   private BigDecimal salary;
 
+  @Column(length = 3)
+  private String currency = "USD";
+
   private LocalDate dateOfBirth;
 
   private LocalDate hireDate;
 
   @Column(nullable = false)
   private boolean active = true;
+
+  @Column(nullable = false)
+  private String role = "USER"; // USER or ADMIN
 
   @Transient
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -77,6 +86,9 @@ public class Employee {
   public String getPhone() { return phone; }
   public void setPhone(String phone) { this.phone = phone; }
 
+  public String getPhoneCountryCode() { return phoneCountryCode; }
+  public void setPhoneCountryCode(String phoneCountryCode) { this.phoneCountryCode = phoneCountryCode; }
+
   public String getDepartment() { return department; }
   public void setDepartment(String department) { this.department = department; }
 
@@ -92,6 +104,9 @@ public class Employee {
   public BigDecimal getSalary() { return salary; }
   public void setSalary(BigDecimal salary) { this.salary = salary; }
 
+  public String getCurrency() { return currency; }
+  public void setCurrency(String currency) { this.currency = currency; }
+
   public LocalDate getHireDate() { return hireDate; }
   public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
 
@@ -103,4 +118,7 @@ public class Employee {
 
   public String getPasswordHash() { return passwordHash; }
   public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+  public String getRole() { return role; }
+  public void setRole(String role) { this.role = role; }
 }

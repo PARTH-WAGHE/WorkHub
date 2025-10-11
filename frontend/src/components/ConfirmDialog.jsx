@@ -1,6 +1,12 @@
-import React from 'react';
+import React from "react";
 
-export default function ConfirmDialog({ isOpen, title, message, onConfirm, onCancel }) {
+export default function ConfirmDialog({
+  isOpen,
+  title,
+  message,
+  onConfirm,
+  onCancel,
+}) {
   if (!isOpen) return null;
 
   return (
@@ -13,13 +19,13 @@ export default function ConfirmDialog({ isOpen, title, message, onConfirm, onCan
         <div className="flex items-center justify-end gap-3 px-6 py-4 bg-slate-50 rounded-b-xl">
           <button
             onClick={onCancel}
-            className="rounded-lg bg-white border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-100 transition"
+            className="rounded-lg btn-gradient-slate px-4 py-2 font-semibold text-white hover:shadow-lg transition-shadow"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white shadow-lg shadow-red-500/30 hover:bg-red-700 active:bg-red-800 transition"
+            className="rounded-lg btn-gradient-red px-4 py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
           >
             Delete
           </button>
