@@ -1,6 +1,6 @@
-# QUEUEFREE Employee Management System
+# WorkHub Employee Management System
 
-QUEUEFREE is a modern, full-stack, interactive employee management platform. It features a beautiful UI, secure authentication, and robust role-based access for teams of any size.
+WorkHub is a modern, full-stack, interactive employee management platform. It features a beautiful UI, secure authentication, and robust role-based access for teams of any size.
 
 ---
 
@@ -30,13 +30,13 @@ QUEUEFREE is a modern, full-stack, interactive employee management platform. It 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/queuefree.git
-cd queuefree
+git clone https://github.com/<your-username>/workhub.git
+cd workhub
 ```
 
 ### 2. Setup the Database
 
-- Create a MySQL database and user (see `database/provision-queuefree-user.sql`)
+- Create a MySQL database and user (see `database/provision-workhub-user.sql`)
 - Update backend `src/main/resources/application.properties` with your DB credentials
 
 ### 3. Backend Setup
@@ -65,8 +65,8 @@ VITE_API_BASE_URL=http://localhost:8080
 **Backend (`src/main/resources/application.properties`):**
 
 ```
-spring.datasource.url=jdbc:mysql://localhost:3306/queuefree_db?createDatabaseIfNotExist=true&useSSL=false
-spring.datasource.username=QUEUEFREE
+spring.datasource.url=jdbc:mysql://localhost:3306/workhub_db?createDatabaseIfNotExist=true&useSSL=false
+spring.datasource.username=WORKHUB
 spring.datasource.password=ChangeMe_S3cure!
 ```
 
@@ -114,7 +114,7 @@ This project is licensed under the MIT License.
 ## 🗂️ Directory Structure
 
 ```
-queuefree/
+workhub/
 ├── backend/
 │   └── src/
 │       └── main/
@@ -126,7 +126,7 @@ queuefree/
 │       └── services/
 │   └── public/
 ├── database/
-│   └── provision-queuefree-user.sql
+│   └── provision-workhub-user.sql
 └── README.md
 ```
 

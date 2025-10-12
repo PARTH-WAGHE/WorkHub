@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.queuefree</groupId>
-    <artifactId>queuefree-backend</artifactId>
+    <groupId>com.workhub</groupId>
+    <artifactId>workhub-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>QUEUEFREE Backend</name>
+    <name>WorkHub Backend</name>
     <description>Employee Data Management - Spring Boot + MySQL</description>
     <packaging>jar</packaging>
 
