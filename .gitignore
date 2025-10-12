@@ -180,3 +180,14 @@ frontend/.env
 frontend/.env.local
 backend/.env
 backend/.env.local
+
+# IDE folders (ignore everywhere)
+.idea/
+.vscode/
+**/.idea/**
+**/.vscode/**
+
+# JetBrains project files
+*.iml
+*.ipr
+*.iws
