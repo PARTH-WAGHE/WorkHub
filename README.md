@@ -30,8 +30,8 @@ WorkHub is a modern, full-stack, interactive employee management platform. It fe
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/workhub.git
-cd workhub
+git clone https://github.com/Tanmay-Kudkar/WorkHub.git
+cd WorkHub
 ```
 
 ### 2. Setup the Database
