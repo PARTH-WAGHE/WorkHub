@@ -1,7 +1,11 @@
 package com.queuefree.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,9 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.queuefree.backend.entity.Employee;
 import com.queuefree.backend.repository.EmployeeRepository;
@@ -59,7 +60,7 @@ public class EmployeeController {
         employee.setRole("USER");
       }
       
-      Employee saved = repository.save(employee);
+      Employee saved = repo.save(employee);
       return ResponseEntity.ok(saved);
     } catch (DataIntegrityViolationException ex) {
       log.error("Data integrity violation when creating employee", ex);
