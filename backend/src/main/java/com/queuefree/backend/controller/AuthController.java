@@ -15,7 +15,7 @@ import com.queuefree.backend.repository.EmployeeRepository;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*") // was http://localhost:5173
 public class AuthController {
 
   private final EmployeeRepository repo;
