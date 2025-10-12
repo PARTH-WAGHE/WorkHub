@@ -41,17 +41,17 @@ export async function login(email, password) {
   });
 
   if (!res.ok) {
-    if (res.status === 404) {
+    let msg = "Login failed";
+    try {
       const data = await res.json();
-      throw new Error(
-        data.error || "User not registered. Please create an account."
-      );
+      if (data?.error) msg = data.error;
+    } catch (_) {
+      // ignore parse error, keep default message
     }
-    if (res.status === 401) {
-      const data = await res.json();
-      throw new Error(data.error || "Invalid password");
+    if (res.status === 404 || res.status === 401) {
+      throw new Error(msg);
     }
-    throw new Error("Login failed");
+    throw new Error(msg);
   }
 
   return res.json();
