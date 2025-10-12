@@ -13,4 +13,7 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    outDir: "build", // was 'dist' by default; align with Render "Publish directory"
+  },
 });
