@@ -4,6 +4,7 @@
 # ==============================================
 
 ### Java ###
+
 *.class
 *.jar
 *.war
@@ -159,3 +160,23 @@ bower_components/
 *.swo
 *.tmp
 *.old
+
+# Ensure all JetBrains/IDE artifacts are ignored recursively
+**/.idea/
+**/*.iml
+.idea/
+*.iml
+
+# JetBrains IDE (IntelliJ, IDEA) - ignore everywhere
+.idea/
+**/.idea/**
+*.iml
+**/*.iml
+*.ipr
+*.iws
+
+# Explicit frontend/backend env files
+frontend/.env
+frontend/.env.local
+backend/.env
+backend/.env.local
