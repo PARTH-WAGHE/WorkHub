@@ -1,5 +1,6 @@
-const base = "/api/employees";
-const adminBase = "/api/admin/employees";
+const API_BASE = (import.meta.env?.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const base = `${API_BASE}/api/employees`;
+const adminBase = `${API_BASE}/api/admin/employees`;
 
 export async function listEmployees() {
   const res = await fetch(base);
@@ -33,7 +34,7 @@ export async function deleteEmployee(id) {
 }
 
 export async function login(email, password) {
-  const res = await fetch("/api/auth/login", {
+  const res = await fetch(`${API_BASE}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
