@@ -251,3 +251,37 @@ Notes:
 
 - If DB name is prefixed differently in AlwaysData, use exactly what you see (e.g., account_queuefree_db).
 - After setting env vars, redeploy the backend on Render.
+
+---
+
+## Fix Render "backend/backend" path error
+
+Render could not find /backend/backend because Root Directory and Dockerfile Path were combined incorrectly.
+
+Use ONE of these:
+
+- Option A (recommended):
+
+  - Root Directory: backend
+  - Dockerfile Path: Dockerfile
+
+- Option B:
+  - Root Directory: (leave blank)
+  - Dockerfile Path: backend/Dockerfile
+
+Frontend service equivalents:
+
+- Option A:
+
+  - Root Directory: frontend
+  - Dockerfile Path: Dockerfile
+
+- Option B:
+  - Root Directory: (leave blank)
+  - Dockerfile Path: frontend/Dockerfile
+
+Notes:
+
+- Runtime: Docker (no build/start commands needed).
+- Backend port: server.port uses PORT env (defaults 8080).
+- Set env: DB_HOST, DB_PORT=3306, DB_NAME, DB_USER, DB_PASSWORD, HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect (or use SPRING_DATASOURCE_URL).
