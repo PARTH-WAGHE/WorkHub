@@ -26,8 +26,8 @@ public class AuthController {
   private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   // Hardcoded admin credentials
-  private static final String ADMIN_EMAIL = "admin@queuefree.com";
-  private static final String ADMIN_PASSWORD = "admin123";
+  private static final String ADMIN_EMAIL = "admin@workhub.com";
+  private static final String ADMIN_PASSWORD = "admin1234";
 
   public AuthController(EmployeeRepository repo) {
     this.repo = repo;
