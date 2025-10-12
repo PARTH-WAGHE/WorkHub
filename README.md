@@ -939,7 +939,7 @@ server.port=8081
 
 **For urgent issues or security concerns**:
 
-- 📧 Email: [tanmaykudkar2004@gmail.com](mailto:workhub@gmail.com)
+- 📧 Email: [workhub.team@gmail.com](mailto:workhub.team@gmail.com)
 - 🐛 Bug Reports: [GitHub Issues](https://github.com/Tanmay-Kudkar/WorkHub/issues)
 - 💡 Feature Requests: [GitHub Discussions](https://github.com/Tanmay-Kudkar/WorkHub/discussions)
 
