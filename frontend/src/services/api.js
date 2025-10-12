@@ -14,7 +14,18 @@ export async function createEmployee(emp) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(emp),
   });
-  if (!res.ok) throw new Error("Create failed");
+
+  if (!res.ok) {
+    let msg = "Registration failed";
+    try {
+      const data = await res.json();
+      if (data?.error) msg = data.error;
+    } catch (_) {
+      // ignore parse error, keep default message
+    }
+    throw new Error(msg);
+  }
+
   return res.json();
 }
 

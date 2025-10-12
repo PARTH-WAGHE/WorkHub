@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.queuefree.backend.entity.Employee;
 import com.queuefree.backend.repository.EmployeeRepository;
@@ -24,6 +27,8 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*") // was http://localhost:5173
 public class EmployeeController {
 
+  private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
+  
   private final EmployeeRepository repo;
   private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -42,16 +47,30 @@ public class EmployeeController {
   }
 
   @PostMapping
-  public ResponseEntity<Employee> create(@Valid @RequestBody Employee e) {
-    e.setId(null);
-    if (e.getPassword() == null || e.getPassword().isBlank()) {
-      return ResponseEntity.badRequest().build();
+  public ResponseEntity<?> create(@RequestBody Employee employee) {
+    try {
+      // Hash password if provided
+      if (employee.getPasswordHash() != null && !employee.getPasswordHash().isEmpty()) {
+        employee.setPasswordHash(passwordEncoder.encode(employee.getPasswordHash()));
+      }
+      
+      // Set default role if not provided
+      if (employee.getRole() == null || employee.getRole().isEmpty()) {
+        employee.setRole("USER");
+      }
+      
+      Employee saved = repository.save(employee);
+      return ResponseEntity.ok(saved);
+    } catch (DataIntegrityViolationException ex) {
+      log.error("Data integrity violation when creating employee", ex);
+      if (ex.getMessage().contains("Duplicate entry") && ex.getMessage().contains("email")) {
+        return ResponseEntity.status(409).body(Map.of("error", "An account with this email already exists. Please use a different email or try logging in."));
+      }
+      return ResponseEntity.status(400).body(Map.of("error", "Invalid data provided. Please check your input."));
+    } catch (Exception ex) {
+      log.error("Unexpected error when creating employee", ex);
+      return ResponseEntity.status(500).body(Map.of("error", "Internal server error. Please try again later."));
     }
-    e.setPasswordHash(passwordEncoder.encode(e.getPassword()));
-    if (e.getRole() == null || e.getRole().isEmpty()) {
-      e.setRole("USER");
-    }
-    return ResponseEntity.ok(repo.save(e));
   }
 
   @PutMapping("/{id}")
