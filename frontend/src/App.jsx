@@ -239,22 +239,22 @@ export default function App() {
     <div className="min-h-screen bg-slate-50">
       {!user ? (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_200%] animate-bg-gradient relative overflow-hidden">
-          {/* Animated background shapes */}
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob"></div>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+          {/* Animated background shapes - optimized for mobile */}
+          <div className="absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob"></div>
+          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
 
-          {/* Main content area */}
-          <div className="flex-1 flex items-center justify-center p-6">
+          {/* Main content area - improved mobile padding */}
+          <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
             <div className="w-full max-w-md relative z-10">
               {!showRegister ? (
                 <>
-                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/20">
-                    <div className="text-center mb-8">
-                      <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
+                    <div className="text-center mb-6 sm:mb-8">
+                      <h1 className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
                         WorkHub
                       </h1>
-                      <p className="text-slate-500">
+                      <p className="text-slate-500 text-sm sm:text-base">
                         Employee Management System
                       </p>
                     </div>
@@ -263,14 +263,14 @@ export default function App() {
                       onSwitchToRegister={() => setShowRegister(true)}
                     />
                   </div>
-                  <div className="text-center mt-6">
-                    <p className="text-white mb-3 drop-shadow-lg font-medium">
+                  <div className="text-center mt-4 sm:mt-6">
+                    <p className="text-white mb-3 drop-shadow-lg font-medium text-sm sm:text-base">
                       Don't have an account?
                     </p>
                     <button
                       type="button"
                       onClick={() => setShowRegister(true)}
-                      className="text-white font-semibold px-6 py-2.5 rounded-lg btn-gradient-purple shadow-xl hover:shadow-2xl transition-all border border-white/30"
+                      className="text-white font-semibold px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg btn-gradient-purple shadow-xl hover:shadow-2xl transition-all border border-white/30 text-sm sm:text-base"
                     >
                       Create an account
                     </button>
@@ -287,10 +287,10 @@ export default function App() {
             </div>
           </div>
 
-          {/* Footer at bottom */}
-          <footer className="relative z-10 py-4 text-center">
-            <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-8 py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
-              <p className="text-white text-sm font-medium drop-shadow-lg">
+          {/* Footer at bottom - mobile optimized */}
+          <footer className="relative z-10 py-3 sm:py-4 text-center px-4">
+            <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-4 sm:px-8 py-2 sm:py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
+              <p className="text-white text-xs sm:text-sm font-medium drop-shadow-lg">
                 © 2025 <span className="font-black">WorkHub</span>. Crafted with{" "}
                 <span className="inline-block animate-heartbeat text-red-400">
                   ❤️
@@ -299,17 +299,19 @@ export default function App() {
                 <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
                   Parth Waghe
                 </span>
-                ,{" "}
-                <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
-                  Sameer Balgar
-                </span>
-                ,{" "}
-                <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
-                  Nidhish Vartak
-                </span>{" "}
-                &{" "}
-                <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
-                  Vedika Takke
+                <span className="hidden sm:inline">
+                  ,{" "}
+                  <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
+                    Sameer Balgar
+                  </span>
+                  ,{" "}
+                  <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
+                    Nidhish Vartak
+                  </span>{" "}
+                  &{" "}
+                  <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
+                    Vedika Takke
+                  </span>
                 </span>
               </p>
             </div>
@@ -357,23 +359,23 @@ export default function App() {
       ) : (
         <div className="min-h-screen flex flex-col">
           <nav className="bg-white backdrop-blur-md border-b border-slate-200 shadow-lg flex-shrink-0 relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 py-4 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 relative z-10">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  {/* Animated logo */}
+                <div className="flex items-center gap-2 sm:gap-4">
+                  {/* Animated logo - mobile optimized */}
                   <div className="relative group cursor-pointer">
                     <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
                     <div className="relative">
-                      <h1 className="text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent hover:scale-110 transition-transform duration-300">
+                      <h1 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent hover:scale-110 transition-transform duration-300">
                         WorkHub
                       </h1>
-                      <div className="flex items-center gap-2 mt-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <p className="text-sm text-slate-500">
+                      <div className="flex items-center gap-1 sm:gap-2 mt-1">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <p className="text-xs sm:text-sm text-slate-500">
                           Employee Management{" "}
                         </p>
                         {user.role === "ADMIN" && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold shadow-md transition-shadow">
+                          <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold shadow-md transition-shadow">
                             <svg
                               className="w-3 h-3"
                               fill="currentColor"
@@ -393,10 +395,10 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* User info and actions */}
-                <div className="flex items-center gap-6">
-                  {/* Current time - always visible */}
-                  <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-slate-100/80 rounded-lg backdrop-blur-sm">
+                {/* User info and actions - mobile optimized */}
+                <div className="flex items-center gap-2 sm:gap-6">
+                  {/* Current time - hidden on mobile */}
+                  <div className="hidden lg:flex items-center gap-2 px-3 py-2 bg-slate-100/80 rounded-lg backdrop-blur-sm">
                     <svg
                       className="w-4 h-4 text-slate-500"
                       fill="none"
@@ -417,12 +419,12 @@ export default function App() {
                     </span>
                   </div>
 
-                  {/* User profile card */}
-                  <div className="flex items-center gap-4">
+                  {/* User profile card - mobile responsive */}
+                  <div className="flex items-center gap-2 sm:gap-4">
                     <div className="relative">
                       {/* User avatar */}
                       <div
-                        className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm shadow-lg cursor-default"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-lg cursor-default"
                         title={`${user.firstName} ${user.lastName}`}
                         tabIndex={-1}
                       >
@@ -431,8 +433,8 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* User info - always visible on desktop */}
-                    <div className="hidden md:block text-right">
+                    {/* User info - responsive visibility */}
+                    <div className="hidden sm:block text-right">
                       <p className="text-sm font-semibold text-slate-900 flex items-center gap-2">
                         {user.firstName} {user.lastName}
                         {user.role === "ADMIN" && (
@@ -445,14 +447,14 @@ export default function App() {
                       <p className="text-xs text-slate-500">{user.email}</p>
                     </div>
 
-                    {/* Animated logout button */}
+                    {/* Logout button - mobile optimized */}
                     <button
                       onClick={logout}
-                      className="group relative rounded-lg btn-gradient-red px-4 py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                      className="group relative rounded-lg btn-gradient-red px-3 sm:px-4 py-1.5 sm:py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm"
                     >
-                      <span className="relative z-10 flex items-center gap-2">
+                      <span className="relative z-10 flex items-center gap-1 sm:gap-2">
                         <svg
-                          className="w-4 h-4 group-hover:rotate-12 transition-transform"
+                          className="w-3 h-3 sm:w-4 sm:h-4 group-hover:rotate-12 transition-transform"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -464,7 +466,7 @@ export default function App() {
                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                           />
                         </svg>
-                        Logout
+                        <span className="hidden sm:inline">Logout</span>
                       </span>
                     </button>
                   </div>
@@ -485,7 +487,7 @@ export default function App() {
             `}</style>
           </nav>
 
-          <div className="flex-1 max-w-7xl mx-auto px-6 py-8 w-full">
+          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full">
             {/* Show form only to admin or when user is editing their own profile */}
             {(user.role === "ADMIN" ||
               (selected && selected.id === user.id)) && (
@@ -502,36 +504,36 @@ export default function App() {
             />
           </div>
 
-          {/* Footer - More spacious */}
-          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-6 shadow-inner flex-shrink-0">
-            <div className="max-w-7xl mx-auto px-6">
-              <div className="flex flex-col items-center justify-center gap-4">
+          {/* Footer - mobile optimized */}
+          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 shadow-inner flex-shrink-0">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+              <div className="flex flex-col items-center justify-center gap-3 sm:gap-4">
                 {/* Logo and tagline */}
                 <div className="text-center animate-slideDown">
-                  <h3 className="text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+                  <h3 className="text-lg sm:text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
                     WorkHub
                   </h3>
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-slate-500 text-xs sm:text-sm">
                     Streamline Your Workforce Management
                   </p>
                 </div>
 
                 {/* Divider */}
-                <div className="w-64 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+                <div className="w-48 sm:w-64 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
 
-                {/* Team credits */}
+                {/* Team credits - mobile responsive grid */}
                 <div className="text-center animate-slideUp">
-                  <p className="text-slate-600 text-sm mb-3">
+                  <p className="text-slate-600 text-xs sm:text-sm mb-3">
                     Crafted with{" "}
                     <span className="inline-block animate-heartbeat text-red-500">
                       ❤️
                     </span>{" "}
                     by our amazing team
                   </p>
-                  <div className="flex flex-wrap justify-center gap-3">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                  <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-sm sm:max-w-none mx-auto">
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -541,11 +543,12 @@ export default function App() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Parth Waghe
+                      <span className="hidden xs:inline">Parth</span>
+                      <span className="xs:hidden">P</span>
                     </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -555,11 +558,12 @@ export default function App() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Sameer Balgar
+                      <span className="hidden xs:inline">Sameer</span>
+                      <span className="xs:hidden">S</span>
                     </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -569,11 +573,12 @@ export default function App() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Nidhish Vartak
+                      <span className="hidden xs:inline">Nidhish</span>
+                      <span className="xs:hidden">N</span>
                     </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3 sm:w-4 sm:h-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -583,12 +588,13 @@ export default function App() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Vedika Takke
+                      <span className="hidden xs:inline">Vedika</span>
+                      <span className="xs:hidden">V</span>
                     </span>
                   </div>
                 </div>
                 {/* Copyright */}
-                <p className="text-slate-500 text-sm animate-fadeIn">
+                <p className="text-slate-500 text-xs sm:text-sm animate-fadeIn">
                   © 2025 WorkHub. All rights reserved.
                 </p>
               </div>

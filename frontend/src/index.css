@@ -2,121 +2,173 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-    .btn-gradient {
-        background: linear-gradient(90deg, #f59e0b, #f97316, #dc2626, #f59e0b);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
+@layer base {
+    html {
+        /* Better font rendering on mobile */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* Prevent zoom on iOS */
+        -webkit-text-size-adjust: 100%;
     }
 
-    .btn-gradient-blue {
-        background: linear-gradient(90deg, #3b82f6, #6366f1, #8b5cf6, #3b82f6);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+        /* Improve mobile scrolling */
+        -webkit-overflow-scrolling: touch;
+        /* Remove tap highlight on mobile */
+        -webkit-tap-highlight-color: transparent;
     }
 
-    .btn-gradient-red {
-        background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #ef4444);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
+    /* Mobile-specific input improvements */
+    input,
+    textarea,
+    button,
+    select {
+        /* Remove iOS styling */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        /* Better touch targets */
+        min-height: 44px;
     }
 
-    .btn-gradient-slate {
-        background: linear-gradient(90deg, #64748b, #6366f1, #8b5cf6, #64748b);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
+    /* Improve button touch targets on mobile */
+    button {
+        touch-action: manipulation;
+    }
+}
+
+@layer components {
+
+    /* Custom gradient buttons - explicitly defined for IntelliSense */
+    .btn-gradient-orange {
+        @apply bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-lg active:scale-95 transition-all duration-200;
     }
 
     .btn-gradient-purple {
-        background: linear-gradient(90deg, #8b5cf6, #a855f7, #6366f1, #8b5cf6);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
-    }
-
-    .btn-gradient-orange {
-        background: linear-gradient(90deg, #f59e0b, #f97316, #fb923c, #f59e0b);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
+        @apply bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-lg active:scale-95 transition-all duration-200;
     }
 
     .btn-gradient-violet {
-        background: linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa, #7c3aed);
-        background-size: 200% 100%;
-        animation: gradient-flow 2s linear infinite;
+        @apply bg-gradient-to-r from-violet-500 to-violet-600 hover:shadow-lg active:scale-95 transition-all duration-200;
     }
 
-    @keyframes gradient-flow {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        100% {
-            background-position: -200% 50%;
-        }
+    .btn-gradient-red {
+        @apply bg-gradient-to-r from-red-500 to-red-600 hover:shadow-lg active:scale-95 transition-all duration-200;
     }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+    /* Modal and UI components */
+    .modal-overlay {
+        @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 p-4 flex items-center justify-center;
     }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
+    .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(203 213 225) transparent;
     }
 
-    .animate-fadeInUp {
-        animation: fadeInUp 0.5s ease-out forwards;
-        opacity: 0;
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
     }
 
-    .animate-fadeIn {
-        animation: fadeIn 0.4s ease-out;
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
     }
 
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-100px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgb(203 213 225);
+        border-radius: 3px;
     }
 
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(100px);
-        }
+    .mobile-card {
+        @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow;
+    }
 
-        to {
-            opacity: 1;
-            transform: translateX(0);
+    @screen sm {
+        .mobile-card {
+            @apply p-6;
         }
     }
+}
 
-    .animate-slideInLeft {
-        animation: slideInLeft 0.6s ease-out forwards;
-        opacity: 0;
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
     }
 
-    .animate-slideInRight {
-        animation: slideInRight 0.6s ease-out forwards;
-        opacity: 0;
+    .touch-pan-x {
+        touch-action: pan-x;
+    }
+
+    .touch-pan-y {
+        touch-action: pan-y;
+    }
+
+    .touch-pinch-zoom {
+        touch-action: pinch-zoom;
+    }
+
+    .safe-top {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .safe-left {
+        padding-left: env(safe-area-inset-left);
+    }
+
+    .safe-right {
+        padding-right: env(safe-area-inset-right);
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Responsive optimizations */
+@media (max-width: 640px) {
+    .reduce-motion {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .mobile-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .landscape-compact {
+        @apply py-2;
+    }
+
+    .landscape-compact h1 {
+        @apply text-2xl;
     }
 }
