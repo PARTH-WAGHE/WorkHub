@@ -53,6 +53,13 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
+
+        <!-- MariaDB JDBC driver (use Spring Boot managed version) -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
