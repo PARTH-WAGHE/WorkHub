@@ -183,57 +183,23 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
     <>
       <div className="space-y-4">
         {/* Filter Section */}
-        <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 animate-fade-in-up">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="hidden lg:flex w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg lg:text-xl font-bold text-slate-900">
-                  Filter Employees
-                </h3>
-                <p className="hidden lg:block text-sm text-slate-600 mt-1">
-                  Use advanced filters to find specific employees
-                </p>
-              </div>
-            </div>
-
-            {/* Desktop live time indicator */}
-            <div className="flex items-center gap-2 text-xs lg:text-sm text-slate-500">
-              <div className="live-dot"></div>
-              <span className="tabular-nums font-medium">
-                Last updated:{" "}
-                {currentTime.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                })}
-              </span>
-            </div>
-          </div>
-
-          {/* Desktop enhanced grid layout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6">
+          <h3 className="text-lg font-bold text-slate-900 mb-4">
+            Filter Employees
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                htmlFor="search-filter"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Search
               </label>
               <div className="relative">
                 <input
+                  id="search-filter"
+                  name="search"
                   type="text"
                   placeholder="Search by name, email, position..."
                   value={searchTerm}
@@ -258,10 +224,15 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
             {/* Department Filter */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                htmlFor="department-filter"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Department
               </label>
               <select
+                id="department-filter"
+                name="department"
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
@@ -277,10 +248,15 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
             {/* Status Filter */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                htmlFor="status-filter"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Status
               </label>
               <select
+                id="status-filter"
+                name="status"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
@@ -288,19 +264,6 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
-              </select>
-            </div>
-
-            {/* Desktop-only advanced filter */}
-            <div className="hidden lg:block">
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Sort By
-              </label>
-              <select className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition shadow-sm hover:shadow-md">
-                <option value="name">Name (A-Z)</option>
-                <option value="department">Department</option>
-                <option value="hireDate">Hire Date</option>
-                <option value="salary">Salary</option>
               </select>
             </div>
           </div>
