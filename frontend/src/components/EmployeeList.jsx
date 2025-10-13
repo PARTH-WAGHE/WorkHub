@@ -17,7 +17,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 6; // Show 6 cards per page
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -633,11 +633,25 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
             </div>
 
             {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-8 pb-4">
-                {/* ...existing pagination buttons... */}
-              </div>
-            )}
+            <div className="flex items-center justify-center gap-2 mt-8 pb-4">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                ← Previous
+              </button>
+              <span className="px-3 py-2 text-sm text-slate-600">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Next Page →
+              </button>
+            </div>
           </>
         )}
       </div>
