@@ -413,7 +413,7 @@ export default function App() {
           </div>
 
           {/* Footer - entrance animation */}
-          <footer className="relative z-10 py-3 sm:py-4 text-center px-4 animate-fade-in-up">
+          <footer className="relative z-10 py-3 sm:py-4 text-center px-6 animate-fade-in-up">
             <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-4 sm:px-8 py-2 sm:py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
               <p className="text-white text-xs sm:text-sm font-medium drop-shadow-lg">
                 © 2025 <span className="font-black">WorkHub</span>. Crafted with{" "}
@@ -704,171 +704,208 @@ export default function App() {
           </div>
 
           {/* Footer - entrance animation */}
-          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 shadow-inner flex-shrink-0 animate-fade-in-up">
-            {/* Enhanced desktop footer */}
-            <div className="hidden lg:block">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <h3 className="text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          {/* Enhanced desktop footer */}
+          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 lg:py-8 shadow-inner flex-shrink-0 animate-fade-in-up">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+              {/* Desktop enhanced footer */}
+              <div className="hidden lg:block">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <h3 className="text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                      WorkHub
+                    </h3>
+                    <div className="w-px h-8 bg-slate-300"></div>
+                    <p className="text-slate-600">
+                      Streamline Your Workforce Management
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-6 text-sm text-slate-500">
+                    <span className="hover:text-blue-600 transition-colors cursor-default">
+                      Version 1.0.0
+                    </span>
+                    <span>•</span>
+                    <span className="hover:text-blue-600 transition-colors cursor-default">
+                      Built with React & Spring Boot
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      System Online
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-4 gap-8 mb-6">
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-3">
+                      Product
+                    </h4>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Employee Management
+                      </li>
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Role-based Access
+                      </li>
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Real-time Updates
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-3">
+                      Technology
+                    </h4>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        React 18
+                      </li>
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Spring Boot 3
+                      </li>
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        MySQL 8
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-3">
+                      Deployment
+                    </h4>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Render.com Frontend
+                      </li>
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Render.com Backend
+                      </li>
+                      <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Alwaysdata.com MySQL
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-slate-900 mb-3">Team</h4>
+                    <ul className="space-y-2 text-sm text-slate-600">
+                      <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Parth Waghe
+                      </li>
+                      <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Sameer Balgar
+                      </li>
+                      <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Nidhish Vartak
+                      </li>
+                      <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Vedika Takke
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile/Tablet simple footer */}
+              <div className="lg:hidden flex flex-col items-center justify-center gap-3 sm:gap-4">
+                <div className="text-center animate-slideDown">
+                  <h3 className="text-lg sm:text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
                     WorkHub
                   </h3>
-                  <div className="w-px h-8 bg-slate-300"></div>
-                  <p className="text-slate-600">
+                  <p className="text-slate-500 text-xs sm:text-sm">
                     Streamline Your Workforce Management
                   </p>
                 </div>
-                <div className="flex items-center gap-6 text-sm text-slate-500">
-                  <span>Version 1.0.0</span>
-                  <span>•</span>
-                  <span>Built with React & Spring Boot</span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    System Online
-                  </span>
-                </div>
-              </div>
 
-              <div className="grid grid-cols-4 gap-8 mb-6">
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-3">Product</h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li>Employee Management</li>
-                    <li>Role-based Access</li>
-                    <li>Real-time Updates</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-3">
-                    Technology
-                  </h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li>React 18</li>
-                    <li>Spring Boot 3</li>
-                    <li>MySQL 8</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-3">
-                    Deployment
-                  </h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li>Vercel Frontend</li>
-                    <li>Render Backend</li>
-                    <li>Cloud Database</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-3">Team</h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    <li>Parth Waghe</li>
-                    <li>Sameer Balgar</li>
-                    <li>Nidhish Vartak</li>
-                    <li>Vedika Takke</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+                {/* Divider */}
+                <div className="w-48 sm:w-64 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
 
-            {/* Mobile/Tablet simple footer */}
-            <div className="lg:hidden flex flex-col items-center justify-center gap-3 sm:gap-4">
-              <div className="text-center animate-slideDown">
-                <h3 className="text-lg sm:text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-                  WorkHub
-                </h3>
-                <p className="text-slate-500 text-xs sm:text-sm">
-                  Streamline Your Workforce Management
+                {/* Team credits - mobile responsive grid */}
+                <div className="text-center animate-slideUp">
+                  <p className="text-slate-600 text-xs sm:text-sm mb-3">
+                    Crafted with{" "}
+                    <span className="inline-block animate-heartbeat text-red-500">
+                      ❤️
+                    </span>{" "}
+                    by our amazing team
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-sm sm:max-w-none mx-auto">
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                      <svg
+                        className="w-3 h-3 sm:w-4 sm:h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="hidden xs:inline">Parth</span>
+                      <span className="xs:hidden">P</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                      <svg
+                        className="w-3 h-3 sm:w-4 sm:h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="hidden xs:inline">Sameer</span>
+                      <span className="xs:hidden">S</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                      <svg
+                        className="w-3 h-3 sm:w-4 sm:h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="hidden xs:inline">Nidhish</span>
+                      <span className="xs:hidden">N</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
+                      <svg
+                        className="w-3 h-3 sm:w-4 sm:h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="hidden xs:inline">Vedika</span>
+                      <span className="xs:hidden">V</span>
+                    </span>
+                  </div>
+                </div>
+                {/* Copyright */}
+                <p className="text-slate-500 text-xs sm:text-sm animate-fadeIn">
+                  © 2025 WorkHub. All rights reserved.
                 </p>
               </div>
 
-              {/* Divider */}
-              <div className="w-48 sm:w-64 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-
-              {/* Team credits - mobile responsive grid */}
-              <div className="text-center animate-slideUp">
-                <p className="text-slate-600 text-xs sm:text-sm mb-3">
-                  Crafted with{" "}
-                  <span className="inline-block animate-heartbeat text-red-500">
-                    ❤️
-                  </span>{" "}
-                  by our amazing team
+              {/* Desktop footer bottom */}
+              <div className="hidden lg:flex items-center justify-between pt-6 border-t border-slate-200">
+                <p className="text-slate-500 text-sm">
+                  © 2025 WorkHub. All rights reserved.
                 </p>
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 max-w-sm sm:max-w-none mx-auto">
-                  <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
-                    <svg
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="hidden xs:inline">Parth</span>
-                    <span className="xs:hidden">P</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
-                    <svg
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="hidden xs:inline">Sameer</span>
-                    <span className="xs:hidden">S</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
-                    <svg
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="hidden xs:inline">Nidhish</span>
-                    <span className="xs:hidden">N</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-gradient-to-r from-pink-500 to-pink-600 text-white text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all cursor-default">
-                    <svg
-                      className="w-3 h-3 sm:w-4 sm:h-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="hidden xs:inline">Vedika</span>
-                    <span className="xs:hidden">V</span>
+                <div className="flex items-center gap-4 text-sm text-slate-500">
+                  <span className="hover:text-blue-600 transition-colors cursor-pointer">
+                    Made with ❤️ by the WorkHub Team
                   </span>
                 </div>
-              </div>
-              {/* Copyright */}
-              <p className="text-slate-500 text-xs sm:text-sm animate-fadeIn">
-                © 2025 WorkHub. All rights reserved.
-              </p>
-            </div>
-
-            {/* Desktop footer bottom */}
-            <div className="hidden lg:flex items-center justify-between pt-6 border-t border-slate-200">
-              <p className="text-slate-500 text-sm">
-                © 2025 WorkHub. All rights reserved.
-              </p>
-              <div className="flex items-center gap-4 text-sm text-slate-500">
-                <span>Made with ❤️ by the WorkHub Team</span>
               </div>
             </div>
           </footer>
