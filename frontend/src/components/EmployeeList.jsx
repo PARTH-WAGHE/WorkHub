@@ -559,7 +559,6 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                       <div className="flex gap-2">
                         <button
                           onClick={() => {
-                            // Defensive: only open modal if e is a valid object
                             if (e && e.id && e.firstName) setViewEmployee(e);
                           }}
                           className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
@@ -609,7 +608,9 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         )}
                         {canDelete && (
                           <button
-                            onClick={() => setDeleteConfirm(e)}
+                            onClick={() => {
+                              if (e && e.id) setDeleteConfirm(e);
+                            }}
                             className="rounded-lg btn-gradient-red px-3 py-2 text-sm font-semibold text-white hover:shadow-lg transition-shadow"
                             title="Delete"
                           >
@@ -685,7 +686,9 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         isOpen={!!deleteConfirm}
         title="Delete Employee?"
         message={`Are you sure you want to delete ${deleteConfirm?.firstName} ${deleteConfirm?.lastName}? This action cannot be undone.`}
-        onConfirm={() => onDelete(deleteConfirm.id)}
+        onConfirm={() => {
+          if (deleteConfirm && deleteConfirm.id) onDelete(deleteConfirm.id);
+        }}
         onCancel={() => setDeleteConfirm(null)}
       />
 
