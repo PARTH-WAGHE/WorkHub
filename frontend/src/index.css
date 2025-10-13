@@ -271,6 +271,28 @@
     .safe-pb {
         padding-bottom: env(safe-area-inset-bottom);
     }
+
+    /* Page loading animations */
+    .page-enter {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .page-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .loading-skeleton {
+        @apply animate-pulse bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 bg-[length:200%_100%];
+        animation: shimmer 1.5s infinite;
+    }
+
+    .loading-blur {
+        @apply backdrop-blur-sm bg-white/60;
+        animation: fadeIn 0.3s ease-out;
+    }
 }
 
 /* Keyframes (with motion-reduce fallback) */
@@ -308,6 +330,77 @@
     50% {
         transform: translateY(-6px);
     }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Stagger children animations */
+.stagger-children>* {
+    opacity: 0;
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.stagger-children>*:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.stagger-children>*:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.stagger-children>*:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.stagger-children>*:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Smooth page transitions */
+.page-transition {
+    animation: scaleUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Respect prefers-reduced-motion */

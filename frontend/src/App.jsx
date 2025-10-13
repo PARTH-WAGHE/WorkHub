@@ -200,7 +200,7 @@ function Register({ onRegistered, onSwitch }) {
             id="register-email"
             type="email"
             name="email"
-            placeholder="yourname@company.com"
+            placeholder="yourname@gmail.com"
             value={form.email}
             onChange={onChange}
             required
@@ -361,17 +361,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 safe-pt safe-pb">
+    <div className="min-h-screen bg-slate-50 safe-pt safe-pb page-transition">
       {!user ? (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_200%] animate-bg-gradient relative overflow-hidden">
-          {/* Animated background shapes - optimized for mobile */}
-          <div className="absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob"></div>
-          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+          {/* Enhanced loading animation for background shapes */}
+          <div className="absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob transition-all duration-700"></div>
+          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000 transition-all duration-700"></div>
+          <div className="absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000 transition-all duration-700"></div>
 
-          {/* Main content area - add entrance animation + mobile padding */}
+          {/* Main content with stagger animation */}
           <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
-            <div className="w-full max-w-md relative z-10 animate-fade-in-up">
+            <div className="w-full max-w-md relative z-10 stagger-children">
               {!showRegister ? (
                 <>
                   <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
@@ -412,8 +412,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Footer - entrance animation */}
-          <footer className="relative z-10 py-3 sm:py-4 text-center px-4 animate-fade-in-up">
+          {/* Enhanced footer animation */}
+          <footer className="relative z-10 py-3 sm:py-4 text-center px-4 animate-slideUp">
             <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-4 sm:px-8 py-2 sm:py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
               <p className="text-white text-xs sm:text-sm font-medium drop-shadow-lg">
                 © 2025 <span className="font-black">WorkHub</span>. Crafted with{" "}
@@ -456,6 +456,26 @@ export default function App() {
               from { opacity: 0; transform: translateY(20px); }
               to { opacity: 1; transform: translateY(0); }
             }
+            @keyframes scaleUp {
+              from { 
+                opacity: 0;
+                transform: scale(0.98);
+              }
+              to { 
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+            @keyframes slideUp {
+              from {
+                opacity: 0;
+                transform: translateY(20px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
             .animate-bg-gradient {
               animation: bg-gradient 15s ease infinite;
             }
@@ -468,6 +488,12 @@ export default function App() {
             .animate-footerFadeIn {
               animation: footerFadeIn 0.8s ease-out;
             }
+            .animate-scaleUp {
+              animation: scaleUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .animate-slideUp {
+              animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
             .animation-delay-2000 {
               animation-delay: 2s;
             }
@@ -477,9 +503,9 @@ export default function App() {
           `}</style>
         </div>
       ) : (
-        <div className="min-h-screen flex flex-col">
-          {/* Nav - subtle entrance */}
-          <nav className="bg-white backdrop-blur-md border-b border-slate-200 shadow-lg flex-shrink-0 relative overflow-hidden animate-fade-in-up">
+        <div className="min-h-screen flex flex-col stagger-children">
+          {/* Enhanced nav animation */}
+          <nav className="bg-white backdrop-blur-md border-b border-slate-200 shadow-lg flex-shrink-0 relative overflow-hidden animate-scaleUp">
             {/* Desktop-only decorative elements */}
             <div className="hidden xl:block absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
@@ -685,8 +711,8 @@ export default function App() {
             `}</style>
           </nav>
 
-          {/* Content wrapper - stagger children on mount */}
-          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full stagger-container">
+          {/* Content with improved loading states */}
+          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full stagger-children">
             {/* Show form only to admin or when user is editing their own profile */}
             {(user.role === "ADMIN" ||
               (selected && selected.id === user.id)) && (
@@ -703,8 +729,8 @@ export default function App() {
             />
           </div>
 
-          {/* Footer - entrance animation */}
-          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 shadow-inner flex-shrink-0 animate-fade-in-up">
+          {/* Footer with slide-up animation */}
+          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 shadow-inner flex-shrink-0 animate-slideUp">
             {/* Enhanced desktop footer */}
             <div className="hidden lg:block">
               <div className="flex items-center justify-between mb-6">
