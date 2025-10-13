@@ -271,32 +271,10 @@
     .safe-pb {
         padding-bottom: env(safe-area-inset-bottom);
     }
-
-    /* Page loading animations */
-    .page-enter {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    .page-enter-active {
-        opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .loading-skeleton {
-        @apply animate-pulse bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 bg-[length:200%_100%];
-        animation: shimmer 1.5s infinite;
-    }
-
-    .loading-blur {
-        @apply backdrop-blur-sm bg-white/60;
-        animation: fadeIn 0.3s ease-out;
-    }
 }
 
 /* Keyframes (with motion-reduce fallback) */
-@keyframes fadeIn {
+@keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(14px);
@@ -330,77 +308,6 @@
     50% {
         transform: translateY(-6px);
     }
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes scaleUp {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Stagger children animations */
-.stagger-children>* {
-    opacity: 0;
-    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.stagger-children>*:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.stagger-children>*:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.stagger-children>*:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.stagger-children>*:nth-child(4) {
-    animation-delay: 0.4s;
-}
-
-/* Smooth page transitions */
-.page-transition {
-    animation: scaleUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Respect prefers-reduced-motion */
@@ -456,150 +363,135 @@
     }
 }
 
-/* Animations moved from components to fix CSP errors */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+/* Desktop-specific enhancements */
+@media (min-width: 1024px) {
+
+    /* Desktop-only animations */
+    .desktop-hover-lift {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    to {
-        opacity: 1;
+    .desktop-hover-lift:hover {
+        transform: translateY(-4px) scale(1.02);
+    }
+
+    /* Desktop-enhanced shadows */
+    .desktop-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .desktop-shadow:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Desktop glassmorphism */
+    .desktop-glass {
+        backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Desktop-enhanced gradients */
+    .desktop-gradient-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .desktop-gradient-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: desktopShimmer 3s ease-in-out infinite;
     }
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+/* Enhanced responsive grid for desktop */
+@media (min-width: 1280px) {
+    .desktop-grid-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 }
 
-@keyframes gradientShift {
+/* New keyframe animations */
+@keyframes livePulse {
 
     0%,
     100% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-}
-
-@keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes scale-in {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
         opacity: 1;
         transform: scale(1);
-    }
-}
-
-@keyframes cardGradient {
-    0% {
-        background-position: 0% 50%;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
     }
 
     50% {
-        background-position: 100% 50%;
+        opacity: 0.7;
+        transform: scale(1.1);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes timeGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+}
+
+@keyframes clockTick {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
     }
 
     100% {
-        background-position: 0% 50%;
+        transform: rotate(360deg);
     }
 }
 
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-100px) scale(0.9);
+@keyframes desktopShimmer {
+    0% {
+        transform: translateX(-100%);
     }
 
-    to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-    }
-}
-
-@keyframes slideInCenter {
-    from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
+    50% {
+        transform: translateX(100%);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+    100% {
+        transform: translateX(100%);
     }
 }
 
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(100px) scale(0.9);
+@keyframes desktopPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+        transform: scale(1);
     }
 
-    to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
+    50% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+        transform: scale(1.05);
     }
-}
-
-.animate-fadeIn {
-    animation: fadeIn 0.3s ease-out forwards;
-}
-
-.animate-slideUp {
-    animation: slideUp 0.4s ease-out forwards;
-}
-
-.animate-gradientShift {
-    animation: gradientShift 8s ease infinite;
-}
-
-.animate-fade-in-up {
-    animation: fade-in-up 0.4s ease-out forwards;
-}
-
-.animate-scale-in {
-    animation: scale-in 0.4s ease-out forwards;
-}
-
-.animate-cardGradient {
-    animation: cardGradient 8s ease infinite;
-}
-
-.animate-slideInLeft {
-    animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-}
-
-.animate-slideInCenter {
-    animation: slideInCenter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-}
-
-.animate-slideInRight {
-    animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
 }

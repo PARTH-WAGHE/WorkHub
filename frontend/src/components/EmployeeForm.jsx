@@ -212,7 +212,7 @@ export default function EmployeeForm({ selected, onSaved }) {
             <input
               id="employee-email"
               name="email"
-              placeholder="yourname@gmail.com"
+              placeholder="Email"
               type="email"
               value={form.email}
               onChange={onChange}

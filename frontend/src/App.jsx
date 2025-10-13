@@ -200,7 +200,7 @@ function Register({ onRegistered, onSwitch }) {
             id="register-email"
             type="email"
             name="email"
-            placeholder="yourname@gmail.com"
+            placeholder="yourname@company.com"
             value={form.email}
             onChange={onChange}
             required
@@ -361,17 +361,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 safe-pt safe-pb page-transition">
+    <div className="min-h-screen bg-slate-50 safe-pt safe-pb">
       {!user ? (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_200%] animate-bg-gradient relative overflow-hidden">
-          {/* Enhanced loading animation for background shapes */}
-          <div className="absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob transition-all duration-700"></div>
-          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000 transition-all duration-700"></div>
-          <div className="absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000 transition-all duration-700"></div>
+          {/* Animated background shapes - optimized for mobile */}
+          <div className="absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob"></div>
+          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
 
-          {/* Main content with stagger animation */}
+          {/* Main content area - add entrance animation + mobile padding */}
           <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
-            <div className="w-full max-w-md relative z-10 stagger-children">
+            <div className="w-full max-w-md relative z-10 animate-fade-in-up">
               {!showRegister ? (
                 <>
                   <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
@@ -412,142 +412,30 @@ export default function App() {
             </div>
           </div>
 
-          {/* Enhanced footer animation */}
+          {/* Footer - entrance animation */}
           <footer className="relative z-10 py-3 sm:py-4 text-center px-4 animate-fade-in-up">
             <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-4 sm:px-8 py-2 sm:py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
-              <p className="text-xs sm:text-sm font-medium drop-shadow-lg flex flex-col items-center justify-center">
-                <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg sm:text-xl animate-gradientText">
-                  © 2025 WorkHub
+              <p className="text-white text-xs sm:text-sm font-medium drop-shadow-lg">
+                © 2025 <span className="font-black">WorkHub</span>. Crafted with{" "}
+                <span className="inline-block animate-heartbeat text-red-400">
+                  ❤️
+                </span>{" "}
+                by
+                <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
+                  Parth Waghe
                 </span>
-                <span className="flex items-center justify-center gap-1 mt-1 animate-fadeIn">
-                  Crafted with
-                  <span
-                    className="inline-block animate-heartbeat text-pink-500 text-lg mx-1 cursor-pointer"
-                    title="Made with love"
-                    tabIndex={0}
-                  >
-                    ❤️
-                  </span>
-                  by
-                  <a
-                    href="https://github.com/parthwaghe"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-blue-200 hover:text-blue-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
-                  >
-                    Parth Waghe
-                  </a>
-                  <a
-                    href="https://github.com/sameerbalgar"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-purple-200 hover:text-purple-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
-                  >
-                    Sameer Balgar
-                  </a>
-                  <a
-                    href="https://github.com/nidhishvartak"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-indigo-200 hover:text-indigo-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
-                  >
-                    Nidhish Vartak
-                  </a>
-                  <a
-                    href="https://github.com/vedikatakke"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-pink-200 hover:text-pink-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
-                  >
-                    Vedika Takke
-                  </a>
+                <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
+                  , Sameer Balgar
                 </span>
-                <span className="mt-2 text-xs text-slate-300 animate-fadeIn">
-                  Empowering organizations through better employee management
+                <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
+                  , Nidhish Vartak
+                </span>
+                <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
+                  , Vedika Takke
                 </span>
               </p>
             </div>
-            <style>{`
-              @keyframes gradientText {
-                0%,100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-              }
-              .animate-gradientText {
-                background-size: 200% 200%;
-                animation: gradientText 3s ease-in-out infinite;
-              }
-              @keyframes heartbeat {
-                0%, 100% { transform: scale(1); }
-                25% { transform: scale(1.15); }
-                50% { transform: scale(0.95); }
-                75% { transform: scale(1.1); }
-              }
-              .animate-heartbeat {
-                animation: heartbeat 1.2s infinite;
-              }
-              @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-              }
-              .animate-fadeIn {
-                animation: fadeIn 1s ease;
-              }
-            `}</style>
           </footer>
-
-          {/* Desktop footer bottom */}
-          <div className="hidden lg:flex items-center justify-center pt-6 border-t border-slate-200">
-            <div className="w-full flex flex-col items-center">
-              <p className="text-slate-500 text-sm text-center max-w-xl mx-auto flex flex-col items-center animate-fadeIn">
-                <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
-                  © 2025 WorkHub. All rights reserved.
-                </span>
-                <span className="inline-flex items-center gap-2 mt-2">
-                  Made with{" "}
-                  <span
-                    className="text-pink-500 animate-heartbeat cursor-pointer"
-                    title="Made with love"
-                    tabIndex={0}
-                  >
-                    ❤️
-                  </span>{" "}
-                  by
-                  <a
-                    href="https://github.com/parthwaghe"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-blue-400 hover:text-blue-600 transition-colors underline mx-1"
-                  >
-                    Parth Waghe
-                  </a>
-                  <a
-                    href="https://github.com/sameerbalgar"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-purple-400 hover:text-purple-600 transition-colors underline mx-1"
-                  >
-                    Sameer Balgar
-                  </a>
-                  <a
-                    href="https://github.com/nidhishvartak"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-indigo-400 hover:text-indigo-600 transition-colors underline mx-1"
-                  >
-                    Nidhish Vartak
-                  </a>
-                  <a
-                    href="https://github.com/vedikatakke"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold text-pink-400 hover:text-pink-600 transition-colors underline mx-1"
-                  >
-                    Vedika Takke
-                  </a>
-                </span>
-              </p>
-            </div>
-          </div>
 
           <style>{`
             @keyframes bg-gradient {
@@ -568,26 +456,6 @@ export default function App() {
               from { opacity: 0; transform: translateY(20px); }
               to { opacity: 1; transform: translateY(0); }
             }
-            @keyframes scaleUp {
-              from { 
-                opacity: 0;
-                transform: scale(0.98);
-              }
-              to { 
-                opacity: 1;
-                transform: scale(1);
-              }
-            }
-            @keyframes slideUp {
-              from {
-                opacity: 0;
-                transform: translateY(20px);
-              }
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
             .animate-bg-gradient {
               animation: bg-gradient 15s ease infinite;
             }
@@ -600,12 +468,6 @@ export default function App() {
             .animate-footerFadeIn {
               animation: footerFadeIn 0.8s ease-out;
             }
-            .animate-scaleUp {
-              animation: scaleUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            .animate-slideUp {
-              animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            }
             .animation-delay-2000 {
               animation-delay: 2s;
             }
@@ -615,9 +477,9 @@ export default function App() {
           `}</style>
         </div>
       ) : (
-        <div className="min-h-screen flex flex-col stagger-children">
-          {/* Enhanced nav animation */}
-          <nav className="bg-white backdrop-blur-md border-b border-slate-200 shadow-lg flex-shrink-0 relative overflow-hidden animate-scaleUp">
+        <div className="min-h-screen flex flex-col">
+          {/* Nav - subtle entrance */}
+          <nav className="bg-white backdrop-blur-md border-b border-slate-200 shadow-lg flex-shrink-0 relative overflow-hidden animate-fade-in-up">
             {/* Desktop-only decorative elements */}
             <div className="hidden xl:block absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
@@ -823,8 +685,8 @@ export default function App() {
             `}</style>
           </nav>
 
-          {/* Content with improved loading states */}
-          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full stagger-children">
+          {/* Content wrapper - stagger children on mount */}
+          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full stagger-container">
             {/* Show form only to admin or when user is editing their own profile */}
             {(user.role === "ADMIN" ||
               (selected && selected.id === user.id)) && (
@@ -841,8 +703,8 @@ export default function App() {
             />
           </div>
 
-          {/* Footer with slide-up animation */}
-          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 shadow-inner flex-shrink-0 animate-slideUp">
+          {/* Footer - entrance animation */}
+          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 shadow-inner flex-shrink-0 animate-fade-in-up">
             {/* Enhanced desktop footer */}
             <div className="hidden lg:block">
               <div className="flex items-center justify-between mb-6">
@@ -858,17 +720,7 @@ export default function App() {
                 <div className="flex items-center gap-6 text-sm text-slate-500">
                   <span>Version 1.0.0</span>
                   <span>•</span>
-                  <span>
-                    Backend &amp; Frontend:{" "}
-                    <span className="font-semibold text-blue-600">Render</span>
-                  </span>
-                  <span>•</span>
-                  <span>
-                    Database:{" "}
-                    <span className="font-semibold text-green-600">
-                      MySQL (Alwaysdata.com)
-                    </span>
-                  </span>
+                  <span>Built with React & Spring Boot</span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -901,9 +753,9 @@ export default function App() {
                     Deployment
                   </h4>
                   <ul className="space-y-2 text-sm text-slate-600">
-                    <li>Render.com Frontend</li>
-                    <li>Render.com Backend</li>
-                    <li>AlwaysData.com Database</li>
+                    <li>Vercel Frontend</li>
+                    <li>Render Backend</li>
+                    <li>Cloud Database</li>
                   </ul>
                 </div>
                 <div>
@@ -1011,56 +863,12 @@ export default function App() {
             </div>
 
             {/* Desktop footer bottom */}
-            <div className="hidden lg:flex items-center justify-center pt-6 border-t border-slate-200">
-              <div className="w-full flex flex-col items-center">
-                <p className="text-slate-500 text-sm text-center max-w-xl mx-auto flex flex-col items-center animate-fadeIn">
-                  <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
-                    © 2025 WorkHub. All rights reserved.
-                  </span>
-                  <span className="inline-flex items-center gap-2 mt-2">
-                    Made with{" "}
-                    <span
-                      className="text-pink-500 animate-heartbeat cursor-pointer"
-                      title="Made with love"
-                      tabIndex={0}
-                    >
-                      ❤️
-                    </span>{" "}
-                    by
-                    <a
-                      href="https://github.com/parthwaghe"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-blue-400 hover:text-blue-600 transition-colors underline mx-1"
-                    >
-                      Parth Waghe
-                    </a>
-                    <a
-                      href="https://github.com/sameerbalgar"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-purple-400 hover:text-purple-600 transition-colors underline mx-1"
-                    >
-                      Sameer Balgar
-                    </a>
-                    <a
-                      href="https://github.com/nidhishvartak"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-indigo-400 hover:text-indigo-600 transition-colors underline mx-1"
-                    >
-                      Nidhish Vartak
-                    </a>
-                    <a
-                      href="https://github.com/vedikatakke"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-pink-400 hover:text-pink-600 transition-colors underline mx-1"
-                    >
-                      Vedika Takke
-                    </a>
-                  </span>
-                </p>
+            <div className="hidden lg:flex items-center justify-between pt-6 border-t border-slate-200">
+              <p className="text-slate-500 text-sm">
+                © 2025 WorkHub. All rights reserved.
+              </p>
+              <div className="flex items-center gap-4 text-sm text-slate-500">
+                <span>Made with ❤️ by the WorkHub Team</span>
               </div>
             </div>
           </footer>
