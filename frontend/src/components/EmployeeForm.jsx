@@ -23,6 +23,7 @@ export default function EmployeeForm({ selected, onSaved }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false); // Add a local state for showing the error toast/modal
 
   useEffect(() => {
     if (selected) {
@@ -47,6 +48,15 @@ export default function EmployeeForm({ selected, onSaved }) {
       setForm(empty);
     }
   }, [selected]);
+
+  useEffect(() => {
+    if (error) {
+      setShowErrorToast(true);
+      // Auto-hide after 3 seconds
+      const timer = setTimeout(() => setShowErrorToast(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -94,14 +104,56 @@ export default function EmployeeForm({ selected, onSaved }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6">
+    <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6 animate-fade-in-up relative">
       <h2 className="text-xl font-bold text-slate-900 mb-4">
         {form.id ? "Edit Employee" : "Add Employee"}
       </h2>
-      {error && (
-        <p className="mb-4 text-sm text-red-600 bg-red-50 p-3 rounded-lg">
-          {error}
-        </p>
+      {/* Interactive error toast/modal */}
+      {showErrorToast && error && (
+        <div className="fixed left-1/2 top-6 z-50 transform -translate-x-1/2 animate-fade-in-up">
+          <div className="flex items-center gap-2 px-5 py-3 bg-red-500 text-white rounded-xl shadow-lg border border-red-600">
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M18.364 5.636l-1.414-1.414A9 9 0 105.636 18.364l1.414-1.414A7 7 0 1116.95 7.05z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01"
+              />
+            </svg>
+            <span className="font-semibold">{error}</span>
+            <button
+              type="button"
+              onClick={() => setShowErrorToast(false)}
+              className="ml-3 text-white/80 hover:text-white focus:outline-none"
+              aria-label="Dismiss"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       )}
       <form onSubmit={onSubmit}>
         {/* Overlay during save */}
@@ -115,54 +167,74 @@ export default function EmployeeForm({ selected, onSaved }) {
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-firstName"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               First name *
             </label>
             <input
+              id="employee-firstName"
               name="firstName"
               placeholder="First name"
               value={form.firstName}
               onChange={onChange}
               required
+              autoComplete="given-name"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-lastName"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Last name *
             </label>
             <input
+              id="employee-lastName"
               name="lastName"
               placeholder="Last name"
               value={form.lastName}
               onChange={onChange}
               required
+              autoComplete="family-name"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-email"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Email *
             </label>
             <input
+              id="employee-email"
               name="email"
               placeholder="Email"
               type="email"
               value={form.email}
               onChange={onChange}
               required
+              autoComplete="email"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-phoneCountryCode"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Phone
             </label>
             <div className="flex gap-2">
               <select
+                id="employee-phoneCountryCode"
                 name="phoneCountryCode"
                 value={form.phoneCountryCode}
                 onChange={onChange}
+                aria-label="Country code"
                 className="w-24 rounded-lg border border-slate-300 px-2 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition text-sm"
               >
                 <option value="+1">+1 (US)</option>
@@ -187,60 +259,83 @@ export default function EmployeeForm({ selected, onSaved }) {
                 <option value="+971">+971 (AE)</option>
               </select>
               <input
+                id="employee-phone"
                 name="phone"
                 placeholder="Phone number"
                 type="tel"
                 value={form.phone}
                 onChange={onChange}
+                autoComplete="tel"
+                aria-describedby="employee-phoneCountryCode"
                 className="flex-1 rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-department"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Department
             </label>
             <input
+              id="employee-department"
               name="department"
               placeholder="Department"
               value={form.department}
               onChange={onChange}
+              autoComplete="organization"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-position"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Position
             </label>
             <input
+              id="employee-position"
               name="position"
               placeholder="Position"
               value={form.position}
               onChange={onChange}
+              autoComplete="organization-title"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-address"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Address
             </label>
             <input
+              id="employee-address"
               name="address"
               placeholder="Full address"
               value={form.address}
               onChange={onChange}
+              autoComplete="street-address"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-salary"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Salary
             </label>
             <div className="flex gap-2">
               <select
+                id="employee-currency"
                 name="currency"
                 value={form.currency}
                 onChange={onChange}
+                aria-label="Currency"
                 className="w-24 rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               >
                 <option value="USD">USD</option>
@@ -256,33 +351,44 @@ export default function EmployeeForm({ selected, onSaved }) {
                 <option value="NZD">NZD</option>
               </select>
               <input
+                id="employee-salary"
                 name="salary"
                 placeholder="Amount"
                 type="number"
                 step="0.01"
                 value={form.salary}
                 onChange={onChange}
+                aria-describedby="employee-currency"
                 className="flex-1 rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-dateOfBirth"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Date of Birth
             </label>
             <input
+              id="employee-dateOfBirth"
               name="dateOfBirth"
               type="date"
               value={form.dateOfBirth}
               onChange={onChange}
+              autoComplete="bday"
               className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-hireDate"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Hire date
             </label>
             <input
+              id="employee-hireDate"
               name="hireDate"
               type="date"
               value={form.hireDate}
@@ -291,21 +397,27 @@ export default function EmployeeForm({ selected, onSaved }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="employee-password"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Password {form.id && "(optional)"}
             </label>
             <div className="relative">
               <input
+                id="employee-password"
                 name="password"
                 placeholder={form.id ? "New password" : "Password"}
                 type={showPassword ? "text" : "password"}
                 value={form.password}
                 onChange={onChange}
+                autoComplete={form.id ? "new-password" : "new-password"}
                 className="w-full rounded-lg border border-slate-300 px-3 py-2 pr-10 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
               >
                 {showPassword ? (
@@ -347,8 +459,12 @@ export default function EmployeeForm({ selected, onSaved }) {
             </div>
           </div>
           <div className="flex items-end pb-2">
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label
+              htmlFor="employee-active"
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <input
+                id="employee-active"
                 type="checkbox"
                 name="active"
                 checked={form.active}

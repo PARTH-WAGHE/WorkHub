@@ -19,9 +19,23 @@ export async function createEmployee(emp) {
     let msg = "Registration failed";
     try {
       const data = await res.json();
-      if (data?.error) msg = data.error;
+      if (data?.error) {
+        msg = data.error;
+      } else if (
+        res.status === 409 ||
+        (data?.message && data.message.includes("Duplicate entry"))
+      ) {
+        msg = "Email already exists. Please use a different email address.";
+      } else if (data?.message && data.message.includes("email")) {
+        msg = "Email already exists. Please use a different email address.";
+      }
     } catch (_) {
-      // ignore parse error, keep default message
+      // If response is not JSON, check status codes
+      if (res.status === 409) {
+        msg = "Email already exists. Please use a different email address.";
+      } else if (res.status === 400) {
+        msg = "Invalid registration data. Please check your input.";
+      }
     }
     throw new Error(msg);
   }

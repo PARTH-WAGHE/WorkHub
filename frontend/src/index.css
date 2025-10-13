@@ -42,21 +42,35 @@
 
 @layer components {
 
-    /* Custom gradient buttons - explicitly defined for IntelliSense */
+    /* Custom gradient buttons - fixed styling */
     .btn-gradient-orange {
-        @apply bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-lg active:scale-95 transition-all duration-200;
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        @apply text-white shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200;
     }
 
     .btn-gradient-purple {
-        @apply bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-lg active:scale-95 transition-all duration-200;
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        @apply text-white shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200;
     }
 
     .btn-gradient-violet {
-        @apply bg-gradient-to-r from-violet-500 to-violet-600 hover:shadow-lg active:scale-95 transition-all duration-200;
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        @apply text-white shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200;
     }
 
     .btn-gradient-red {
-        @apply bg-gradient-to-r from-red-500 to-red-600 hover:shadow-lg active:scale-95 transition-all duration-200;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        @apply text-white shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200;
+    }
+
+    .btn-gradient-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        @apply text-white shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200;
+    }
+
+    .btn-gradient-slate {
+        background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        @apply text-white shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200;
     }
 
     /* Modal and UI components */
@@ -84,6 +98,11 @@
 
     .mobile-card {
         @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow;
+    }
+
+    /* Glass card */
+    .glass {
+        @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-lg;
     }
 
     @screen sm {
@@ -134,9 +153,173 @@
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
     }
+
+    /* Screen reader only text */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* Focus visible for better keyboard navigation */
+    .focus-visible\:ring-2:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px #3b82f6;
+    }
+
+    /* Better focus states for forms */
+    .form-input {
+        @apply w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition;
+    }
+
+    .form-label {
+        @apply block text-sm font-medium text-slate-700 mb-1;
+    }
+
+    /* Tabular numbers for consistent time display */
+    .tabular-nums {
+        font-variant-numeric: tabular-nums;
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    }
+
+    /* Digital clock styling */
+    .digital-clock {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid #cbd5e1;
+        box-shadow: inset 0 1px 0 0 #ffffff40;
+    }
+
+    /* Animated time transitions */
+    .time-transition {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Pulsing dot for live indicator */
+    .live-dot {
+        width: 6px;
+        height: 6px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: livePulse 2s ease-in-out infinite;
+    }
+
+    /* Desktop-only display classes */
+    @media (min-width: 1024px) {
+        .desktop-only {
+            display: block !important;
+        }
+
+        .mobile-only {
+            display: none !important;
+        }
+    }
+
+    /* Desktop typography enhancements */
+    .desktop-heading {
+        @media (min-width: 1024px) {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+    }
+
+    /* Desktop spacing */
+    .desktop-spacing {
+        @media (min-width: 1024px) {
+            padding: 2rem;
+        }
+    }
+
+    /* Reusable animation utilities (motion-safe) */
+    .animate-fade-in-up {
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .animate-scale-in {
+        animation: scaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .animate-float {
+        animation: floatY 6s ease-in-out infinite;
+    }
+
+    .stagger-container>* {
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .tilt {
+        transform-style: preserve-3d;
+        transition: transform 300ms ease;
+    }
+
+    .tilt:hover {
+        transform: translateY(-2px) rotateX(1deg) rotateY(-1deg);
+    }
+
+    /* Safe-area helpers for latest phones */
+    .safe-pt {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-pb {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
 }
 
-/* Responsive optimizations */
+/* Keyframes (with motion-reduce fallback) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes floatY {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 @media (max-width: 640px) {
     .reduce-motion {
         animation-duration: 0.01ms !important;
@@ -161,6 +344,13 @@
         overflow-x: auto;
         white-space: nowrap;
     }
+
+    /* Mobile time display */
+    .mobile-time {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #64748b;
+    }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
@@ -170,5 +360,138 @@
 
     .landscape-compact h1 {
         @apply text-2xl;
+    }
+}
+
+/* Desktop-specific enhancements */
+@media (min-width: 1024px) {
+
+    /* Desktop-only animations */
+    .desktop-hover-lift {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .desktop-hover-lift:hover {
+        transform: translateY(-4px) scale(1.02);
+    }
+
+    /* Desktop-enhanced shadows */
+    .desktop-shadow {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .desktop-shadow:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Desktop glassmorphism */
+    .desktop-glass {
+        backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Desktop-enhanced gradients */
+    .desktop-gradient-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .desktop-gradient-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: desktopShimmer 3s ease-in-out infinite;
+    }
+}
+
+/* Enhanced responsive grid for desktop */
+@media (min-width: 1280px) {
+    .desktop-grid-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+/* New keyframe animations */
+@keyframes livePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
+    }
+}
+
+@keyframes timeGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.6), 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+}
+
+@keyframes clockTick {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes desktopShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes desktopPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+        transform: scale(1.05);
     }
 }
