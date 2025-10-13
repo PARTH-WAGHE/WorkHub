@@ -559,14 +559,14 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                       <div className="flex gap-2">
                         <button
                           onClick={() => setViewEmployee(e)}
-                          className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                          className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
                         >
                           View Details
                         </button>
                         {canEdit ? (
                           <button
                             onClick={() => handleEdit(e)}
-                            className="rounded-lg bg-gradient-to-r from-slate-500 to-slate-600 text-white px-3 py-2 text-sm font-semibold hover:shadow-lg active:scale-95 transition-all duration-200"
+                            className="rounded-lg btn-gradient-slate px-3 py-2 text-sm font-semibold text-white hover:shadow-lg transition-shadow"
                             title="Edit"
                           >
                             <svg
@@ -586,7 +586,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         ) : (
                           <button
                             onClick={() => setShowAccessDenied(true)}
-                            className="rounded-lg bg-slate-300 hover:bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200"
+                            className="rounded-lg bg-slate-200 px-3 py-2 text-sm font-semibold text-slate-400 cursor-not-allowed"
                             title="Contact Admin"
                           >
                             <svg
@@ -607,7 +607,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         {canDelete && (
                           <button
                             onClick={() => setDeleteConfirm(e)}
-                            className="rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 text-sm font-semibold hover:shadow-lg active:scale-95 transition-all duration-200"
+                            className="rounded-lg btn-gradient-red px-3 py-2 text-sm font-semibold text-white hover:shadow-lg transition-shadow"
                             title="Delete"
                           >
                             <svg
@@ -693,6 +693,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         currentUser={currentUser}
       />
 
+      {/* AccessDeniedModal stays open until user closes it */}
       <AccessDeniedModal
         isOpen={showAccessDenied}
         onClose={() => setShowAccessDenied(false)}
