@@ -421,22 +421,46 @@ export default function App() {
                 </span>
                 <span className="flex items-center justify-center gap-1 mt-1 animate-fadeIn">
                   Crafted with
-                  <span className="inline-block animate-heartbeat text-pink-500 text-lg mx-1">
+                  <span
+                    className="inline-block animate-heartbeat text-pink-500 text-lg mx-1 cursor-pointer"
+                    title="Made with love"
+                    tabIndex={0}
+                  >
                     ❤️
                   </span>
                   by
-                  <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
+                  <a
+                    href="https://github.com/parthwaghe"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-blue-200 hover:text-blue-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
+                  >
                     Parth Waghe
-                  </span>
-                  <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
-                    , Sameer Balgar
-                  </span>
-                  <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
-                    , Nidhish Vartak
-                  </span>
-                  <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
-                    , Vedika Takke
-                  </span>
+                  </a>
+                  <a
+                    href="https://github.com/sameerbalgar"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-purple-200 hover:text-purple-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
+                  >
+                    Sameer Balgar
+                  </a>
+                  <a
+                    href="https://github.com/nidhishvartak"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-indigo-200 hover:text-indigo-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
+                  >
+                    Nidhish Vartak
+                  </a>
+                  <a
+                    href="https://github.com/vedikatakke"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-pink-200 hover:text-pink-500 transition-colors cursor-pointer underline-offset-2 underline mx-1"
+                  >
+                    Vedika Takke
+                  </a>
                 </span>
                 <span className="mt-2 text-xs text-slate-300 animate-fadeIn">
                   Empowering organizations through better employee management
@@ -480,8 +504,46 @@ export default function App() {
                 </span>
                 <span className="inline-flex items-center gap-2 mt-2">
                   Made with{" "}
-                  <span className="text-pink-500 animate-heartbeat">❤️</span> by
-                  the WorkHub Team
+                  <span
+                    className="text-pink-500 animate-heartbeat cursor-pointer"
+                    title="Made with love"
+                    tabIndex={0}
+                  >
+                    ❤️
+                  </span>{" "}
+                  by
+                  <a
+                    href="https://github.com/parthwaghe"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-blue-400 hover:text-blue-600 transition-colors underline mx-1"
+                  >
+                    Parth Waghe
+                  </a>
+                  <a
+                    href="https://github.com/sameerbalgar"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-purple-400 hover:text-purple-600 transition-colors underline mx-1"
+                  >
+                    Sameer Balgar
+                  </a>
+                  <a
+                    href="https://github.com/nidhishvartak"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-indigo-400 hover:text-indigo-600 transition-colors underline mx-1"
+                  >
+                    Nidhish Vartak
+                  </a>
+                  <a
+                    href="https://github.com/vedikatakke"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-pink-400 hover:text-pink-600 transition-colors underline mx-1"
+                  >
+                    Vedika Takke
+                  </a>
                 </span>
               </p>
             </div>
@@ -957,8 +1019,46 @@ export default function App() {
                   </span>
                   <span className="inline-flex items-center gap-2 mt-2">
                     Made with{" "}
-                    <span className="text-pink-500 animate-heartbeat">❤️</span>{" "}
-                    by the WorkHub Team
+                    <span
+                      className="text-pink-500 animate-heartbeat cursor-pointer"
+                      title="Made with love"
+                      tabIndex={0}
+                    >
+                      ❤️
+                    </span>{" "}
+                    by
+                    <a
+                      href="https://github.com/parthwaghe"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-blue-400 hover:text-blue-600 transition-colors underline mx-1"
+                    >
+                      Parth Waghe
+                    </a>
+                    <a
+                      href="https://github.com/sameerbalgar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-purple-400 hover:text-purple-600 transition-colors underline mx-1"
+                    >
+                      Sameer Balgar
+                    </a>
+                    <a
+                      href="https://github.com/nidhishvartak"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-indigo-400 hover:text-indigo-600 transition-colors underline mx-1"
+                    >
+                      Nidhish Vartak
+                    </a>
+                    <a
+                      href="https://github.com/vedikatakke"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-pink-400 hover:text-pink-600 transition-colors underline mx-1"
+                    >
+                      Vedika Takke
+                    </a>
                   </span>
                 </p>
               </div>

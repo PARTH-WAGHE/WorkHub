@@ -687,7 +687,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
       />
 
       <EmployeeDetailModal
-        employee={viewEmployee}
+        employee={viewEmployee || null}
         onClose={() => setViewEmployee(null)}
         onEdit={onEdit}
         currentUser={currentUser}
