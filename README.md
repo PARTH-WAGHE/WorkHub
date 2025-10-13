@@ -892,7 +892,29 @@ VITE_API_BASE_URL=http://localhost:8080
 npm run dev
 ```
 
-#### Backend Issues
+**Accessibility Issues**
+
+```bash
+# Form field elements missing id/name attributes
+# Solution: Add unique id and name attributes to all form inputs
+
+# Label not associated with form field
+# Solution: Use htmlFor attribute on labels or nest inputs inside labels
+
+# Content Security Policy blocks eval()
+# Solution: Avoid using eval() in JavaScript, use proper CSP headers
+```
+
+**Security & Performance**
+
+- **CSP Violations**: Ensure no `eval()` usage in JavaScript code
+- **Form Accessibility**: All form inputs should have proper labels and IDs
+- **ARIA Compliance**: Use proper ARIA attributes for screen readers
+
+</details>
+
+<details>
+<summary><b>Backend Issues</b></summary>
 
 **Database Connection Failed**
 
@@ -919,7 +941,10 @@ kill -9 <PID>
 server.port=8081
 ```
 
-#### Deployment Issues
+</details>
+
+<details>
+<summary><b>Deployment Issues</b></summary>
 
 **Vercel Build Fails**
 

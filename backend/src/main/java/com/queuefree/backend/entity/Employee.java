@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
@@ -70,6 +72,21 @@ public class Employee {
   @JsonIgnore
   @Column(name = "password_hash")
   private String passwordHash;
+
+  @PrePersist
+  @PreUpdate
+  private void normalize() {
+    if (this.email != null) this.email = this.email.trim().toLowerCase();
+    if (this.firstName != null) this.firstName = this.firstName.trim();
+    if (this.lastName != null) this.lastName = this.lastName.trim();
+    if (this.phone != null) this.phone = this.phone.trim();
+    if (this.department != null) this.department = this.department.trim();
+    if (this.position != null) this.position = this.position.trim();
+    if (this.address != null) this.address = this.address.trim();
+    if (this.phoneCountryCode != null) this.phoneCountryCode = this.phoneCountryCode.trim();
+    if (this.currency != null) this.currency = this.currency.trim().toUpperCase();
+    if (this.role == null || this.role.isBlank()) this.role = "USER";
+  }
 
   public Long getId() { return id; }
   public void setId(Long id) { this.id = id; }

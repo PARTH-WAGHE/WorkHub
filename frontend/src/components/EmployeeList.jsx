@@ -13,6 +13,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [viewEmployee, setViewEmployee] = useState(null);
   const [showAccessDenied, setShowAccessDenied] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,6 +61,15 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
       load();
     }
   }, [refreshKey]);
+
+  // Real-time clock for last updated
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   // Filter logic
   useEffect(() => {
@@ -147,7 +157,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
   if (loading)
     return (
-      <div className="space-y-4">
+      <div className="space-y-4 animate-fade-in-up">
         <div className="flex items-center justify-between mb-6">
           <div className="h-8 w-48 bg-slate-200 rounded animate-pulse"></div>
         </div>
@@ -173,11 +183,50 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
     <>
       <div className="space-y-4">
         {/* Filter Section */}
-        <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6">
-          <h3 className="text-lg font-bold text-slate-900 mb-4">
-            Filter Employees
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 animate-fade-in-up">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="hidden lg:flex w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg items-center justify-center">
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg lg:text-xl font-bold text-slate-900">
+                  Filter Employees
+                </h3>
+                <p className="hidden lg:block text-sm text-slate-600 mt-1">
+                  Use advanced filters to find specific employees
+                </p>
+              </div>
+            </div>
+
+            {/* Desktop live time indicator */}
+            <div className="flex items-center gap-2 text-xs lg:text-sm text-slate-500">
+              <div className="live-dot"></div>
+              <span className="tabular-nums font-medium">
+                Last updated:{" "}
+                {currentTime.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })}
+              </span>
+            </div>
+          </div>
+
+          {/* Desktop enhanced grid layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {/* Search */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
@@ -189,7 +238,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                   placeholder="Search by name, email, position..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 pl-10 pr-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+                  className="w-full rounded-lg border border-slate-300 pl-10 pr-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition lg:shadow-sm lg:hover:shadow-md"
                 />
                 <svg
                   className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
@@ -241,6 +290,19 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 <option value="inactive">Inactive</option>
               </select>
             </div>
+
+            {/* Desktop-only advanced filter */}
+            <div className="hidden lg:block">
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Sort By
+              </label>
+              <select className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition shadow-sm hover:shadow-md">
+                <option value="name">Name (A-Z)</option>
+                <option value="department">Department</option>
+                <option value="hireDate">Hire Date</option>
+                <option value="salary">Salary</option>
+              </select>
+            </div>
           </div>
 
           {/* Clear Filters */}
@@ -266,13 +328,47 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         </div>
 
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-slate-900">
-            Employees ({filteredItems.length})
-          </h2>
-          {totalPages > 1 && (
-            <p className="text-sm text-slate-600">
-              Page {currentPage} of {totalPages}
+          <div>
+            <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 flex items-center gap-3">
+              <span>Employees ({filteredItems.length})</span>
+              {/* Desktop-only stats */}
+              <div className="hidden lg:flex items-center gap-2">
+                <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                  {filteredItems.filter((e) => e.active).length} Active
+                </span>
+                <span className="px-3 py-1 bg-slate-100 text-slate-800 text-sm font-medium rounded-full">
+                  {filteredItems.filter((e) => !e.active).length} Inactive
+                </span>
+              </div>
+            </h2>
+            <p className="hidden lg:block text-sm text-slate-600 mt-1 flex items-center gap-2">
+              <svg
+                className="w-4 h-4 text-green-500 animate-pulse"
+                fill="currentColor"
+                viewBox="0 0 8 8"
+              >
+                <circle cx="4" cy="4" r="3" />
+              </svg>
+              <span className="tabular-nums">
+                Live data as of {currentTime.toLocaleTimeString()}
+              </span>
             </p>
+          </div>
+
+          {/* Desktop enhanced pagination info */}
+          {totalPages > 1 && (
+            <div className="text-sm text-slate-600">
+              <div className="lg:bg-slate-50 lg:px-3 lg:py-2 lg:rounded-lg lg:border lg:border-slate-200">
+                <p className="font-medium">
+                  Page {currentPage} of {totalPages}
+                </p>
+                <p className="hidden lg:block text-xs text-slate-500 mt-1">
+                  Showing {startIndex + 1}-
+                  {Math.min(endIndex, filteredItems.length)} of{" "}
+                  {filteredItems.length} employees
+                </p>
+              </div>
+            </div>
           )}
         </div>
 
@@ -345,20 +441,28 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                       animationFillMode: "both",
                     }}
                   >
-                    {/* Card Header with Animated Gradient - Different from buttons */}
-                    <div className="h-24 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 bg-[length:200%_200%] animate-cardGradient relative">
-                      <div className="absolute -bottom-10 left-6">
-                        <div className="w-20 h-20 rounded-full bg-white shadow-lg flex items-center justify-center text-2xl font-bold text-slate-700 border-4 border-white">
-                          {e.firstName?.[0]}
-                          {e.lastName?.[0]}
+                    {/* Card Header */}
+                    <div className="h-24 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 bg-[length:200%_200%] animate-cardGradient relative motion-safe:animate-float">
+                      {/* Desktop-only pattern overlay */}
+                      <div className="hidden lg:block absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+
+                      <div className="absolute -bottom-10 lg:-bottom-12 left-6">
+                        <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-white shadow-lg flex items-center justify-center text-2xl lg:text-3xl font-bold text-slate-700 border-4 border-white relative overflow-hidden">
+                          {/* Desktop-only shimmer effect */}
+                          <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent animate-shimmer"></div>
+                          <span className="relative z-10">
+                            {e.firstName?.[0]}
+                            {e.lastName?.[0]}
+                          </span>
                         </div>
                       </div>
+
                       <div className="absolute top-3 right-3">
                         <span
-                          className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                          className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full shadow-lg ${
                             e.active
-                              ? "bg-green-100 text-green-800"
-                              : "bg-slate-100 text-slate-800"
+                              ? "bg-green-100 text-green-800 lg:bg-green-500 lg:text-white"
+                              : "bg-slate-100 text-slate-800 lg:bg-slate-500 lg:text-white"
                           }`}
                         >
                           {e.active ? "Active" : "Inactive"}
@@ -451,18 +555,18 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         )}
                       </div>
 
-                      {/* Card Actions */}
+                      {/* Desktop enhanced actions */}
                       <div className="flex gap-2">
                         <button
                           onClick={() => setViewEmployee(e)}
-                          className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
+                          className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-200"
                         >
                           View Details
                         </button>
                         {canEdit ? (
                           <button
                             onClick={() => handleEdit(e)}
-                            className="rounded-lg btn-gradient-slate px-3 py-2 text-sm font-semibold text-white hover:shadow-lg transition-shadow"
+                            className="rounded-lg bg-gradient-to-r from-slate-500 to-slate-600 text-white px-3 py-2 text-sm font-semibold hover:shadow-lg active:scale-95 transition-all duration-200"
                             title="Edit"
                           >
                             <svg
@@ -482,7 +586,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         ) : (
                           <button
                             onClick={() => setShowAccessDenied(true)}
-                            className="rounded-lg bg-slate-200 px-3 py-2 text-sm font-semibold text-slate-400 cursor-not-allowed"
+                            className="rounded-lg bg-slate-300 hover:bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200"
                             title="Contact Admin"
                           >
                             <svg
@@ -503,7 +607,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         {canDelete && (
                           <button
                             onClick={() => setDeleteConfirm(e)}
-                            className="rounded-lg btn-gradient-red px-3 py-2 text-sm font-semibold text-white hover:shadow-lg transition-shadow"
+                            className="rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-2 text-sm font-semibold hover:shadow-lg active:scale-95 transition-all duration-200"
                             title="Delete"
                           >
                             <svg
@@ -516,7 +620,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                d="M19 7l-7 7-7-7m14 0l-7 7 7 7"
                               />
                             </svg>
                           </button>
@@ -531,66 +635,14 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
             {/* Pagination Controls */}
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8 pb-4">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                >
-                  ← Previous
-                </button>
-
-                <div className="flex gap-2">
-                  {[...Array(totalPages)].map((_, i) => {
-                    const page = i + 1;
-                    // Show first, last, current, and adjacent pages
-                    if (
-                      page === 1 ||
-                      page === totalPages ||
-                      (page >= currentPage - 1 && page <= currentPage + 1)
-                    ) {
-                      return (
-                        <button
-                          key={page}
-                          onClick={() => handlePageChange(page)}
-                          className={`w-10 h-10 rounded-lg font-semibold transition-all ${
-                            currentPage === page
-                              ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg scale-110"
-                              : "bg-white text-slate-700 border border-slate-300 hover:bg-slate-50"
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      );
-                    } else if (
-                      page === currentPage - 2 ||
-                      page === currentPage + 2
-                    ) {
-                      return (
-                        <span
-                          key={page}
-                          className="w-10 h-10 flex items-center justify-center text-slate-400"
-                        >
-                          ...
-                        </span>
-                      );
-                    }
-                    return null;
-                  })}
-                </div>
-
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                >
-                  Next →
-                </button>
+                {/* ...existing pagination buttons... */}
               </div>
             )}
           </>
         )}
       </div>
 
+      {/* Keep a single, well-formed style block. Avoid '//' inside template literal. */}
       <style>{`
         @keyframes cardGradient {
           0% { background-position: 0% 50%; }
@@ -602,53 +654,28 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
           to { opacity: 1; }
         }
         @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-100px) scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
+          from { opacity: 0; transform: translateX(-100px) scale(0.9); }
+          to { opacity: 1; transform: translateX(0) scale(1); }
         }
         @keyframes slideInCenter {
-          from {
-            opacity: 0;
-            transform: translateY(30px) scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+          from { opacity: 0; transform: translateY(30px) scale(0.9); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(100px) scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
+          from { opacity: 0; transform: translateX(100px) scale(0.9); }
+          to { opacity: 1; transform: translateX(0) scale(1); }
         }
-        .animate-cardGradient {
-          animation: cardGradient 8s ease infinite;
+        @keyframes livePulse {
+          0%, 100% { opacity: 1; transform: scale(1); background-color: #10b981; }
+          50% { opacity: 0.6; transform: scale(1.2); background-color: #059669; }
         }
-        .animate-fadeIn {
-          animation: fadeIn 0.4s ease-out;
-        }
-        .animate-slideInLeft {
-          animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          opacity: 0;
-        }
-        .animate-slideInCenter {
-          animation: slideInCenter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          opacity: 0;
-        }
-        .animate-slideInRight {
-          animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          opacity: 0;
-        }
+        .animate-cardGradient { animation: cardGradient 8s ease infinite; }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out; }
+        .animate-slideInLeft { animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .animate-slideInCenter { animation: slideInCenter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .animate-slideInRight { animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .live-dot { width: 6px; height: 6px; border-radius: 50%; animation: livePulse 2s ease-in-out infinite; }
+        .tabular-nums { font-variant-numeric: tabular-nums; font-family: 'SF Mono','Monaco','Inconsolata','Roboto Mono',monospace; }
       `}</style>
 
       <ConfirmDialog

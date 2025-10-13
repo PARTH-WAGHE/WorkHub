@@ -52,34 +52,47 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
     <>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="login-email"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Email
           </label>
           <input
+            id="login-email"
+            name="email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="username@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="email"
             className="w-full rounded-lg border border-slate-300 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="login-password"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Password
           </label>
           <div className="relative">
             <input
+              id="login-password"
+              name="password"
               type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
+              placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
               className="w-full rounded-lg border border-slate-300 px-3 sm:px-4 py-2 sm:py-2.5 pr-10 sm:pr-12 text-sm sm:text-base outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition p-1"
             >
               {showPassword ? (
@@ -123,11 +136,18 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
         <button
           type="submit"
           disabled={loading}
+          aria-describedby={loading ? "login-loading" : undefined}
           className="w-full rounded-lg btn-gradient-orange px-3 sm:px-4 py-2 sm:py-2.5 font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed transition-shadow flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           {loading && (
-            <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <div
+              className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+              aria-hidden="true"
+            ></div>
           )}
+          <span id="login-loading" className="sr-only">
+            {loading ? "Signing in, please wait..." : ""}
+          </span>
           {loading ? "Signing in..." : "Sign In"}
         </button>
       </form>

@@ -38,8 +38,15 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest req) {
     try {
-      // Check for hardcoded admin first
-      if (ADMIN_EMAIL.equals(req.email()) && ADMIN_PASSWORD.equals(req.password())) {
+      // Basic validation
+      String email = (req != null && req.email() != null) ? req.email().trim().toLowerCase() : null;
+      String password = (req != null) ? req.password() : null;
+      if (email == null || email.isBlank() || password == null || password.isBlank()) {
+        return ResponseEntity.badRequest().body(Map.of("error", "Email and password are required."));
+      }
+
+      // Check for hardcoded admin first (normalized)
+      if (ADMIN_EMAIL.equalsIgnoreCase(email) && ADMIN_PASSWORD.equals(password)) {
         Employee admin = new Employee();
         admin.setId(0L);
         admin.setFirstName("Admin");
@@ -49,18 +56,18 @@ public class AuthController {
         admin.setActive(true);
         return ResponseEntity.ok(admin);
       }
-      if (ADMIN_EMAIL.equals(req.email())) {
-        return ResponseEntity.status(401).body(Map.of("error", "Oops! Invalid admin credentials. Please try again."));
+      if (ADMIN_EMAIL.equalsIgnoreCase(email)) {
+        return ResponseEntity.status(401).body(Map.of("error", "Invalid admin credentials."));
       }
 
-      var userOpt = repo.findByEmail(req.email());
+      var userOpt = repo.findByEmail(email);
       if (userOpt.isEmpty()) {
-        return ResponseEntity.status(404).body(Map.of("error", "We couldn't find your account. Ready to join us?"));
+        return ResponseEntity.status(404).body(Map.of("error", "Account not found."));
       }
 
       Employee employee = userOpt.get();
-      if (employee.getPasswordHash() == null || !passwordEncoder.matches(req.password(), employee.getPasswordHash())) {
-        return ResponseEntity.status(404).body(Map.of("error", "Hmm... we couldn't find your account. Let's get you registered!"));
+      if (employee.getPasswordHash() == null || !passwordEncoder.matches(password, employee.getPasswordHash())) {
+        return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials."));
       }
 
       if (employee.getRole() == null || employee.getRole().isEmpty()) {
