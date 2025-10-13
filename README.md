@@ -119,8 +119,8 @@ WorkHub is a cutting-edge employee management system designed to streamline HR o
 
 ### Deployment & DevOps
 
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
-![Alwaysdata](https://img.shields.io/badge/Alwaysdata-0072C6?style=for-the-badge&logo=alwaysdata&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 
@@ -775,32 +775,32 @@ We're always looking for ways to improve WorkHub! Submit feature requests throug
 ### 🌟 Core Development Team
 
 <table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/parthwaghe.png" width="80px" style="border-radius:50%;box-shadow:0 2px 8px #0002;" alt="Parth Waghe"/><br />
-      <b>Parth Waghe</b><br />
-      <span style="color:#3b82f6;font-weight:600;">Full Stack Developer</span><br />
-      <a href="https://github.com/parthwaghe" target="_blank">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="https://github.com/sameerbalgar.png" width="80px" style="border-radius:50%;box-shadow:0 2px 8px #0002;" alt="Sameer Balgar"/><br />
-      <b>Sameer Balgar</b><br />
-      <span style="color:#8b5cf6;font-weight:600;">Backend Developer</span><br />
-      <a href="https://github.com/sameerbalgar" target="_blank">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="https://github.com/nidhishvartak.png" width="80px" style="border-radius:50%;box-shadow:0 2px 8px #0002;" alt="Nidhish Vartak"/><br />
-      <b>Nidhish Vartak</b><br />
-      <span style="color:#6366f1;font-weight:600;">Frontend Developer</span><br />
-      <a href="https://github.com/nidhishvartak" target="_blank">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="https://github.com/vedikatakke.png" width="80px" style="border-radius:50%;box-shadow:0 2px 8px #0002;" alt="Vedika Takke"/><br />
-      <b>Vedika Takke</b><br />
-      <span style="color:#ec4899;font-weight:600;">UI/UX Designer</span><br />
-      <a href="https://github.com/vedikatakke" target="_blank">GitHub</a>
-    </td>
-  </tr>
+<tr>
+<td align="center">
+<img src="https://github.com/parthwaghe.png" width="100px;" alt="Parth Waghe"/><br />
+<b>Parth Waghe</b><br />
+<sub>Full Stack Developer</sub><br />
+<a href="https://github.com/parthwaghe">🔗 GitHub</a>
+</td>
+<td align="center">
+<img src="https://github.com/sameerbalgar.png" width="100px;" alt="Sameer Balgar"/><br />
+<b>Sameer Balgar</b><br />
+<sub>Backend Developer</sub><br />
+<a href="https://github.com/sameerbalgar">🔗 GitHub</a>
+</td>
+<td align="center">
+<img src="https://github.com/nidhishvartak.png" width="100px;" alt="Nidhish Vartak"/><br />
+<b>Nidhish Vartak</b><br />
+<sub>Frontend Developer</sub><br />
+<a href="https://github.com/nidhishvartak">🔗 GitHub</a>
+</td>
+<td align="center">
+<img src="https://github.com/vedikatakke.png" width="100px;" alt="Vedika Takke"/><br />
+<b>Vedika Takke</b><br />
+<sub>UI/UX Developer</sub><br />
+<a href="https://github.com/vedikatakke">🔗 GitHub</a>
+</td>
+</tr>
 </table>
 
 ### 🎯 Team Responsibilities
@@ -986,21 +986,12 @@ Special thanks to:
 
 If you find WorkHub helpful, please consider:
 
-[![⭐ Star on GitHub](https://img.shields.io/badge/⭐-Star%20on%20GitHub-yellow?style=for-the-badge&label=Star%20Us&logo=github&logoColor=white)](https://github.com/Tanmay-Kudkar/WorkHub)
-[![🔄 Fork Repository](https://img.shields.io/badge/🔄-Fork%20Repository-blue?style=for-the-badge&label=Fork%20Us&logo=github&logoColor=white)](https://github.com/Tanmay-Kudkar/WorkHub/fork)
-[![📢 Share Project](https://img.shields.io/badge/📢-Share%20Project-green?style=for-the-badge&label=Share&logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?text=Check%20out%20WorkHub%20-%20A%20modern%20employee%20management%20system!&url=https://github.com/Tanmay-Kudkar/WorkHub)
+[![⭐ Star on GitHub](https://img.shields.io/badge/⭐-Star%20on%20GitHub-yellow?style=for-the-badge)](https://github.com/Tanmay-Kudkar/WorkHub)
+[![🔄 Fork Repository](https://img.shields.io/badge/🔄-Fork%20Repository-blue?style=for-the-badge)](https://github.com/Tanmay-Kudkar/WorkHub/fork)
+[![📢 Share Project](https://img.shields.io/badge/📢-Share%20Project-green?style=for-the-badge)](https://twitter.com/intent/tweet?text=Check%20out%20WorkHub%20-%20A%20modern%20employee%20management%20system!&url=https://github.com/Tanmay-Kudkar/WorkHub)
 
----
+**Made with ❤️ by the WorkHub Team**
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=3B82F6&center=true&vCenter=true&width=380&lines=Made+with+%F0%9F%92%9C+by+the+WorkHub+Team;Empowering+organizations+through+better+employee+management!" alt="Animated Footer Text" />
-
----
-
-<p align="center">
-  <span style="font-size:1.1em;">
-    <b>✨ WorkHub is more than software – it's a <span style="color:#3b82f6;">community</span>!</b><br>
-    <span style="color:#8b5cf6;">Connect</span> • <span style="color:#10b981;">Collaborate</span> • <span style="color:#f59e0b;">Grow</span>
-  </span>
-</p>
+_Empowering organizations through better employee management_
 
 </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AccessDeniedModal from "./AccessDeniedModal.jsx";
 
 export default function EmployeeDetailModal({
@@ -9,8 +9,7 @@ export default function EmployeeDetailModal({
 }) {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
 
-  // Defensive: don't render modal if employee is null or missing id/firstName
-  if (!employee || !employee.id || !employee.firstName) return null;
+  if (!employee) return null;
 
   const calculateAge = (dob) => {
     if (!dob) return "-";
@@ -305,41 +304,63 @@ export default function EmployeeDetailModal({
             ) : (
               <button
                 onClick={() => setShowAccessDenied(true)}
-                className="rounded-lg bg-slate-300 hover:bg-slate-400 px-4 py-2 font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200 flex items-center gap-2"
+                className="rounded-lg bg-slate-300 hover:bg-slate-400 px-4 py-2 font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200"
               >
-                {/* Modern shield-lock icon */}
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3l8 4v5c0 5.25-3.5 9.74-8 11-4.5-1.26-8-5.75-8-11V7l8-4z"
-                  />
-                  <circle
-                    cx="12"
-                    cy="14"
-                    r="2"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 16v2"
-                  />
-                </svg>
-                Contact Admin
+                🔒 Contact Admin
               </button>
             )}
           </div>
         </div>
+
+        <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes scale-in {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out;
+        }
+        .animate-slideUp {
+          animation: slideUp 0.3s ease-out;
+        }
+        .animate-gradientShift {
+          animation: gradientShift 8s ease infinite;
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.3s ease-out;
+        }
+        .animate-scale-in {
+          animation: scale-in 0.3s ease-out;
+        }
+      `}</style>
       </div>
 
       <AccessDeniedModal

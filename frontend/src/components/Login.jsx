@@ -62,7 +62,7 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
             id="login-email"
             name="email"
             type="email"
-            placeholder="yourname@gmail.com"
+            placeholder="username@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
