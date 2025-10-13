@@ -459,18 +459,39 @@ export default function EmployeeForm({ selected, onSaved }) {
             </div>
           </div>
           <div className="flex items-end pb-2">
-            <label
-              htmlFor="employee-active"
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <input
-                id="employee-active"
-                type="checkbox"
-                name="active"
-                checked={form.active}
-                onChange={onChange}
-                className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-200"
-              />
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <span
+                className={`relative inline-block w-5 h-5 rounded border border-slate-300 transition-colors duration-200 ${
+                  form.active
+                    ? "bg-blue-600 border-blue-600"
+                    : "bg-white border-slate-300"
+                }`}
+                tabIndex={0}
+                role="checkbox"
+                aria-checked={form.active}
+                onClick={() => setForm((f) => ({ ...f, active: !f.active }))}
+                onKeyDown={(e) => {
+                  if (e.key === " " || e.key === "Enter") {
+                    setForm((f) => ({ ...f, active: !f.active }));
+                  }
+                }}
+              >
+                {form.active && (
+                  <svg
+                    className="absolute left-0 top-0 w-5 h-5 text-white pointer-events-none"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </span>
               <span className="text-sm font-medium text-slate-700">Active</span>
             </label>
           </div>
