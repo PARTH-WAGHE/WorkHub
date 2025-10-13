@@ -43,8 +43,8 @@ export default function EmployeeDetailModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-md animate-fade-in-up">
-        <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-3xl max-h-[92vh] sm:max-h-[90vh] overflow-hidden transform animate-scale-in">
+      <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-md animate-fadeIn">
+        <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full modal-content max-w-3xl overflow-hidden transform animate-slideUp">
           {/* Header with Gradient */}
           <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-[length:200%_200%] animate-gradientShift p-8 text-white">
             <button
@@ -83,7 +83,7 @@ export default function EmployeeDetailModal({
           </div>
 
           {/* Content */}
-          <div className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
+          <div className="p-6 sm:p-8 overflow-y-auto max-h-[calc(90vh-200px)] sm:max-h-[calc(90vh-200px)] pb-24 sm:pb-8">
             {!employee.firstName ? (
               // Loading skeleton for modal
               <div className="animate-pulse space-y-6">
@@ -284,10 +284,10 @@ export default function EmployeeDetailModal({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 px-8 py-4 bg-slate-50 border-t border-slate-200">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 px-6 sm:px-8 py-4 bg-slate-50 border-t border-slate-200">
             <button
               onClick={onClose}
-              className="rounded-lg bg-gradient-to-r from-slate-500 to-slate-600 text-white px-4 py-2 font-semibold hover:shadow-lg active:scale-95 transition-all duration-200"
+              className="w-full sm:w-auto rounded-lg btn-gradient-slate px-4 py-2 font-semibold text-white hover:shadow-lg transition-shadow"
             >
               Close
             </button>
@@ -297,21 +297,20 @@ export default function EmployeeDetailModal({
                   onEdit(employee);
                   onClose();
                 }}
-                className="rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 font-semibold shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200"
+                className="w-full sm:w-auto rounded-lg btn-gradient-orange px-4 py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
               >
                 Edit Employee
               </button>
             ) : (
               <button
                 onClick={() => setShowAccessDenied(true)}
-                className="rounded-lg bg-slate-300 hover:bg-slate-400 px-4 py-2 font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200"
+                className="w-full sm:w-auto rounded-lg bg-slate-200 px-4 py-2 font-semibold text-slate-400 cursor-not-allowed"
               >
                 🔒 Contact Admin
               </button>
             )}
           </div>
         </div>
-
         <style>{`
         @keyframes fadeIn {
           from { opacity: 0; }
@@ -325,26 +324,6 @@ export default function EmployeeDetailModal({
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
         }
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes scale-in {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
         .animate-fadeIn {
           animation: fadeIn 0.2s ease-out;
         }
@@ -354,11 +333,12 @@ export default function EmployeeDetailModal({
         .animate-gradientShift {
           animation: gradientShift 8s ease infinite;
         }
-        .animate-fade-in-up {
-          animation: fade-in-up 0.3s ease-out;
-        }
-        .animate-scale-in {
-          animation: scale-in 0.3s ease-out;
+        @media (max-width: 640px) {
+          .modal-content {
+            height: calc(100dvh - 32px);
+            margin-top: 16px;
+            border-radius: 24px 24px 0 0;
+          }
         }
       `}</style>
       </div>
