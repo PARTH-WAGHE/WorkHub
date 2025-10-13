@@ -420,23 +420,18 @@ export default function App() {
                 <span className="inline-block animate-heartbeat text-red-400">
                   ❤️
                 </span>{" "}
-                by{" "}
+                by
                 <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
                   Parth Waghe
                 </span>
-                <span className="hidden sm:inline">
-                  ,{" "}
-                  <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
-                    Sameer Balgar
-                  </span>
-                  ,{" "}
-                  <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
-                    Nidhish Vartak
-                  </span>{" "}
-                  &{" "}
-                  <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
-                    Vedika Takke
-                  </span>
+                <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
+                  , Sameer Balgar
+                </span>
+                <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
+                  , Nidhish Vartak
+                </span>
+                <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
+                  , Vedika Takke
                 </span>
               </p>
             </div>
