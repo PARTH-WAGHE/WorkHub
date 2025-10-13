@@ -473,16 +473,18 @@ export default function App() {
 
           {/* Desktop footer bottom */}
           <div className="hidden lg:flex items-center justify-center pt-6 border-t border-slate-200">
-            <p className="text-slate-500 text-sm text-center w-full max-w-2xl mx-auto flex flex-col items-center animate-fadeIn">
-              <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
-                © 2025 WorkHub. All rights reserved.
-              </span>
-              <span className="inline-flex items-center gap-2 mt-2">
-                Made with{" "}
-                <span className="text-pink-500 animate-heartbeat">❤️</span> by
-                the WorkHub Team
-              </span>
-            </p>
+            <div className="w-full flex flex-col items-center">
+              <p className="text-slate-500 text-sm text-center max-w-xl mx-auto flex flex-col items-center animate-fadeIn">
+                <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
+                  © 2025 WorkHub. All rights reserved.
+                </span>
+                <span className="inline-flex items-center gap-2 mt-2">
+                  Made with{" "}
+                  <span className="text-pink-500 animate-heartbeat">❤️</span> by
+                  the WorkHub Team
+                </span>
+              </p>
+            </div>
           </div>
 
           <style>{`
@@ -837,9 +839,9 @@ export default function App() {
                     Deployment
                   </h4>
                   <ul className="space-y-2 text-sm text-slate-600">
-                    <li>Vercel Frontend</li>
-                    <li>Render Backend</li>
-                    <li>Cloud Database</li>
+                    <li>Render.com Frontend</li>
+                    <li>Render.com Backend</li>
+                    <li>AlwaysData.com Database</li>
                   </ul>
                 </div>
                 <div>
@@ -948,16 +950,18 @@ export default function App() {
 
             {/* Desktop footer bottom */}
             <div className="hidden lg:flex items-center justify-center pt-6 border-t border-slate-200">
-              <p className="text-slate-500 text-sm text-center w-full max-w-2xl mx-auto flex flex-col items-center animate-fadeIn">
-                <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
-                  © 2025 WorkHub. All rights reserved.
-                </span>
-                <span className="inline-flex items-center gap-2 mt-2">
-                  Made with{" "}
-                  <span className="text-pink-500 animate-heartbeat">❤️</span> by
-                  the WorkHub Team
-                </span>
-              </p>
+              <div className="w-full flex flex-col items-center">
+                <p className="text-slate-500 text-sm text-center max-w-xl mx-auto flex flex-col items-center animate-fadeIn">
+                  <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
+                    © 2025 WorkHub. All rights reserved.
+                  </span>
+                  <span className="inline-flex items-center gap-2 mt-2">
+                    Made with{" "}
+                    <span className="text-pink-500 animate-heartbeat">❤️</span>{" "}
+                    by the WorkHub Team
+                  </span>
+                </p>
+              </div>
             </div>
           </footer>
         </div>
