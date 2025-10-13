@@ -9,7 +9,8 @@ export default function EmployeeDetailModal({
 }) {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
 
-  if (!employee || !employee.firstName) return null;
+  // Defensive: don't render modal if employee is null or missing id
+  if (!employee || !employee.id) return null;
 
   const calculateAge = (dob) => {
     if (!dob) return "-";

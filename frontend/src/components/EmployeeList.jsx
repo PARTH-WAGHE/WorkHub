@@ -558,7 +558,10 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                       {/* Desktop enhanced actions */}
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setViewEmployee(e)}
+                          onClick={() => {
+                            // Defensive: only open modal if e is a valid object
+                            if (e && e.id) setViewEmployee(e);
+                          }}
                           className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
                         >
                           View Details
@@ -687,7 +690,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
       />
 
       <EmployeeDetailModal
-        employee={viewEmployee || null}
+        employee={viewEmployee && viewEmployee.id ? viewEmployee : null}
         onClose={() => setViewEmployee(null)}
         onEdit={onEdit}
         currentUser={currentUser}
