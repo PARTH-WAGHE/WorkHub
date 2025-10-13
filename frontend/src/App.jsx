@@ -413,29 +413,77 @@ export default function App() {
           </div>
 
           {/* Enhanced footer animation */}
-          <footer className="relative z-10 py-3 sm:py-4 text-center px-4 animate-slideUp">
+          <footer className="relative z-10 py-3 sm:py-4 text-center px-4 animate-fade-in-up">
             <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-4 sm:px-8 py-2 sm:py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
-              <p className="text-white text-xs sm:text-sm font-medium drop-shadow-lg">
-                © 2025 <span className="font-black">WorkHub</span>. Crafted with{" "}
-                <span className="inline-block animate-heartbeat text-red-400">
-                  ❤️
-                </span>{" "}
-                by
-                <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
-                  Parth Waghe
+              <p className="text-xs sm:text-sm font-medium drop-shadow-lg flex flex-col items-center justify-center">
+                <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg sm:text-xl animate-gradientText">
+                  © 2025 WorkHub
                 </span>
-                <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
-                  , Sameer Balgar
+                <span className="flex items-center justify-center gap-1 mt-1 animate-fadeIn">
+                  Crafted with
+                  <span className="inline-block animate-heartbeat text-pink-500 text-lg mx-1">
+                    ❤️
+                  </span>
+                  by
+                  <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
+                    Parth Waghe
+                  </span>
+                  <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
+                    , Sameer Balgar
+                  </span>
+                  <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
+                    , Nidhish Vartak
+                  </span>
+                  <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
+                    , Vedika Takke
+                  </span>
                 </span>
-                <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
-                  , Nidhish Vartak
-                </span>
-                <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
-                  , Vedika Takke
+                <span className="mt-2 text-xs text-slate-300 animate-fadeIn">
+                  Empowering organizations through better employee management
                 </span>
               </p>
             </div>
+            <style>{`
+              @keyframes gradientText {
+                0%,100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+              }
+              .animate-gradientText {
+                background-size: 200% 200%;
+                animation: gradientText 3s ease-in-out infinite;
+              }
+              @keyframes heartbeat {
+                0%, 100% { transform: scale(1); }
+                25% { transform: scale(1.15); }
+                50% { transform: scale(0.95); }
+                75% { transform: scale(1.1); }
+              }
+              .animate-heartbeat {
+                animation: heartbeat 1.2s infinite;
+              }
+              @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+              }
+              .animate-fadeIn {
+                animation: fadeIn 1s ease;
+              }
+            `}</style>
           </footer>
+
+          {/* Desktop footer bottom */}
+          <div className="hidden lg:flex items-center justify-center pt-6 border-t border-slate-200">
+            <p className="text-slate-500 text-sm text-center w-full max-w-2xl mx-auto flex flex-col items-center animate-fadeIn">
+              <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
+                © 2025 WorkHub. All rights reserved.
+              </span>
+              <span className="inline-flex items-center gap-2 mt-2">
+                Made with{" "}
+                <span className="text-pink-500 animate-heartbeat">❤️</span> by
+                the WorkHub Team
+              </span>
+            </p>
+          </div>
 
           <style>{`
             @keyframes bg-gradient {
@@ -746,7 +794,17 @@ export default function App() {
                 <div className="flex items-center gap-6 text-sm text-slate-500">
                   <span>Version 1.0.0</span>
                   <span>•</span>
-                  <span>Built with React & Spring Boot</span>
+                  <span>
+                    Backend &amp; Frontend:{" "}
+                    <span className="font-semibold text-blue-600">Render</span>
+                  </span>
+                  <span>•</span>
+                  <span>
+                    Database:{" "}
+                    <span className="font-semibold text-green-600">
+                      MySQL (Alwaysdata.com)
+                    </span>
+                  </span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -889,13 +947,17 @@ export default function App() {
             </div>
 
             {/* Desktop footer bottom */}
-            <div className="hidden lg:flex items-center justify-between pt-6 border-t border-slate-200">
-              <p className="text-slate-500 text-sm">
-                © 2025 WorkHub. All rights reserved.
+            <div className="hidden lg:flex items-center justify-center pt-6 border-t border-slate-200">
+              <p className="text-slate-500 text-sm text-center w-full max-w-2xl mx-auto flex flex-col items-center animate-fadeIn">
+                <span className="font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-lg animate-gradientText">
+                  © 2025 WorkHub. All rights reserved.
+                </span>
+                <span className="inline-flex items-center gap-2 mt-2">
+                  Made with{" "}
+                  <span className="text-pink-500 animate-heartbeat">❤️</span> by
+                  the WorkHub Team
+                </span>
               </p>
-              <div className="flex items-center gap-4 text-sm text-slate-500">
-                <span>Made with ❤️ by the WorkHub Team</span>
-              </div>
             </div>
           </footer>
         </div>
