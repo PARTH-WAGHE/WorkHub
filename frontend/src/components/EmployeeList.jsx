@@ -560,7 +560,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                         <button
                           onClick={() => {
                             // Defensive: only open modal if e is a valid object
-                            if (e && e.id) setViewEmployee(e);
+                            if (e && e.id && e.firstName) setViewEmployee(e);
                           }}
                           className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
                         >
@@ -689,8 +689,13 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         onCancel={() => setDeleteConfirm(null)}
       />
 
+      {/* Render modal outside grid, only if valid employee */}
       <EmployeeDetailModal
-        employee={viewEmployee && viewEmployee.id ? viewEmployee : null}
+        employee={
+          viewEmployee && viewEmployee.id && viewEmployee.firstName
+            ? viewEmployee
+            : null
+        }
         onClose={() => setViewEmployee(null)}
         onEdit={onEdit}
         currentUser={currentUser}
