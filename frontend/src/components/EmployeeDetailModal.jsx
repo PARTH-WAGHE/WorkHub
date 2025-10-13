@@ -9,7 +9,7 @@ export default function EmployeeDetailModal({
 }) {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
 
-  if (!employee) return null;
+  if (!employee || !employee.firstName) return null;
 
   const calculateAge = (dob) => {
     if (!dob) return "-";
