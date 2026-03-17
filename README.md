@@ -6,7 +6,7 @@
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-4.4.0-646CFF?logo=vite)](https://vitejs.dev/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1.0-6DB33F?logo=spring)](https://spring.io/projects/spring-boot)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)](https://www.mysql.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
 [![Deployment](https://img.shields.io/badge/Deployed%20on-Vercel%20%2B%20Render-000000?logo=vercel)](https://vercel.com/)
 
 **A modern, full-stack, interactive employee management platform featuring beautiful UI, secure authentication, and robust role-based access control for teams of any size.**
@@ -114,7 +114,7 @@ WorkHub is a cutting-edge employee management system designed to streamline HR o
 
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
 ### Deployment & DevOps
@@ -144,7 +144,7 @@ graph TB
         F[Employee Controller]
     end
 
-    subgraph "Database - Render MySQL"
+    subgraph "Database - Render PostgreSQL"
         G[Employee Data]
         H[User Credentials]
     end
@@ -164,7 +164,7 @@ graph TB
 2. **API Requests**: Frontend makes REST API calls to Spring Boot backend
 3. **Authentication**: JWT-based authentication with role verification
 4. **Data Processing**: Backend processes requests and validates data
-5. **Database Operations**: MySQL handles data persistence
+5. **Database Operations**: PostgreSQL handles data persistence
 6. **Response**: JSON responses sent back to frontend for UI updates
 
 ---
@@ -213,27 +213,26 @@ cd frontend && npm run dev
 | ------------ | ------- | ---------------- |
 | **Node.js**  | 18+     | Frontend runtime |
 | **Java JDK** | 17+     | Backend runtime  |
-| **MySQL**    | 8.0+    | Database         |
+| **PostgreSQL** | 14+  | Database         |
 | **Maven**    | 3.6+    | Build tool       |
 | **Git**      | 2.0+    | Version control  |
 
 ### 🗄️ Database Setup
 
-1. **Create MySQL Database**:
+1. **Create PostgreSQL Database**:
 
 ```sql
 CREATE DATABASE workhub_db;
-CREATE USER 'WORKHUB'@'localhost' IDENTIFIED BY 'ChangeMe_S3cure!';
-GRANT ALL PRIVILEGES ON workhub_db.* TO 'WORKHUB'@'localhost';
-FLUSH PRIVILEGES;
+CREATE USER workhub WITH PASSWORD 'ChangeMe_S3cure!';
+GRANT ALL PRIVILEGES ON DATABASE workhub_db TO workhub;
 ```
 
 2. **Configure Connection**:
    Update `backend/src/main/resources/application.properties`:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/workhub_db?createDatabaseIfNotExist=true&useSSL=false
-spring.datasource.username=WORKHUB
+spring.datasource.url=jdbc:postgresql://localhost:5432/workhub_db
+spring.datasource.username=workhub
 spring.datasource.password=ChangeMe_S3cure!
 spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.show-sql=true
@@ -332,7 +331,7 @@ build: {
 
 3. **Environment Variables**:
    ```bash
-   SPRING_DATASOURCE_URL=jdbc:mysql://your-db-host:3306/workhub_db
+  SPRING_DATASOURCE_URL=jdbc:postgresql://your-db-host:5432/workhub_db
    SPRING_DATASOURCE_USERNAME=your-db-username
    SPRING_DATASOURCE_PASSWORD=your-db-password
    SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -343,13 +342,13 @@ build: {
 </details>
 
 <details>
-<summary><b>🗄️ Database Deployment (Render MySQL)</b></summary>
+<summary><b>🗄️ Database Deployment (Render PostgreSQL)</b></summary>
 
-#### MySQL Database Setup
+#### PostgreSQL Database Setup
 
 1. **Database Creation**:
 
-   - Create "MySQL" service in Render
+  - Create "PostgreSQL" service in Render
    - Choose appropriate plan (Free tier available)
    - Set database name: `workhub_db`
 
@@ -362,8 +361,8 @@ build: {
 3. **Data Migration**:
    ```bash
    # If migrating from local development
-   mysqldump -u WORKHUB -p workhub_db > backup.sql
-   mysql -h render-host -u render-user -p render-db < backup.sql
+  pg_dump -U workhub -d workhub_db > backup.sql
+  psql -h render-host -U render-user -d render-db -f backup.sql
    ```
 
 </details>
@@ -400,9 +399,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/workhub_db
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=rootpassword
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/workhub_db
+      - SPRING_DATASOURCE_USERNAME=workhub
+      - SPRING_DATASOURCE_PASSWORD=workhub123
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - db
@@ -411,22 +410,21 @@ services:
 
   # Database Service
   db:
-    image: mysql:8.0
+    image: postgres:16
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=workhub_db
-      - MYSQL_USER=workhub
-      - MYSQL_PASSWORD=workhub123
+      - POSTGRES_DB=workhub_db
+      - POSTGRES_USER=workhub
+      - POSTGRES_PASSWORD=workhub123
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - workhub-network
 
 volumes:
-  mysql_data:
+  postgres_data:
 
 networks:
   workhub-network:
@@ -808,7 +806,7 @@ We're always looking for ways to improve WorkHub! Submit feature requests throug
 | Team Member        | Primary Focus             | Technologies                      |
 | ------------------ | ------------------------- | --------------------------------- |
 | **Parth Waghe**    | Architecture & Full Stack | React, Spring Boot, System Design |
-| **Sameer Balgar**  | Backend & Database        | Java, MySQL, REST APIs            |
+| **Sameer Balgar**  | Backend & Database        | Java, PostgreSQL, REST APIs       |
 | **Nidhish Vartak** | Frontend & Performance    | React, Vite, State Management     |
 | **Vedika Takke**   | UI/UX & Design Systems    | TailwindCSS, Responsive Design    |
 
@@ -919,9 +917,9 @@ npm run dev
 **Database Connection Failed**
 
 ```bash
-# Check MySQL service
-brew services start mysql  # macOS
-sudo systemctl start mysql  # Linux
+# Check PostgreSQL service
+brew services start postgresql  # macOS
+sudo systemctl start postgresql  # Linux
 
 # Verify credentials in application.properties
 spring.datasource.username=WORKHUB

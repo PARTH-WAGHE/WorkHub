@@ -1,6 +1,6 @@
-package com.queuefree.backend.repository;
+package com.workhub.backend.repository;
 
-import com.queuefree.backend.entity.Employee;
+import com.workhub.backend.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

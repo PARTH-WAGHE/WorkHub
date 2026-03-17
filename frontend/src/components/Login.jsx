@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../services/api.js";
 import InfoModal from "./InfoModal.jsx";
+import NeonSweepButton from "./NeonSweepButton.jsx";
 
 export default function Login({ onLoggedIn, onSwitchToRegister }) {
   const [email, setEmail] = useState("");
@@ -89,8 +90,9 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
               autoComplete="current-password"
               className="w-full rounded-lg border border-slate-300 px-3 sm:px-4 py-2 sm:py-2.5 pr-10 sm:pr-12 text-sm sm:text-base outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
-            <button
+            <NeonSweepButton
               type="button"
+              unstyled
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition p-1"
@@ -130,10 +132,10 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
                   />
                 </svg>
               )}
-            </button>
+            </NeonSweepButton>
           </div>
         </div>
-        <button
+        <NeonSweepButton
           type="submit"
           disabled={loading}
           aria-describedby={loading ? "login-loading" : undefined}
@@ -149,7 +151,7 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
             {loading ? "Signing in, please wait..." : ""}
           </span>
           {loading ? "Signing in..." : "Sign In"}
-        </button>
+        </NeonSweepButton>
       </form>
 
       <InfoModal

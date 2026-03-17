@@ -1,4 +1,5 @@
 import React from "react";
+import NeonSweepButton from "./NeonSweepButton.jsx";
 
 export default function ConfirmDialog({
   isOpen,
@@ -17,18 +18,20 @@ export default function ConfirmDialog({
           <p className="text-slate-600">{message}</p>
         </div>
         <div className="flex items-center justify-end gap-3 px-6 py-4 bg-slate-50 rounded-b-xl">
-          <button
+          <NeonSweepButton
             onClick={onCancel}
+            tone="slate"
             className="rounded-lg btn-gradient-slate px-4 py-2 font-semibold text-white hover:shadow-lg transition-shadow"
           >
             Cancel
-          </button>
-          <button
+          </NeonSweepButton>
+          <NeonSweepButton
             onClick={onConfirm}
+            tone="danger"
             className="rounded-lg btn-gradient-red px-4 py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
           >
             Delete
-          </button>
+          </NeonSweepButton>
         </div>
       </div>
       <style>{`

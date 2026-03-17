@@ -4,6 +4,7 @@ import ConfirmDialog from "./ConfirmDialog.jsx";
 import EmployeeDetailModal from "./EmployeeDetailModal.jsx";
 import SkeletonCard from "./SkeletonCard.jsx";
 import AccessDeniedModal from "./AccessDeniedModal.jsx";
+import NeonSweepButton from "./NeonSweepButton.jsx";
 
 export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
   const [items, setItems] = useState([]);
@@ -313,7 +314,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
               <p className="text-sm text-slate-600">
                 Showing {filteredItems.length} of {items.length} employees
               </p>
-              <button
+              <NeonSweepButton
                 onClick={() => {
                   setSearchTerm("");
                   setDepartmentFilter("all");
@@ -322,7 +323,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium"
               >
                 Clear all filters
-              </button>
+              </NeonSweepButton>
             </div>
           )}
         </div>
@@ -393,7 +394,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 : "No employees match your filters"}
             </p>
             {items.length > 0 && (
-              <button
+              <NeonSweepButton
                 onClick={() => {
                   setSearchTerm("");
                   setDepartmentFilter("all");
@@ -402,7 +403,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 className="mt-4 text-blue-600 hover:text-blue-700 font-semibold"
               >
                 Clear filters
-              </button>
+              </NeonSweepButton>
             )}
           </div>
         ) : (
@@ -557,14 +558,14 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
                       {/* Desktop enhanced actions */}
                       <div className="flex gap-2">
-                        <button
+                        <NeonSweepButton
                           onClick={() => setViewEmployee(e)}
                           className="flex-1 rounded-lg btn-gradient-blue px-3 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-200"
                         >
                           View Details
-                        </button>
+                        </NeonSweepButton>
                         {canEdit ? (
-                          <button
+                          <NeonSweepButton
                             onClick={() => handleEdit(e)}
                             className="rounded-lg bg-gradient-to-r from-slate-500 to-slate-600 text-white px-3 py-2 text-sm font-semibold hover:shadow-lg active:scale-95 transition-all duration-200"
                             title="Edit"
@@ -582,9 +583,9 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                               />
                             </svg>
-                          </button>
+                          </NeonSweepButton>
                         ) : (
-                          <button
+                          <NeonSweepButton
                             onClick={() => setShowAccessDenied(true)}
                             className="rounded-lg bg-slate-300 hover:bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200"
                             title="Contact Admin"
@@ -602,10 +603,10 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                               />
                             </svg>
-                          </button>
+                          </NeonSweepButton>
                         )}
                         {canDelete && (
-                          <button
+                          <NeonSweepButton
                             onClick={() => setDeleteConfirm(e)}
                             className="rounded-lg btn-gradient-red px-3 py-2 text-sm font-semibold text-white hover:shadow-lg transition-shadow"
                             title="Delete"
@@ -623,7 +624,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                               />
                             </svg>
-                          </button>
+                          </NeonSweepButton>
                         )}
                       </div>
                     </div>
@@ -634,23 +635,23 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
             {/* Pagination Controls */}
             <div className="flex items-center justify-center gap-2 mt-8 pb-4">
-              <button
+              <NeonSweepButton
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 ← Previous
-              </button>
+              </NeonSweepButton>
               <span className="px-3 py-2 text-sm text-slate-600">
                 Page {currentPage} of {totalPages}
               </span>
-              <button
+              <NeonSweepButton
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 Next Page →
-              </button>
+              </NeonSweepButton>
             </div>
           </>
         )}

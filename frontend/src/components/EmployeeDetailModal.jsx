@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AccessDeniedModal from "./AccessDeniedModal.jsx";
+import NeonSweepButton from "./NeonSweepButton.jsx";
 
 export default function EmployeeDetailModal({
   employee,
@@ -47,8 +48,9 @@ export default function EmployeeDetailModal({
         <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full modal-content max-w-3xl overflow-hidden transform animate-slideUp">
           {/* Header with Gradient */}
           <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-[length:200%_200%] animate-gradientShift p-8 text-white">
-            <button
+            <NeonSweepButton
               onClick={onClose}
+              unstyled
               className="absolute top-4 right-4 text-white/80 hover:text-white transition"
             >
               <svg
@@ -64,7 +66,7 @@ export default function EmployeeDetailModal({
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </button>
+            </NeonSweepButton>
             <div className="flex items-center gap-4">
               <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl font-bold">
                 {employee.firstName?.[0]}
@@ -285,14 +287,14 @@ export default function EmployeeDetailModal({
 
           {/* Footer */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 px-6 sm:px-8 py-4 bg-slate-50 border-t border-slate-200">
-            <button
+            <NeonSweepButton
               onClick={onClose}
               className="w-full sm:w-auto rounded-lg btn-gradient-slate px-4 py-2 font-semibold text-white hover:shadow-lg transition-shadow"
             >
               Close
-            </button>
+            </NeonSweepButton>
             {canEdit ? (
-              <button
+              <NeonSweepButton
                 onClick={() => {
                   onEdit(employee);
                   onClose();
@@ -300,14 +302,14 @@ export default function EmployeeDetailModal({
                 className="w-full sm:w-auto rounded-lg btn-gradient-orange px-4 py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
               >
                 Edit Employee
-              </button>
+              </NeonSweepButton>
             ) : (
-              <button
+              <NeonSweepButton
                 onClick={() => setShowAccessDenied(true)}
                 className="w-full sm:w-auto rounded-lg bg-slate-200 px-4 py-2 font-semibold text-slate-400 cursor-not-allowed"
               >
                 🔒 Contact Admin
-              </button>
+              </NeonSweepButton>
             )}
           </div>
         </div>

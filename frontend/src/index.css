@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --accent-primary: #06b6d4;
+    --color-accent-purple: #7c3aed;
+    --color-error: #ef4444;
+    --bg-primary: #0f172a;
+    --bg-tertiary: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-inverse: #ffffff;
+    --border-default: #cbd5e1;
+    --border-strong: #64748b;
+}
+
 @layer base {
     html {
         /* Better font rendering on mobile */

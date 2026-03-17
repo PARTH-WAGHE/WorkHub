@@ -29,6 +29,9 @@ target/
 .gradle/
 .mvn/
 !.mvn/wrapper/maven-wrapper.jar
+!backend/.mvn/
+!backend/.mvn/wrapper/
+!backend/.mvn/wrapper/maven-wrapper.properties
 
 # Spring Boot specific
 *.db

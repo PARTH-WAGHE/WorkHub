@@ -7,7 +7,7 @@
     <artifactId>workhub-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>WorkHub Backend</name>
-    <description>Employee Data Management - Spring Boot + MySQL</description>
+    <description>Employee Data Management - Spring Boot + PostgreSQL</description>
     <packaging>jar</packaging>
 
     <parent>
@@ -38,8 +38,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -52,12 +52,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-        </dependency>
-
-        <!-- MariaDB JDBC driver (use Spring Boot managed version) -->
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
         </dependency>
 
     </dependencies>

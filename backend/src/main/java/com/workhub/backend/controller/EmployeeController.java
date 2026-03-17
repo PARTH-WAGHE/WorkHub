@@ -1,4 +1,4 @@
-package com.queuefree.backend.controller;
+package com.workhub.backend.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.queuefree.backend.entity.Employee;
-import com.queuefree.backend.repository.EmployeeRepository;
+import com.workhub.backend.entity.Employee;
+import com.workhub.backend.repository.EmployeeRepository;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/employees")
-@CrossOrigin(origins = "*") // was http://localhost:5173
+@CrossOrigin(origins = "*") // allow deployed frontend
 public class EmployeeController {
 
   private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
-  
+
   private final EmployeeRepository repo;
   private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -50,22 +50,27 @@ public class EmployeeController {
   @PostMapping
   public ResponseEntity<?> create(@RequestBody Employee employee) {
     try {
-      // Hash password if provided
-      if (employee.getPasswordHash() != null && !employee.getPasswordHash().isEmpty()) {
+      // Frontend sends plain password in transient `password`; store only hashed
+      // value.
+      if (employee.getPassword() != null && !employee.getPassword().isBlank()) {
+        employee.setPasswordHash(passwordEncoder.encode(employee.getPassword()));
+      } else if (employee.getPasswordHash() != null && !employee.getPasswordHash().isBlank()) {
+        // Backward-compatible fallback for legacy payloads.
         employee.setPasswordHash(passwordEncoder.encode(employee.getPasswordHash()));
       }
-      
+
       // Set default role if not provided
       if (employee.getRole() == null || employee.getRole().isEmpty()) {
         employee.setRole("USER");
       }
-      
+
       Employee saved = repo.save(employee);
       return ResponseEntity.ok(saved);
     } catch (DataIntegrityViolationException ex) {
       log.error("Data integrity violation when creating employee", ex);
       if (ex.getMessage().contains("Duplicate entry") && ex.getMessage().contains("email")) {
-        return ResponseEntity.status(409).body(Map.of("error", "An account with this email already exists. Please use a different email or try logging in."));
+        return ResponseEntity.status(409).body(Map.of("error",
+            "An account with this email already exists. Please use a different email or try logging in."));
       }
       return ResponseEntity.status(400).body(Map.of("error", "Invalid data provided. Please check your input."));
     } catch (Exception ex) {
@@ -77,28 +82,28 @@ public class EmployeeController {
   @PutMapping("/{id}")
   public ResponseEntity<Employee> update(@PathVariable Long id, @Valid @RequestBody Employee e) {
     return repo.findById(id)
-      .map(found -> {
-        e.setId(found.getId());
-        if (e.getPassword() != null && !e.getPassword().isBlank()) {
-          e.setPasswordHash(passwordEncoder.encode(e.getPassword()));
-        } else {
-          e.setPasswordHash(found.getPasswordHash());
-        }
-        if (e.getRole() == null || e.getRole().isEmpty()) {
-          e.setRole(found.getRole());
-        }
-        return ResponseEntity.ok(repo.save(e));
-      })
-      .orElse(ResponseEntity.notFound().build());
+        .map(found -> {
+          e.setId(found.getId());
+          if (e.getPassword() != null && !e.getPassword().isBlank()) {
+            e.setPasswordHash(passwordEncoder.encode(e.getPassword()));
+          } else {
+            e.setPasswordHash(found.getPasswordHash());
+          }
+          if (e.getRole() == null || e.getRole().isEmpty()) {
+            e.setRole(found.getRole());
+          }
+          return ResponseEntity.ok(repo.save(e));
+        })
+        .orElse(ResponseEntity.notFound().build());
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     return repo.findById(id)
-      .map(found -> { 
-        repo.delete(found); 
-        return ResponseEntity.noContent().<Void>build(); 
-      })
-      .orElse(ResponseEntity.notFound().build());
+        .map(found -> {
+          repo.delete(found);
+          return ResponseEntity.noContent().<Void>build();
+        })
+        .orElse(ResponseEntity.notFound().build());
   }
 }

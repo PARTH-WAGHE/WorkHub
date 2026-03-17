@@ -1,4 +1,5 @@
 import React from "react";
+import NeonSweepButton from "./NeonSweepButton.jsx";
 
 export default function AccessDeniedModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -31,12 +32,13 @@ export default function AccessDeniedModal({ isOpen, onClose }) {
           </p>
         </div>
         <div className="flex items-center justify-center px-6 py-4 bg-slate-50 rounded-b-2xl">
-          <button
+          <NeonSweepButton
             onClick={onClose}
+            tone="violet"
             className="rounded-lg btn-gradient-blue px-6 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
           >
             Got it
-          </button>
+          </NeonSweepButton>
         </div>
       </div>
       <style>{`

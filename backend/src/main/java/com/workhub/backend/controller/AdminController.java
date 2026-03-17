@@ -1,4 +1,4 @@
-package com.queuefree.backend.controller;
+package com.workhub.backend.controller;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.queuefree.backend.entity.Employee;
-import com.queuefree.backend.repository.EmployeeRepository;
+import com.workhub.backend.entity.Employee;
+import com.workhub.backend.repository.EmployeeRepository;
 
 @RestController
 @RequestMapping("/api/admin/employees")
@@ -40,7 +40,10 @@ public class AdminController {
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     return repo.findById(id)
-      .map(found -> { repo.delete(found); return ResponseEntity.noContent().<Void>build(); })
-      .orElse(ResponseEntity.notFound().build());
+        .map(found -> {
+          repo.delete(found);
+          return ResponseEntity.noContent().<Void>build();
+        })
+        .orElse(ResponseEntity.notFound().build());
   }
 }

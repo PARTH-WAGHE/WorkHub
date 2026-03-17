@@ -1,4 +1,4 @@
-package com.queuefree.backend.controller;
+package com.workhub.backend.controller;
 
 import java.util.Map;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.queuefree.backend.entity.Employee;
-import com.queuefree.backend.repository.EmployeeRepository;
+import com.workhub.backend.entity.Employee;
+import com.workhub.backend.repository.EmployeeRepository;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,13 +27,14 @@ public class AuthController {
 
   // Hardcoded admin credentials
   private static final String ADMIN_EMAIL = "admin@workhub.com";
-  private static final String ADMIN_PASSWORD = "admin1234";
+  private static final String ADMIN_PASSWORD = "admin";
 
   public AuthController(EmployeeRepository repo) {
     this.repo = repo;
   }
 
-  public record LoginRequest(String email, String password) {}
+  public record LoginRequest(String email, String password) {
+  }
 
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest req) {

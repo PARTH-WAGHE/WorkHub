@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import EmployeeForm from "./components/EmployeeForm.jsx";
 import EmployeeList from "./components/EmployeeList.jsx";
 import Login from "./components/Login.jsx";
+import NeonSweepButton from "./components/NeonSweepButton.jsx";
 
 // Use env API base (e.g. http://localhost:3000). Falls back to relative.
 const API_BASE = (import.meta.env?.VITE_API_BASE_URL || "").replace(/\/$/, "");
@@ -129,8 +130,9 @@ function Register({ onRegistered, onSwitch }) {
               />
             </svg>
             <span className="font-semibold">{error}</span>
-            <button
+            <NeonSweepButton
               type="button"
+              unstyled
               onClick={() => setShowErrorToast(false)}
               className="ml-3 text-white/80 hover:text-white focus:outline-none"
               aria-label="Dismiss"
@@ -148,7 +150,7 @@ function Register({ onRegistered, onSwitch }) {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </button>
+            </NeonSweepButton>
           </div>
         </div>
       )}
@@ -229,8 +231,9 @@ function Register({ onRegistered, onSwitch }) {
               aria-describedby="password-requirements"
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-10 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
             />
-            <button
+            <NeonSweepButton
               type="button"
+              unstyled
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
@@ -270,14 +273,14 @@ function Register({ onRegistered, onSwitch }) {
                   />
                 </svg>
               )}
-            </button>
+            </NeonSweepButton>
           </div>
           <p id="password-requirements" className="mt-1 text-xs text-slate-500">
             Password must be at least 4 characters long
           </p>
         </div>
         <div className="pt-2 flex items-center gap-3">
-          <button
+          <NeonSweepButton
             type="submit"
             disabled={loading}
             aria-describedby={loading ? "register-loading" : undefined}
@@ -287,14 +290,14 @@ function Register({ onRegistered, onSwitch }) {
               {loading ? "Creating account, please wait..." : ""}
             </span>
             {loading ? "Creating account..." : "Register"}
-          </button>
-          <button
+          </NeonSweepButton>
+          <NeonSweepButton
             type="button"
             onClick={onSwitch}
             className="flex-1 rounded-lg btn-gradient-violet px-4 py-2.5 font-semibold text-white hover:shadow-lg transition-shadow"
           >
             Back
-          </button>
+          </NeonSweepButton>
         </div>
       </form>
     </div>
@@ -371,71 +374,59 @@ export default function App() {
 
           {/* Main content area - add entrance animation + mobile padding */}
           <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
-            <div className="w-full max-w-md relative z-10 animate-fade-in-up">
-              {!showRegister ? (
-                <>
-                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
-                    <div className="text-center mb-6 sm:mb-8">
-                      <h1 className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-                        WorkHub
-                      </h1>
-                      <p className="text-slate-500 text-sm sm:text-base">
-                        Employee Management System
-                      </p>
-                    </div>
-                    <Login
-                      onLoggedIn={onLoggedIn}
-                      onSwitchToRegister={() => setShowRegister(true)}
-                    />
-                  </div>
-                  <div className="text-center mt-4 sm:mt-6">
-                    <p className="text-white mb-3 drop-shadow-lg font-medium text-sm sm:text-base">
-                      Don't have an account?
+            <div className="w-full max-w-md min-h-[560px] sm:min-h-[620px] relative z-10">
+              <div
+                className={`absolute inset-0 transition-all duration-500 ease-out ${
+                  showRegister
+                    ? "opacity-0 -translate-x-6 pointer-events-none"
+                    : "opacity-100 translate-x-0"
+                }`}
+              >
+                <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
+                  <div className="text-center mb-6 sm:mb-8">
+                    <h1 className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+                      WorkHub
+                    </h1>
+                    <p className="text-slate-500 text-sm sm:text-base">
+                      Employee Management System
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => setShowRegister(true)}
-                      className="text-white font-semibold px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg btn-gradient-purple shadow-xl hover:shadow-2xl transition-all border border-white/30 text-sm sm:text-base"
-                    >
-                      Create an account
-                    </button>
                   </div>
-                </>
-              ) : (
+                  <Login
+                    onLoggedIn={onLoggedIn}
+                    onSwitchToRegister={() => setShowRegister(true)}
+                  />
+                </div>
+                <div className="text-center mt-4 sm:mt-6">
+                  <p className="text-white mb-3 drop-shadow-lg font-medium text-sm sm:text-base">
+                    Don't have an account?
+                  </p>
+                  <NeonSweepButton
+                    type="button"
+                    tone="violet"
+                    onClick={() => setShowRegister(true)}
+                    className="text-white font-semibold px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg btn-gradient-purple shadow-xl hover:shadow-2xl transition-all border border-white/30 text-sm sm:text-base"
+                  >
+                    Create an account
+                  </NeonSweepButton>
+                </div>
+              </div>
+
+              <div
+                className={`absolute inset-0 transition-all duration-500 ease-out ${
+                  showRegister
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-6 pointer-events-none"
+                }`}
+              >
                 <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20">
                   <Register
                     onRegistered={onLoggedIn}
                     onSwitch={() => setShowRegister(false)}
                   />
                 </div>
-              )}
+              </div>
             </div>
           </div>
-
-          {/* Footer - entrance animation */}
-          <footer className="relative z-10 py-3 sm:py-4 text-center px-6 animate-fade-in-up">
-            <div className="bg-white/10 backdrop-blur-md rounded-full inline-block px-4 sm:px-8 py-2 sm:py-3 border border-white/30 shadow-lg hover:bg-white/20 transition-all duration-300 animate-footerFadeIn">
-              <p className="text-white text-xs sm:text-sm font-medium drop-shadow-lg">
-                © 2025 <span className="font-black">WorkHub</span>. Crafted with{" "}
-                <span className="inline-block animate-heartbeat text-red-400">
-                  ❤️
-                </span>{" "}
-                by
-                <span className="font-bold text-blue-200 hover:text-blue-100 transition-colors cursor-default">
-                  Parth Waghe
-                </span>
-                <span className="font-bold text-purple-200 hover:text-purple-100 transition-colors cursor-default">
-                  , Sameer Balgar
-                </span>
-                <span className="font-bold text-indigo-200 hover:text-indigo-100 transition-colors cursor-default">
-                  , Nidhish Vartak
-                </span>
-                <span className="font-bold text-pink-200 hover:text-pink-100 transition-colors cursor-default">
-                  , Vedika Takke
-                </span>
-              </p>
-            </div>
-          </footer>
 
           <style>{`
             @keyframes bg-gradient {
@@ -622,7 +613,7 @@ export default function App() {
                     </div>
 
                     {/* Enhanced desktop logout button */}
-                    <button
+                    <NeonSweepButton
                       onClick={logout}
                       className="group relative rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm lg:text-base"
                     >
@@ -646,7 +637,7 @@ export default function App() {
                       </span>
                       {/* Desktop-only hover effect */}
                       <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-red-400 to-red-500 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                    </button>
+                    </NeonSweepButton>
                   </div>
                 </div>
               </div>
@@ -764,7 +755,7 @@ export default function App() {
                         Spring Boot 3
                       </li>
                       <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
-                        MySQL 8
+                        PostgreSQL 18
                       </li>
                     </ul>
                   </div>
@@ -780,7 +771,7 @@ export default function App() {
                         Render.com Backend
                       </li>
                       <li className="hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
-                        Alwaysdata.com MySQL
+                        PostgreSQL Cloud DB
                       </li>
                     </ul>
                   </div>
@@ -788,16 +779,19 @@ export default function App() {
                     <h4 className="font-semibold text-slate-900 mb-3">Team</h4>
                     <ul className="space-y-2 text-sm text-slate-600">
                       <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
-                        Parth Waghe
+                        Tanmay Kudkar
+                      </li>
+                      <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
+                        Atharva Raut
                       </li>
                       <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
                         Sameer Balgar
                       </li>
                       <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
-                        Nidhish Vartak
+                        Tejas Dhuri
                       </li>
                       <li className="font-semibold text-slate-700 hover:text-blue-600 hover:translate-x-1 transition-all cursor-pointer">
-                        Vedika Takke
+                        Ritikesh Nayak
                       </li>
                     </ul>
                   </div>
