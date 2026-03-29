@@ -1,11 +1,23 @@
 import React from "react";
 
-export default function AccessDeniedModal({ isOpen, onClose }) {
+export default function AccessDeniedModal({
+  isOpen,
+  onClose,
+  theme = "light",
+}) {
   if (!isOpen) return null;
 
+  const isDark = theme === "dark";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full transform animate-scaleIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+      <div
+        className={`max-w-md w-full rounded-2xl shadow-2xl transform animate-scaleIn border ${
+          isDark
+            ? "bg-slate-900 border-slate-700"
+            : "bg-white border-slate-200"
+        }`}
+      >
         <div className="p-6">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
             <svg
@@ -22,15 +34,25 @@ export default function AccessDeniedModal({ isOpen, onClose }) {
               />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-2 text-center">
+          <h3
+            className={`mb-2 text-center text-2xl font-bold ${
+              isDark ? "text-slate-100" : "text-slate-900"
+            }`}
+          >
             Access Restricted
           </h3>
-          <p className="text-slate-600 text-center mb-6">
+          <p className={`mb-6 text-center ${isDark ? "text-slate-300" : "text-slate-600"}`}>
             Only administrators can edit other employees. Please contact your
             admin for assistance.
           </p>
         </div>
-        <div className="flex items-center justify-center px-6 py-4 bg-slate-50 rounded-b-2xl">
+        <div
+          className={`flex items-center justify-center px-6 py-4 rounded-b-2xl border-t ${
+            isDark
+              ? "bg-slate-900 border-slate-700"
+              : "bg-slate-50 border-slate-200"
+          }`}
+        >
           <button
             type="button"
             onClick={onClose}

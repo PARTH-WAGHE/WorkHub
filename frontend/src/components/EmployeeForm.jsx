@@ -19,12 +19,13 @@ const empty = {
   password: "",
 };
 
-export default function EmployeeForm({ selected, onSaved }) {
+export default function EmployeeForm({ selected, onSaved, theme = "light" }) {
   const [form, setForm] = useState(empty);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false); // Add a local state for showing the error toast/modal
+  const isDark = theme === "dark";
 
   useEffect(() => {
     if (selected) {
@@ -105,8 +106,14 @@ export default function EmployeeForm({ selected, onSaved }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6 animate-fade-in-up relative">
-      <h2 className="text-xl font-bold text-slate-900 mb-4">
+    <div
+      className={`rounded-xl border p-4 sm:p-6 mb-6 animate-fade-in-up relative ${
+        isDark
+          ? "bg-slate-900/95 border-slate-700 shadow-[0_22px_44px_rgba(2,6,23,0.4)]"
+          : "bg-white border-slate-200 shadow-md"
+      }`}
+    >
+      <h2 className={`mb-4 text-xl font-bold ${isDark ? "text-slate-100" : "text-slate-900"}`}>
         {form.id ? "Edit Employee" : "Add Employee"}
       </h2>
       {/* Interactive error toast/modal */}
@@ -160,10 +167,20 @@ export default function EmployeeForm({ selected, onSaved }) {
       <form onSubmit={onSubmit}>
         {/* Overlay during save */}
         {saving && (
-          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-xl flex items-center justify-center z-10">
+          <div
+            className={`absolute inset-0 rounded-xl flex items-center justify-center z-10 backdrop-blur-sm ${
+              isDark ? "bg-slate-950/75" : "bg-white/80"
+            }`}
+          >
             <div className="flex flex-col items-center gap-3">
-              <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-              <p className="text-slate-700 font-semibold">Saving...</p>
+              <div
+                className={`w-12 h-12 border-4 border-t-transparent rounded-full animate-spin ${
+                  isDark ? "border-cyan-400" : "border-blue-600"
+                }`}
+              ></div>
+              <p className={`font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                Saving...
+              </p>
             </div>
           </div>
         )}
@@ -499,11 +516,11 @@ export default function EmployeeForm({ selected, onSaved }) {
             </label>
           </div>
         </div>
-        <div className="mt-6 flex items-center gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <NeonSweepButton
             type="submit"
             disabled={saving}
-            className="rounded-lg btn-gradient-orange px-6 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed transition-shadow"
+            className="w-full sm:w-auto rounded-lg btn-gradient-orange px-6 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed transition-shadow"
           >
             {saving ? "Saving..." : "Save"}
           </NeonSweepButton>
@@ -511,7 +528,7 @@ export default function EmployeeForm({ selected, onSaved }) {
             <NeonSweepButton
               type="button"
               onClick={() => setForm(empty)}
-              className="rounded-lg btn-gradient-violet px-6 py-2.5 font-semibold text-white hover:shadow-lg transition-shadow"
+              className="w-full sm:w-auto rounded-lg btn-gradient-violet px-6 py-2.5 font-semibold text-white hover:shadow-lg transition-shadow"
             >
               Cancel
             </NeonSweepButton>

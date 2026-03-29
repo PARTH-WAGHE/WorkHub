@@ -36,6 +36,9 @@ export default function Login({
   const registerButtonClass = isDark
     ? "mt-3.5 min-w-[172px] rounded-full !border-emerald-300/75 !bg-slate-900/70 px-6 py-2 text-[15px] font-bold !text-emerald-200 hover:!text-white"
     : "mt-3.5 min-w-[172px] rounded-full !border-emerald-600 !bg-white px-6 py-2 text-[15px] font-bold !text-emerald-800 hover:!text-white";
+  const loginLabelClass = isDark
+    ? "mb-1 block text-[13px] font-semibold text-slate-200"
+    : "mb-1 block text-[13px] font-semibold text-slate-800";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -79,12 +82,12 @@ export default function Login({
     <>
       <form
         onSubmit={onSubmit}
-        className="mx-auto w-full max-w-[372px] space-y-4 sm:space-y-5"
+        className="mx-auto w-full max-w-[372px] space-y-3.5 sm:space-y-4"
       >
         <div>
           <label
             htmlFor="login-email"
-            className="sr-only"
+            className={loginLabelClass}
           >
             Email
           </label>
@@ -103,7 +106,7 @@ export default function Login({
         <div>
           <label
             htmlFor="login-password"
-            className="sr-only"
+            className={loginLabelClass}
           >
             Password
           </label>
@@ -194,7 +197,7 @@ export default function Login({
           }}
         />
 
-        <div className="pt-2 text-center">
+        <div className="pt-1.5 text-center">
           <p className={registerPromptClass}>
             Don't have an account?
           </p>
@@ -217,6 +220,7 @@ export default function Login({
         onClose={() => setShowErrorModal(false)}
         showRegisterButton={showRegisterButton}
         onRegister={handleRegister}
+        theme={theme}
       />
     </>
   );

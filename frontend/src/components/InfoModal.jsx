@@ -7,12 +7,21 @@ export default function InfoModal({
   onClose,
   showRegisterButton,
   onRegister,
+  theme = "light",
 }) {
   if (!isOpen) return null;
 
+  const isDark = theme === "dark";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full transform animate-slideUpBounce">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+      <div
+        className={`max-w-md w-full rounded-2xl shadow-2xl transform animate-slideUpBounce border ${
+          isDark
+            ? "bg-slate-900 border-slate-700"
+            : "bg-white border-slate-200"
+        }`}
+      >
         <div className="p-6">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 bg-[length:200%_200%] animate-gradientFlow shadow-lg animate-iconBounce">
             <svg
@@ -29,17 +38,29 @@ export default function InfoModal({
               />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-2 text-center animate-slideDown">
+          <h3
+            className={`mb-2 text-center text-2xl font-bold animate-slideDown ${
+              isDark ? "text-slate-100" : "text-slate-900"
+            }`}
+          >
             {title}
           </h3>
           <p
-            className="text-slate-600 text-center mb-6 animate-slideDown"
+            className={`mb-6 text-center animate-slideDown ${
+              isDark ? "text-slate-300" : "text-slate-600"
+            }`}
             style={{ animationDelay: "0.1s" }}
           >
             {message}
           </p>
         </div>
-        <div className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-50 rounded-b-2xl">
+        <div
+          className={`flex items-center justify-center gap-3 px-6 py-4 rounded-b-2xl border-t ${
+            isDark
+              ? "bg-slate-900 border-slate-700"
+              : "bg-slate-50 border-slate-200"
+          }`}
+        >
           {showRegisterButton ? (
             <>
               <button
@@ -52,7 +73,11 @@ export default function InfoModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg bg-slate-200 px-6 py-2.5 font-semibold text-slate-700 hover:bg-slate-300 hover:scale-105 transition-all animate-buttonSlideIn"
+                className={`rounded-lg px-6 py-2.5 font-semibold hover:scale-105 transition-all animate-buttonSlideIn ${
+                  isDark
+                    ? "bg-slate-700 text-slate-100 hover:bg-slate-600"
+                    : "bg-slate-200 text-slate-700 hover:bg-slate-300"
+                }`}
                 style={{ animationDelay: "0.1s" }}
               >
                 Cancel

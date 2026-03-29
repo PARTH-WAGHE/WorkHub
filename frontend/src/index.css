@@ -540,7 +540,7 @@
 
 .auth-sign-in .auth-form-inner {
     align-items: stretch;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .auth-sign-in .auth-form-inner>* {
@@ -667,71 +667,77 @@
 @media screen and (max-width: 650px) {
     .auth-switch-container {
         width: 100%;
-        height: calc(100vh - 2rem);
-        height: calc(100dvh - 2rem);
-        margin: 0;
+        max-width: 520px;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        margin: 0 auto;
         border-radius: 20px;
+        overflow: visible;
     }
 
     .auth-form-panel {
-        bottom: 0;
-        right: 0;
+        position: relative;
+        top: auto;
+        right: auto;
+        bottom: auto;
         width: 100%;
-        height: 70%;
-        transition: 0.6s ease-in-out;
+        height: auto;
+        border-radius: 18px;
+        overflow: hidden;
+        transition: none;
     }
 
     .auth-switch-container.is-active .auth-form-panel {
-        right: 0;
-        bottom: 30%;
+        right: auto;
+        bottom: auto;
     }
 
-    .auth-toggle-box::before {
-        left: 0;
-        top: -270%;
-        width: 100%;
-        height: 300%;
-        border-radius: 20vw;
-    }
-
-    .auth-switch-container.is-active .auth-toggle-box::before {
-        left: 0;
-        top: 70%;
-    }
-
+    .auth-toggle-box,
+    .auth-toggle-box::before,
     .auth-toggle-panel {
-        width: 100%;
-        height: 30%;
-        padding: 1rem 1.25rem;
+        display: none;
     }
 
-    .auth-toggle-left {
-        top: 0;
-        left: 0;
+    .auth-sign-in,
+    .auth-sign-up {
+        visibility: visible;
     }
 
-    .auth-switch-container.is-active .auth-toggle-left {
-        top: -30%;
-        left: 0;
+    .auth-sign-up {
+        display: none;
     }
 
-    .auth-toggle-right {
-        right: 0;
-        bottom: -30%;
+    .auth-switch-container.is-active .auth-sign-up {
+        display: block;
     }
 
-    .auth-switch-container.is-active .auth-toggle-right {
-        right: 0;
-        bottom: 0;
+    .auth-switch-container.is-active .auth-sign-in {
+        display: none;
     }
 
     .auth-form-inner {
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+        border-radius: 18px;
         padding: 0.9rem;
+    }
+
+    .auth-sign-in .auth-form-inner {
+        justify-content: flex-start;
     }
 
     .auth-sign-up .auth-form-inner {
         padding-top: 0.8rem;
         padding-bottom: 0.75rem;
+    }
+
+    .auth-form-panel,
+    .auth-toggle-panel,
+    .auth-toggle-box::before {
+        animation: none !important;
+        transition: none !important;
     }
 }
 

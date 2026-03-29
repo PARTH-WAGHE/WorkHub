@@ -6,10 +6,13 @@ export default function EmployeeDetailModal({
   onClose,
   onEdit,
   currentUser,
+  theme = "light",
 }) {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
 
   if (!employee) return null;
+
+  const isDark = theme === "dark";
 
   const calculateAge = (dob) => {
     if (!dob) return "-";
@@ -41,12 +44,28 @@ export default function EmployeeDetailModal({
   const canEdit =
     currentUser?.role === "ADMIN" || currentUser?.id === employee.id;
 
+  const labelClass = isDark
+    ? "text-xs font-semibold text-slate-400 uppercase"
+    : "text-xs font-semibold text-slate-500 uppercase";
+  const valueClass = isDark
+    ? "text-slate-100 font-medium break-words"
+    : "text-slate-900 font-medium break-words";
+  const headingClass = isDark
+    ? "text-lg font-bold text-slate-100 mb-4 flex items-center gap-2"
+    : "text-lg font-bold text-slate-900 mb-4 flex items-center gap-2";
+
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-md animate-fadeIn">
-        <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full modal-content max-w-3xl overflow-hidden transform animate-slideUp">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-md animate-fadeIn">
+        <div
+          className={`w-full modal-content max-w-3xl max-h-[96dvh] sm:max-h-[92vh] overflow-hidden transform animate-slideUp flex flex-col rounded-3xl sm:rounded-2xl shadow-2xl ${
+            isDark
+              ? "bg-slate-950 border border-slate-700"
+              : "bg-white"
+          }`}
+        >
           {/* Header with Gradient */}
-          <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-[length:200%_200%] animate-gradientShift p-8 text-white">
+          <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-[length:200%_200%] animate-gradientShift p-5 sm:p-8 text-white">
             <button
               type="button"
               onClick={onClose}
@@ -66,16 +85,16 @@ export default function EmployeeDetailModal({
                 />
               </svg>
             </button>
-            <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl font-bold">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl sm:text-3xl font-bold">
                 {employee.firstName?.[0]}
                 {employee.lastName?.[0]}
               </div>
               <div>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
                   {employee.firstName} {employee.lastName}
                 </h2>
-                <p className="text-white/90 mt-1">
+                <p className="text-white/90 mt-1 text-sm sm:text-base">
                   {employee.position || "Employee"} •{" "}
                   {employee.department || "General"}
                 </p>
@@ -84,24 +103,34 @@ export default function EmployeeDetailModal({
           </div>
 
           {/* Content */}
-          <div className="p-6 sm:p-8 overflow-y-auto max-h-[calc(90vh-200px)] sm:max-h-[calc(90vh-200px)] pb-24 sm:pb-8">
+          <div
+            className={`flex-1 overflow-y-auto p-4 sm:p-8 pb-24 sm:pb-8 ${
+              isDark ? "bg-slate-950/90" : "bg-white"
+            }`}
+          >
             {!employee.firstName ? (
               // Loading skeleton for modal
               <div className="animate-pulse space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-slate-100 rounded-xl h-48"></div>
-                  <div className="bg-slate-100 rounded-xl h-48"></div>
-                  <div className="bg-slate-100 rounded-xl h-48"></div>
-                  <div className="bg-slate-100 rounded-xl h-48"></div>
+                  <div className={`rounded-xl h-48 ${isDark ? "bg-slate-800" : "bg-slate-100"}`}></div>
+                  <div className={`rounded-xl h-48 ${isDark ? "bg-slate-800" : "bg-slate-100"}`}></div>
+                  <div className={`rounded-xl h-48 ${isDark ? "bg-slate-800" : "bg-slate-100"}`}></div>
+                  <div className={`rounded-xl h-48 ${isDark ? "bg-slate-800" : "bg-slate-100"}`}></div>
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Contact Information */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-                  <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <div
+                  className={`rounded-2xl p-5 sm:p-6 border ${
+                    isDark
+                      ? "bg-gradient-to-br from-slate-900 to-blue-950 border-blue-900/50"
+                      : "bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100"
+                  }`}
+                >
+                  <h3 className={headingClass}>
                     <svg
-                      className="w-5 h-5 text-blue-600"
+                      className={`w-5 h-5 ${isDark ? "text-blue-300" : "text-blue-600"}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -117,18 +146,18 @@ export default function EmployeeDetailModal({
                   </h3>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Email
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.email}
                       </p>
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Phone
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.phone
                           ? `${employee.phoneCountryCode || "+1"} ${
                               employee.phone
@@ -137,10 +166,10 @@ export default function EmployeeDetailModal({
                       </p>
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Address
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.address || "-"}
                       </p>
                     </div>
@@ -148,10 +177,16 @@ export default function EmployeeDetailModal({
                 </div>
 
                 {/* Employment Details */}
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-100">
-                  <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <div
+                  className={`rounded-2xl p-5 sm:p-6 border ${
+                    isDark
+                      ? "bg-gradient-to-br from-slate-900 to-violet-950 border-violet-900/50"
+                      : "bg-gradient-to-br from-purple-50 to-pink-50 border-purple-100"
+                  }`}
+                >
+                  <h3 className={headingClass}>
                     <svg
-                      className="w-5 h-5 text-purple-600"
+                      className={`w-5 h-5 ${isDark ? "text-violet-300" : "text-purple-600"}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -167,31 +202,31 @@ export default function EmployeeDetailModal({
                   </h3>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Department
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.department || "-"}
                       </p>
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Position
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.position || "-"}
                       </p>
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Hire Date
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.hireDate || "-"}
                       </p>
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Status
                       </label>
                       <p>
@@ -210,10 +245,16 @@ export default function EmployeeDetailModal({
                 </div>
 
                 {/* Personal Information */}
-                <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 border border-emerald-100">
-                  <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <div
+                  className={`rounded-2xl p-5 sm:p-6 border ${
+                    isDark
+                      ? "bg-gradient-to-br from-slate-900 to-emerald-950 border-emerald-900/50"
+                      : "bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-100"
+                  }`}
+                >
+                  <h3 className={headingClass}>
                     <svg
-                      className="w-5 h-5 text-emerald-600"
+                      className={`w-5 h-5 ${isDark ? "text-emerald-300" : "text-emerald-600"}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -229,18 +270,18 @@ export default function EmployeeDetailModal({
                   </h3>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Date of Birth
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {employee.dateOfBirth || "-"}
                       </p>
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Age
                       </label>
-                      <p className="text-slate-900 font-medium">
+                      <p className={valueClass}>
                         {calculateAge(employee.dateOfBirth)} years
                       </p>
                     </div>
@@ -248,10 +289,16 @@ export default function EmployeeDetailModal({
                 </div>
 
                 {/* Financial Information */}
-                <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-100">
-                  <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <div
+                  className={`rounded-2xl p-5 sm:p-6 border ${
+                    isDark
+                      ? "bg-gradient-to-br from-slate-900 to-amber-950 border-amber-900/50"
+                      : "bg-gradient-to-br from-amber-50 to-orange-50 border-amber-100"
+                  }`}
+                >
+                  <h3 className={headingClass}>
                     <svg
-                      className="w-5 h-5 text-amber-600"
+                      className={`w-5 h-5 ${isDark ? "text-amber-300" : "text-amber-600"}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -267,14 +314,18 @@ export default function EmployeeDetailModal({
                   </h3>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs font-semibold text-slate-500 uppercase">
+                      <label className={labelClass}>
                         Salary
                       </label>
-                      <p className="text-slate-900 font-bold text-2xl">
+                      <p
+                        className={`font-bold text-2xl ${
+                          isDark ? "text-slate-100" : "text-slate-900"
+                        }`}
+                      >
                         {getCurrencySymbol(employee.currency || "USD")}{" "}
                         {Number(employee.salary || 0).toLocaleString()}
                       </p>
-                      <p className="text-xs text-slate-500 mt-1">
+                      <p className={`text-xs mt-1 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
                         {employee.currency || "USD"}
                       </p>
                     </div>
@@ -285,7 +336,13 @@ export default function EmployeeDetailModal({
           </div>
 
           {/* Footer */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 px-6 sm:px-8 py-4 bg-slate-50 border-t border-slate-200">
+          <div
+            className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 px-4 sm:px-8 py-4 border-t ${
+              isDark
+                ? "bg-slate-900 border-slate-700"
+                : "bg-slate-50 border-slate-200"
+            }`}
+          >
             <button
               type="button"
               onClick={onClose}
@@ -308,7 +365,11 @@ export default function EmployeeDetailModal({
               <button
                 type="button"
                 onClick={() => setShowAccessDenied(true)}
-                className="w-full sm:w-auto rounded-lg bg-slate-200 px-4 py-2 font-semibold text-slate-400 cursor-not-allowed"
+                className={`w-full sm:w-auto rounded-lg px-4 py-2 font-semibold cursor-not-allowed ${
+                  isDark
+                    ? "bg-slate-800 border border-slate-600 text-slate-300"
+                    : "bg-slate-200 text-slate-400"
+                }`}
               >
                 🔒 Contact Admin
               </button>
@@ -339,9 +400,9 @@ export default function EmployeeDetailModal({
         }
         @media (max-width: 640px) {
           .modal-content {
-            height: calc(100dvh - 32px);
-            margin-top: 16px;
-            border-radius: 24px 24px 0 0;
+            height: calc(100dvh - 12px);
+            margin-top: 6px;
+            border-radius: 20px 20px 0 0;
           }
         }
       `}</style>
@@ -350,6 +411,7 @@ export default function EmployeeDetailModal({
       <AccessDeniedModal
         isOpen={showAccessDenied}
         onClose={() => setShowAccessDenied(false)}
+        theme={theme}
       />
     </>
   );

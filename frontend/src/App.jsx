@@ -40,11 +40,11 @@ function Register({ onRegistered, onSwitch, showGoogle = true, theme = "light" }
     ? "block text-sm font-medium text-slate-200 mb-0.5"
     : "block text-sm font-semibold text-slate-800 mb-0.5";
   const registerInputClass = isDark
-    ? "w-full rounded-lg border border-slate-600 bg-slate-900/65 px-4 py-2 text-slate-100 placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25 transition"
-    : "w-full rounded-lg border border-slate-400 bg-white px-4 py-2 text-slate-900 placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition";
+    ? "w-full rounded-2xl border border-slate-600 bg-slate-900/65 px-4 py-2 text-slate-100 placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25 transition"
+    : "w-full rounded-2xl border border-slate-400 bg-white px-4 py-2 text-slate-900 placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition";
   const registerPasswordInputClass = isDark
-    ? "w-full rounded-lg border border-slate-600 bg-slate-900/65 px-4 py-2 pr-10 text-slate-100 placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25 transition"
-    : "w-full rounded-lg border border-slate-400 bg-white px-4 py-2 pr-10 text-slate-900 placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition";
+    ? "w-full rounded-2xl border border-slate-600 bg-slate-900/65 px-4 py-2 pr-10 text-slate-100 placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25 transition"
+    : "w-full rounded-2xl border border-slate-400 bg-white px-4 py-2 pr-10 text-slate-900 placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition";
   const registerToggleClass = isDark
     ? "absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition"
     : "absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition";
@@ -52,11 +52,11 @@ function Register({ onRegistered, onSwitch, showGoogle = true, theme = "light" }
     ? "mt-0.5 text-[11px] text-slate-400"
     : "mt-0.5 text-[11px] text-slate-600";
   const registerPrimaryButtonClass = isDark
-    ? "flex-1 rounded-xl !border-blue-300/70 !bg-slate-900/70 px-4 py-2 font-semibold !text-blue-100 hover:!text-white disabled:opacity-60 disabled:cursor-not-allowed"
-    : "flex-1 rounded-xl !border-blue-600 !bg-white px-4 py-2 font-semibold !text-blue-800 hover:!text-white disabled:opacity-60 disabled:cursor-not-allowed";
+    ? "flex-1 rounded-2xl !border-blue-300/70 !bg-slate-900/70 px-4 py-2 font-semibold !text-blue-100 hover:!text-white disabled:opacity-60 disabled:cursor-not-allowed"
+    : "flex-1 rounded-2xl !border-blue-600 !bg-white px-4 py-2 font-semibold !text-blue-800 hover:!text-white disabled:opacity-60 disabled:cursor-not-allowed";
   const registerSecondaryButtonClass = isDark
-    ? "flex-1 rounded-xl !border-cyan-300/70 !bg-slate-900/70 px-4 py-2 font-semibold !text-cyan-100 hover:!text-white"
-    : "flex-1 rounded-xl !border-cyan-600 !bg-white px-4 py-2 font-semibold !text-cyan-800 hover:!text-white";
+    ? "flex-1 rounded-2xl !border-cyan-300/70 !bg-slate-900/70 px-4 py-2 font-semibold !text-cyan-100 hover:!text-white"
+    : "flex-1 rounded-2xl !border-cyan-600 !bg-white px-4 py-2 font-semibold !text-cyan-800 hover:!text-white";
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -364,6 +364,12 @@ export default function App() {
     if (authTransitionTimerRef.current) {
       window.clearTimeout(authTransitionTimerRef.current);
     }
+
+    if (window.matchMedia("(max-width: 650px)").matches) {
+      setAuthTransitionLoading(false);
+      return;
+    }
+
     setAuthTransitionLoading(true);
     authTransitionTimerRef.current = window.setTimeout(() => {
       setAuthTransitionLoading(false);
@@ -609,7 +615,7 @@ export default function App() {
           )}
 
           {/* Main content area - add entrance animation + mobile padding */}
-          <div className="flex-1 min-h-0 flex items-stretch justify-center px-4 pb-4 pt-20 sm:px-6 sm:pb-6 sm:pt-24">
+          <div className="flex-1 min-h-0 flex items-center sm:items-stretch justify-center px-4 pb-6 pt-16 sm:px-6 sm:pb-6 sm:pt-24">
             <div
               className={`auth-switch-container relative z-10 ${
                 showRegister ? "is-active" : ""
@@ -658,7 +664,7 @@ export default function App() {
 
               <div className="auth-form-panel auth-sign-in">
                 <div className="auth-form-inner p-5 sm:p-6">
-                  <div className="text-center mb-6 sm:mb-8">
+                  <div className="text-center mb-4 sm:mb-5">
                     <h1 className="text-4xl sm:text-5xl font-black mb-2 tracking-tight">
                       <span className="text-[#4F46E5]">Work</span>
                       <span className="bg-gradient-to-r from-[#9333EA] to-[#DB2777] bg-clip-text text-transparent">
@@ -801,8 +807,8 @@ export default function App() {
             <div className="hidden xl:block absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex flex-col gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex w-full items-center justify-between gap-2 sm:gap-4 lg:w-auto lg:justify-start">
                   {/* Desktop enhanced logo */}
                   <div className="relative group cursor-pointer">
                     <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300 hidden lg:block"></div>
@@ -844,7 +850,7 @@ export default function App() {
                 </div>
 
                 {/* User info and actions - enhanced for desktop */}
-                <div className="flex items-center gap-2 sm:gap-6">
+                <div className="flex w-full min-w-0 items-center justify-end gap-2 sm:gap-3 lg:w-auto lg:gap-4 xl:gap-6">
                   <ThemeToggle
                     theme={uiTheme}
                     onChange={changeTheme}
@@ -857,10 +863,18 @@ export default function App() {
                   />
 
                   {/* Enhanced desktop time display */}
-                  <div className="hidden lg:flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-slate-50 via-blue-50 to-indigo-50 rounded-xl backdrop-blur-sm border border-slate-200 shadow-lg">
+                  <div
+                    className={`hidden xl:flex items-center gap-3 px-4 py-3 rounded-xl backdrop-blur-sm border shadow-lg ${
+                      uiTheme === "dark"
+                        ? "bg-slate-900/90 border-slate-700"
+                        : "bg-gradient-to-r from-slate-50 via-blue-50 to-indigo-50 border-slate-200"
+                    }`}
+                  >
                     <div className="flex items-center gap-2">
                       <svg
-                        className="w-5 h-5 text-blue-500 animate-pulse"
+                        className={`w-5 h-5 animate-pulse ${
+                          uiTheme === "dark" ? "text-cyan-300" : "text-blue-500"
+                        }`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -869,7 +883,11 @@ export default function App() {
                         <polyline points="12,6 12,12 16,14"></polyline>
                       </svg>
                       <div className="flex flex-col">
-                        <span className="text-lg font-bold text-slate-800 tabular-nums animate-timeUpdate">
+                        <span
+                          className={`text-lg font-bold tabular-nums animate-timeUpdate ${
+                            uiTheme === "dark" ? "text-slate-100" : "text-slate-800"
+                          }`}
+                        >
                           {currentTime.toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
@@ -877,24 +895,46 @@ export default function App() {
                             hour12: true,
                           })}
                         </span>
-                        <span className="text-sm text-slate-500 font-medium animate-dateSlide">
+                        <span
+                          className={`text-sm font-medium animate-dateSlide ${
+                            uiTheme === "dark" ? "text-slate-300" : "text-slate-500"
+                          }`}
+                        >
                           {formatDateDDMMYYYY(currentTime)}
                         </span>
                       </div>
                     </div>
                     {/* Desktop-only live indicator */}
-                    <div className="flex items-center gap-1 px-2 py-1 bg-green-100 rounded-full">
+                    <div
+                      className={`flex items-center gap-1 px-2 py-1 rounded-full ${
+                        uiTheme === "dark"
+                          ? "bg-emerald-500/20"
+                          : "bg-green-100"
+                      }`}
+                    >
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
-                      <span className="text-xs font-medium text-green-700">
+                      <span
+                        className={`text-xs font-medium ${
+                          uiTheme === "dark" ? "text-emerald-200" : "text-green-700"
+                        }`}
+                      >
                         LIVE
                       </span>
                     </div>
                   </div>
 
                   {/* Mobile/Tablet time display */}
-                  <div className="flex lg:hidden items-center gap-1 px-2 py-1 bg-slate-100 rounded-md">
+                  <div
+                    className={`hidden sm:flex xl:hidden items-center gap-1 px-2 py-1 rounded-md border ${
+                      uiTheme === "dark"
+                        ? "bg-slate-900/90 border-slate-700"
+                        : "bg-slate-100 border-slate-200"
+                    }`}
+                  >
                     <svg
-                      className="w-3 h-3 text-slate-500"
+                      className={`w-3 h-3 ${
+                        uiTheme === "dark" ? "text-cyan-300" : "text-slate-500"
+                      }`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -902,7 +942,11 @@ export default function App() {
                       <circle cx="12" cy="12" r="10"></circle>
                       <polyline points="12,6 12,12 16,14"></polyline>
                     </svg>
-                    <span className="text-xs font-medium text-slate-600 tabular-nums">
+                    <span
+                      className={`text-xs font-medium tabular-nums ${
+                        uiTheme === "dark" ? "text-slate-200" : "text-slate-600"
+                      }`}
+                    >
                       {currentTime.toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -913,7 +957,7 @@ export default function App() {
                   </div>
 
                   {/* Desktop enhanced user profile card */}
-                  <div className="flex items-center gap-2 sm:gap-4">
+                  <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 min-w-0">
                     <div className="relative group">
                       {/* Desktop enhanced avatar */}
                       <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs sm:text-sm lg:text-base shadow-lg cursor-default relative overflow-hidden">
@@ -924,13 +968,27 @@ export default function App() {
                         </span>
                       </div>
                       {/* Desktop-only status indicator */}
-                      <div className="hidden lg:block absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse"></div>
+                      <div
+                        className={`hidden lg:block absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 rounded-full animate-pulse ${
+                          uiTheme === "dark" ? "border-slate-900" : "border-white"
+                        }`}
+                      ></div>
                     </div>
 
                     {/* Enhanced desktop user info */}
-                    <div className="hidden sm:block text-right">
-                      <div className="lg:bg-gradient-to-r lg:from-slate-50 lg:to-blue-50 lg:px-3 lg:py-2 lg:rounded-lg lg:border lg:border-slate-200">
-                        <p className="text-sm lg:text-base font-semibold text-slate-900 flex items-center gap-2">
+                    <div className="hidden xl:block text-right min-w-0">
+                      <div
+                        className={`max-w-[248px] rounded-lg border px-3 py-2 ${
+                          uiTheme === "dark"
+                            ? "bg-slate-900/90 border-slate-700"
+                            : "bg-gradient-to-r from-slate-50 to-blue-50 border-slate-200"
+                        }`}
+                      >
+                        <p
+                          className={`flex items-center justify-end gap-2 text-sm lg:text-base font-semibold truncate ${
+                            uiTheme === "dark" ? "text-slate-100" : "text-slate-900"
+                          }`}
+                        >
                           {user.firstName} {user.lastName}
                           {user.role === "ADMIN" && (
                             <span
@@ -939,11 +997,19 @@ export default function App() {
                             ></span>
                           )}
                         </p>
-                        <p className="text-xs lg:text-sm text-slate-500">
+                        <p
+                          className={`truncate text-xs lg:text-sm ${
+                            uiTheme === "dark" ? "text-slate-300" : "text-slate-500"
+                          }`}
+                        >
                           {user.email}
                         </p>
                         {/* Desktop-only additional info */}
-                        <p className="hidden lg:block text-xs text-slate-400 mt-1">
+                        <p
+                          className={`hidden lg:block mt-1 text-xs ${
+                            uiTheme === "dark" ? "text-slate-400" : "text-slate-400"
+                          }`}
+                        >
                           Last login: {new Date().toLocaleDateString()}
                         </p>
                       </div>
@@ -953,7 +1019,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={logout}
-                      className="group relative rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm lg:text-base"
+                      className="group relative shrink-0 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-3 sm:px-4 lg:px-5 py-1.5 sm:py-2 lg:py-2.5 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm lg:text-base"
                     >
                       <span className="relative z-10 flex items-center gap-1 sm:gap-2">
                         <svg
@@ -1020,7 +1086,11 @@ export default function App() {
             {(user.role === "ADMIN" ||
               (selected && selected.id === user.id)) && (
               <div ref={formRef}>
-                <EmployeeForm selected={selected} onSaved={handleSaved} />
+                <EmployeeForm
+                  selected={selected}
+                  onSaved={handleSaved}
+                  theme={uiTheme}
+                />
               </div>
             )}
 
@@ -1029,6 +1099,7 @@ export default function App() {
               onEdit={handleEdit}
               currentUser={user}
               refreshKey={refreshKey}
+              theme={uiTheme}
             />
           </div>
 
@@ -1255,6 +1326,7 @@ export default function App() {
         title="Google Sign-in Failed"
         message={googleAuthError}
         onClose={() => setGoogleAuthError("")}
+        theme={uiTheme}
       />
     </div>
   );

@@ -6,17 +6,38 @@ export default function ConfirmDialog({
   message,
   onConfirm,
   onCancel,
+  theme = "light",
 }) {
   if (!isOpen) return null;
 
+  const isDark = theme === "dark";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full transform animate-scaleIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+      <div
+        className={`max-w-md w-full rounded-xl shadow-2xl transform animate-scaleIn border ${
+          isDark
+            ? "bg-slate-900 border-slate-700"
+            : "bg-white border-slate-200"
+        }`}
+      >
         <div className="p-6">
-          <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
-          <p className="text-slate-600">{message}</p>
+          <h3
+            className={`mb-2 text-xl font-bold ${
+              isDark ? "text-slate-100" : "text-slate-900"
+            }`}
+          >
+            {title}
+          </h3>
+          <p className={isDark ? "text-slate-300" : "text-slate-600"}>{message}</p>
         </div>
-        <div className="flex items-center justify-end gap-3 px-6 py-4 bg-slate-50 rounded-b-xl">
+        <div
+          className={`flex items-center justify-end gap-3 px-6 py-4 rounded-b-xl border-t ${
+            isDark
+              ? "bg-slate-900 border-slate-700"
+              : "bg-slate-50 border-slate-200"
+          }`}
+        >
           <button
             type="button"
             onClick={onCancel}

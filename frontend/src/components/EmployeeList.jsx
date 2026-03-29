@@ -5,7 +5,12 @@ import EmployeeDetailModal from "./EmployeeDetailModal.jsx";
 import SkeletonCard from "./SkeletonCard.jsx";
 import AccessDeniedModal from "./AccessDeniedModal.jsx";
 
-export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
+export default function EmployeeList({
+  onEdit,
+  currentUser,
+  refreshKey,
+  theme = "light",
+}) {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,6 +19,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
   const [viewEmployee, setViewEmployee] = useState(null);
   const [showAccessDenied, setShowAccessDenied] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const isDark = theme === "dark";
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -159,22 +165,32 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
     return (
       <div className="space-y-4 animate-fade-in-up">
         <div className="flex items-center justify-between mb-6">
-          <div className="h-8 w-48 bg-slate-200 rounded animate-pulse"></div>
+          <div
+            className={`h-8 w-48 rounded animate-pulse ${
+              isDark ? "bg-slate-700" : "bg-slate-200"
+            }`}
+          ></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
-          <SkeletonCard />
+          <SkeletonCard theme={theme} />
+          <SkeletonCard theme={theme} />
+          <SkeletonCard theme={theme} />
+          <SkeletonCard theme={theme} />
+          <SkeletonCard theme={theme} />
+          <SkeletonCard theme={theme} />
         </div>
       </div>
     );
 
   if (error)
     return (
-      <div className="bg-white rounded-xl shadow-md border border-slate-200 p-8">
+      <div
+        className={`rounded-xl border p-8 ${
+          isDark
+            ? "bg-slate-900/95 border-slate-700 shadow-[0_20px_40px_rgba(2,6,23,0.45)]"
+            : "bg-white border-slate-200 shadow-md"
+        }`}
+      >
         <p className="text-red-600">{error}</p>
       </div>
     );
@@ -183,8 +199,14 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
     <>
       <div className="space-y-4">
         {/* Filter Section */}
-        <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 animate-fade-in-up">
-          <div className="flex items-center justify-between mb-4">
+        <div
+          className={`rounded-2xl border p-4 sm:p-6 animate-fade-in-up ${
+            isDark
+              ? "bg-slate-900/95 border-slate-700 shadow-[0_22px_44px_rgba(2,6,23,0.42)]"
+              : "bg-white border-slate-200 shadow-md"
+          }`}
+        >
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <div className="hidden lg:flex w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg items-center justify-center">
                 <svg
@@ -202,17 +224,29 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg lg:text-xl font-bold text-slate-900">
+                <h3
+                  className={`text-lg lg:text-xl font-bold ${
+                    isDark ? "text-slate-100" : "text-slate-900"
+                  }`}
+                >
                   Filter Employees
                 </h3>
-                <p className="hidden lg:block text-sm text-slate-600 mt-1">
+                <p
+                  className={`hidden lg:block mt-1 text-sm ${
+                    isDark ? "text-slate-300" : "text-slate-600"
+                  }`}
+                >
                   Use advanced filters to find specific employees
                 </p>
               </div>
             </div>
 
             {/* Desktop live time indicator */}
-            <div className="flex items-center gap-2 text-xs lg:text-sm text-slate-500">
+            <div
+              className={`flex items-center gap-2 text-xs lg:text-sm ${
+                isDark ? "text-slate-300" : "text-slate-500"
+              }`}
+            >
               <div className="live-dot"></div>
               <span className="tabular-nums font-medium">
                 Last updated:{" "}
@@ -229,7 +263,11 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                className={`mb-1 block text-sm font-medium ${
+                  isDark ? "text-slate-200" : "text-slate-700"
+                }`}
+              >
                 Search
               </label>
               <div className="relative">
@@ -238,10 +276,16 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                   placeholder="Search by name, email, position..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 pl-10 pr-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition lg:shadow-sm lg:hover:shadow-md"
+                  className={`w-full rounded-xl border pl-10 pr-4 py-2.5 outline-none transition lg:shadow-sm lg:hover:shadow-md ${
+                    isDark
+                      ? "border-slate-600 bg-slate-900/80 text-slate-100 placeholder:text-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25"
+                      : "border-slate-300 bg-white text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                  }`}
                 />
                 <svg
-                  className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
+                    isDark ? "text-slate-500" : "text-slate-400"
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -258,13 +302,21 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
             {/* Department Filter */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                className={`mb-1 block text-sm font-medium ${
+                  isDark ? "text-slate-200" : "text-slate-700"
+                }`}
+              >
                 Department
               </label>
               <select
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+                className={`w-full rounded-xl border px-4 py-2.5 outline-none transition ${
+                  isDark
+                    ? "border-slate-600 bg-slate-900/80 text-slate-100 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25"
+                    : "border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                }`}
               >
                 <option value="all">All Departments</option>
                 {departments.map((dept) => (
@@ -277,13 +329,21 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
             {/* Status Filter */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                className={`mb-1 block text-sm font-medium ${
+                  isDark ? "text-slate-200" : "text-slate-700"
+                }`}
+              >
                 Status
               </label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+                className={`w-full rounded-xl border px-4 py-2.5 outline-none transition ${
+                  isDark
+                    ? "border-slate-600 bg-slate-900/80 text-slate-100 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25"
+                    : "border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                }`}
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -293,10 +353,20 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
             {/* Desktop-only advanced filter */}
             <div className="hidden lg:block">
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                className={`mb-1 block text-sm font-medium ${
+                  isDark ? "text-slate-200" : "text-slate-700"
+                }`}
+              >
                 Sort By
               </label>
-              <select className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition shadow-sm hover:shadow-md">
+              <select
+                className={`w-full rounded-xl border px-4 py-2.5 outline-none transition shadow-sm hover:shadow-md ${
+                  isDark
+                    ? "border-slate-600 bg-slate-900/80 text-slate-100 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25"
+                    : "border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                }`}
+              >
                 <option value="name">Name (A-Z)</option>
                 <option value="department">Department</option>
                 <option value="hireDate">Hire Date</option>
@@ -309,8 +379,8 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
           {(searchTerm ||
             departmentFilter !== "all" ||
             statusFilter !== "all") && (
-            <div className="mt-4 flex items-center justify-between">
-              <p className="text-sm text-slate-600">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <p className={`text-sm ${isDark ? "text-slate-300" : "text-slate-600"}`}>
                 Showing {filteredItems.length} of {items.length} employees
               </p>
               <button
@@ -320,7 +390,11 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                   setDepartmentFilter("all");
                   setStatusFilter("all");
                 }}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className={`text-sm font-medium ${
+                  isDark
+                    ? "text-cyan-300 hover:text-cyan-200"
+                    : "text-blue-600 hover:text-blue-700"
+                }`}
               >
                 Clear all filters
               </button>
@@ -328,21 +402,41 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
           )}
         </div>
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 flex items-center gap-3">
+            <h2
+              className={`flex items-center gap-3 text-2xl font-bold lg:text-3xl ${
+                isDark ? "text-slate-100" : "text-slate-900"
+              }`}
+            >
               <span>Employees ({filteredItems.length})</span>
               {/* Desktop-only stats */}
               <div className="hidden lg:flex items-center gap-2">
-                <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                <span
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${
+                    isDark
+                      ? "bg-emerald-500/20 text-emerald-300"
+                      : "bg-green-100 text-green-800"
+                  }`}
+                >
                   {filteredItems.filter((e) => e.active).length} Active
                 </span>
-                <span className="px-3 py-1 bg-slate-100 text-slate-800 text-sm font-medium rounded-full">
+                <span
+                  className={`rounded-full px-3 py-1 text-sm font-medium ${
+                    isDark
+                      ? "bg-slate-700 text-slate-100"
+                      : "bg-slate-100 text-slate-800"
+                  }`}
+                >
                   {filteredItems.filter((e) => !e.active).length} Inactive
                 </span>
               </div>
             </h2>
-            <p className="hidden lg:flex text-sm text-slate-600 mt-1 items-center gap-2">
+            <p
+              className={`mt-1 hidden items-center gap-2 text-sm lg:flex ${
+                isDark ? "text-slate-300" : "text-slate-600"
+              }`}
+            >
               <svg
                 className="w-4 h-4 text-green-500 animate-pulse"
                 fill="currentColor"
@@ -358,12 +452,22 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
           {/* Desktop enhanced pagination info */}
           {totalPages > 1 && (
-            <div className="text-sm text-slate-600">
-              <div className="lg:bg-slate-50 lg:px-3 lg:py-2 lg:rounded-lg lg:border lg:border-slate-200">
+            <div className={`text-sm ${isDark ? "text-slate-300" : "text-slate-600"}`}>
+              <div
+                className={`rounded-lg px-3 py-2 border ${
+                  isDark
+                    ? "bg-slate-900 border-slate-700"
+                    : "bg-slate-50 border-slate-200"
+                }`}
+              >
                 <p className="font-medium">
                   Page {currentPage} of {totalPages}
                 </p>
-                <p className="hidden lg:block text-xs text-slate-500 mt-1">
+                <p
+                  className={`mt-1 hidden text-xs lg:block ${
+                    isDark ? "text-slate-400" : "text-slate-500"
+                  }`}
+                >
                   Showing {startIndex + 1}-
                   {Math.min(endIndex, filteredItems.length)} of{" "}
                   {filteredItems.length} employees
@@ -374,9 +478,17 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         </div>
 
         {filteredItems.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-md border border-slate-200 p-12 text-center animate-fadeIn">
+          <div
+            className={`rounded-xl border p-8 sm:p-12 text-center animate-fadeIn ${
+              isDark
+                ? "bg-slate-900/95 border-slate-700 shadow-[0_18px_40px_rgba(2,6,23,0.42)]"
+                : "bg-white border-slate-200 shadow-md"
+            }`}
+          >
             <svg
-              className="w-16 h-16 mx-auto text-slate-300 mb-4"
+              className={`mx-auto mb-4 h-16 w-16 ${
+                isDark ? "text-slate-600" : "text-slate-300"
+              }`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -388,7 +500,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-            <p className="text-slate-500 text-lg">
+            <p className={`text-lg ${isDark ? "text-slate-300" : "text-slate-500"}`}>
               {items.length === 0
                 ? "No employees found"
                 : "No employees match your filters"}
@@ -401,7 +513,11 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                   setDepartmentFilter("all");
                   setStatusFilter("all");
                 }}
-                className="mt-4 text-blue-600 hover:text-blue-700 font-semibold"
+                className={`mt-4 font-semibold ${
+                  isDark
+                    ? "text-cyan-300 hover:text-cyan-200"
+                    : "text-blue-600 hover:text-blue-700"
+                }`}
               >
                 Clear filters
               </button>
@@ -437,7 +553,11 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                 return (
                   <div
                     key={`${e.id}-${filterKey}`}
-                    className={`group bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden hover:shadow-xl hover:scale-[1.02] transition-all duration-300 ${animationClass}`}
+                    className={`group rounded-xl border overflow-hidden transition-all duration-300 ${animationClass} ${
+                      isDark
+                        ? "bg-slate-900/95 border-slate-700 shadow-[0_18px_34px_rgba(2,6,23,0.42)] hover:shadow-[0_24px_42px_rgba(2,6,23,0.52)]"
+                        : "bg-white border-slate-200 shadow-md hover:shadow-xl hover:scale-[1.02]"
+                    }`}
                     style={{
                       animationDelay: `${index * 80}ms`,
                       animationFillMode: "both",
@@ -449,7 +569,13 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                       <div className="hidden lg:block absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
 
                       <div className="absolute -bottom-10 lg:-bottom-12 left-6">
-                        <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-white shadow-lg flex items-center justify-center text-2xl lg:text-3xl font-bold text-slate-700 border-4 border-white relative overflow-hidden">
+                        <div
+                          className={`w-20 h-20 lg:w-24 lg:h-24 rounded-full shadow-lg flex items-center justify-center text-2xl lg:text-3xl font-bold border-4 relative overflow-hidden ${
+                            isDark
+                              ? "bg-slate-900 text-slate-100 border-slate-200"
+                              : "bg-white text-slate-700 border-white"
+                          }`}
+                        >
                           {/* Desktop-only shimmer effect */}
                           <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent animate-shimmer"></div>
                           <span className="relative z-10">
@@ -461,9 +587,13 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
 
                       <div className="absolute top-3 right-3">
                         <span
-                          className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full shadow-lg ${
+                          className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold shadow-lg ${
                             e.active
-                              ? "bg-green-100 text-green-800 lg:bg-green-500 lg:text-white"
+                              ? isDark
+                                ? "bg-emerald-500/25 text-emerald-200"
+                                : "bg-green-100 text-green-800 lg:bg-green-500 lg:text-white"
+                              : isDark
+                              ? "bg-slate-700 text-slate-100"
                               : "bg-slate-100 text-slate-800 lg:bg-slate-500 lg:text-white"
                           }`}
                         >
@@ -473,18 +603,32 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                     </div>
 
                     {/* Card Body */}
-                    <div className="pt-12 px-6 pb-6">
-                      <h3 className="text-xl font-bold text-slate-900 mb-1">
+                    <div className="pt-12 px-4 sm:px-6 pb-5 sm:pb-6">
+                      <h3
+                        className={`mb-1 text-xl font-bold ${
+                          isDark ? "text-slate-100" : "text-slate-900"
+                        }`}
+                      >
                         {e.firstName} {e.lastName}
                       </h3>
-                      <p className="text-sm text-slate-500 mb-4">
+                      <p
+                        className={`mb-4 text-sm ${
+                          isDark ? "text-slate-300" : "text-slate-500"
+                        }`}
+                      >
                         {e.position || "Employee"}
                       </p>
 
                       <div className="space-y-2 mb-4">
-                        <div className="flex items-center gap-2 text-sm text-slate-600">
+                        <div
+                          className={`flex items-center gap-2 text-sm ${
+                            isDark ? "text-slate-300" : "text-slate-600"
+                          }`}
+                        >
                           <svg
-                            className="w-4 h-4 text-slate-400"
+                            className={`h-4 w-4 ${
+                              isDark ? "text-slate-500" : "text-slate-400"
+                            }`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -499,9 +643,15 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                           <span className="truncate">{e.email}</span>
                         </div>
                         {e.phone && (
-                          <div className="flex items-center gap-2 text-sm text-slate-600">
+                          <div
+                            className={`flex items-center gap-2 text-sm ${
+                              isDark ? "text-slate-300" : "text-slate-600"
+                            }`}
+                          >
                             <svg
-                              className="w-4 h-4 text-slate-400"
+                              className={`h-4 w-4 ${
+                                isDark ? "text-slate-500" : "text-slate-400"
+                              }`}
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -519,9 +669,15 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                           </div>
                         )}
                         {e.department && (
-                          <div className="flex items-center gap-2 text-sm text-slate-600">
+                          <div
+                            className={`flex items-center gap-2 text-sm ${
+                              isDark ? "text-slate-300" : "text-slate-600"
+                            }`}
+                          >
                             <svg
-                              className="w-4 h-4 text-slate-400"
+                              className={`h-4 w-4 ${
+                                isDark ? "text-slate-500" : "text-slate-400"
+                              }`}
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -537,9 +693,15 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                           </div>
                         )}
                         {e.salary && (
-                          <div className="flex items-center gap-2 text-sm text-slate-600">
+                          <div
+                            className={`flex items-center gap-2 text-sm ${
+                              isDark ? "text-slate-300" : "text-slate-600"
+                            }`}
+                          >
                             <svg
-                              className="w-4 h-4 text-slate-400"
+                              className={`h-4 w-4 ${
+                                isDark ? "text-slate-500" : "text-slate-400"
+                              }`}
                               fill="none"
                               stroke="currentColor"
                               strokeLinecap="round"
@@ -591,7 +753,11 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
                           <button
                             type="button"
                             onClick={() => setShowAccessDenied(true)}
-                            className="rounded-lg bg-slate-300 hover:bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-700 transition-all duration-200"
+                            className={`rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 ${
+                              isDark
+                                ? "bg-slate-700 hover:bg-slate-600 text-slate-200"
+                                : "bg-slate-300 hover:bg-slate-400 text-slate-600 hover:text-slate-700"
+                            }`}
                             title="Contact Admin"
                           >
                             <svg
@@ -639,25 +805,33 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
             </div>
 
             {/* Pagination Controls */}
-            <div className="flex items-center justify-center gap-2 mt-8 pb-4">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 pb-4">
               <button
                 type="button"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className={`rounded-lg border px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all ${
+                  isDark
+                    ? "border-slate-600 bg-slate-900 text-slate-100 hover:bg-slate-800"
+                    : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                }`}
               >
-                ← Previous
+                ← Prev
               </button>
-              <span className="px-3 py-2 text-sm text-slate-600">
+              <span className={`px-2 sm:px-3 py-2 text-xs sm:text-sm ${isDark ? "text-slate-300" : "text-slate-600"}`}>
                 Page {currentPage} of {totalPages}
               </span>
               <button
                 type="button"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="rounded-lg px-4 py-2 font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className={`rounded-lg border px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all ${
+                  isDark
+                    ? "border-slate-600 bg-slate-900 text-slate-100 hover:bg-slate-800"
+                    : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                }`}
               >
-                Next Page →
+                Next →
               </button>
             </div>
           </>
@@ -706,6 +880,7 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         message={`Are you sure you want to delete ${deleteConfirm?.firstName} ${deleteConfirm?.lastName}? This action cannot be undone.`}
         onConfirm={() => onDelete(deleteConfirm.id)}
         onCancel={() => setDeleteConfirm(null)}
+        theme={theme}
       />
 
       <EmployeeDetailModal
@@ -713,11 +888,13 @@ export default function EmployeeList({ onEdit, currentUser, refreshKey }) {
         onClose={() => setViewEmployee(null)}
         onEdit={onEdit}
         currentUser={currentUser}
+        theme={theme}
       />
 
       <AccessDeniedModal
         isOpen={showAccessDenied}
         onClose={() => setShowAccessDenied(false)}
+        theme={theme}
       />
     </>
   );

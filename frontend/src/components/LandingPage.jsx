@@ -158,7 +158,7 @@ export default function LandingPage({
       </div>
 
       <header className={`relative z-10 border-b ${palette.headerBorder} ${palette.headerOverlay}`}>
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:flex-nowrap sm:px-8 sm:py-5">
           <div className="flex items-center gap-3">
             <div className={`grid h-10 w-10 place-items-center rounded-xl font-black shadow-lg ${palette.logoCircle}`}>
               W
@@ -167,13 +167,15 @@ export default function LandingPage({
               <p className={`text-xl font-black tracking-tight ${palette.title}`}>
                 WorkHub
               </p>
-              <p className={`text-xs uppercase tracking-[0.22em] ${palette.subtitle}`}>
+              <p
+                className={`text-[10px] sm:text-xs uppercase tracking-[0.14em] sm:tracking-[0.22em] ${palette.subtitle}`}
+              >
                 Employee Platform
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             <ThemeToggle
               theme={theme}
               onChange={onThemeChange}
@@ -187,7 +189,7 @@ export default function LandingPage({
             <button
               type="button"
               onClick={onGetStarted}
-              className={`rounded-lg border px-4 py-2 text-xs font-bold transition-all duration-200 ${
+              className={`rounded-xl border px-3.5 py-2 text-[11px] font-bold transition-all duration-200 sm:px-4 sm:text-xs ${
                 isDark
                   ? "border-cyan-200/40 bg-white/10 text-white hover:bg-white/20"
                   : "border-slate-500 bg-slate-900 text-slate-100 hover:bg-slate-700"
@@ -199,15 +201,15 @@ export default function LandingPage({
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-14 pt-8 sm:px-8 sm:pt-12 lg:pb-20">
+      <main className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-12 pt-6 sm:px-8 sm:pt-12 lg:pb-20">
         <section className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="space-y-8 animate-fade-in-up">
+          <div className="space-y-6 sm:space-y-8 animate-fade-in-up">
             <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] ${palette.accentPill}`}>
               Built For Growing Teams
             </span>
 
             <h1
-              className={`max-w-2xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl ${palette.heading}`}
+              className={`max-w-2xl text-3xl font-black leading-tight sm:text-5xl lg:text-6xl ${palette.heading}`}
             >
               The command center for your people operations.
             </h1>
@@ -217,28 +219,28 @@ export default function LandingPage({
               updates so your organization can move faster with confidence.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
               <button
                 type="button"
                 onClick={onGetStarted}
-                className={`rounded-xl border-2 px-6 py-3 text-sm font-extrabold transition-all duration-200 hover:shadow-lg ${palette.ctaPrimary}`}
+                className={`w-full rounded-xl border-2 px-6 py-3 text-sm font-extrabold transition-all duration-200 hover:shadow-lg sm:w-auto ${palette.ctaPrimary}`}
               >
                 Enter Dashboard
               </button>
               <button
                 type="button"
                 onClick={onJoinNow}
-                className={`rounded-xl border-2 px-6 py-3 text-sm font-extrabold transition-all duration-200 hover:shadow-lg ${palette.ctaSecondary}`}
+                className={`w-full rounded-xl border-2 px-6 py-3 text-sm font-extrabold transition-all duration-200 hover:shadow-lg sm:w-auto ${palette.ctaSecondary}`}
               >
                 Create Account
               </button>
             </div>
 
-            <div className="grid max-w-xl grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
               {quickStats.map((item) => (
                 <article
                   key={item.label}
-                  className={`rounded-2xl border p-4 backdrop-blur-md ${palette.statCard}`}
+                  className={`rounded-2xl border p-4 text-center backdrop-blur-md ${palette.statCard}`}
                 >
                   <p className={`text-2xl font-black sm:text-3xl ${palette.statText}`}>
                     {item.value}
@@ -321,7 +323,7 @@ export default function LandingPage({
         </section>
 
         <section className={`mt-14 rounded-3xl border p-6 shadow-xl sm:p-8 ${palette.workflowShell}`}>
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className={`text-xs uppercase tracking-[0.2em] ${palette.workflowTag}`}>
                 Simple Workflow
@@ -335,13 +337,13 @@ export default function LandingPage({
             <button
               type="button"
               onClick={onGetStarted}
-              className={`rounded-xl border-2 px-5 py-3 text-sm font-extrabold transition-all duration-200 hover:shadow-lg ${palette.ctaWorkflow}`}
+              className={`w-full rounded-xl border-2 px-5 py-3 text-sm font-extrabold transition-all duration-200 hover:shadow-lg sm:w-auto ${palette.ctaWorkflow}`}
             >
               Launch WorkHub
             </button>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {workflow.map((item) => (
               <article
                 key={item.step}
