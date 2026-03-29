@@ -2,14 +2,40 @@ import React, { useState } from "react";
 import { login } from "../services/api.js";
 import InfoModal from "./InfoModal.jsx";
 import NeonSweepButton from "./NeonSweepButton.jsx";
+import GoogleAuthButton from "./GoogleAuthButton.jsx";
 
-export default function Login({ onLoggedIn, onSwitchToRegister }) {
+export default function Login({
+  onLoggedIn,
+  onSwitchToRegister,
+  showGoogle = true,
+  theme = "light",
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
+
+  const isDark = theme === "dark";
+  const loginInputClass = isDark
+    ? "w-full rounded-2xl border border-slate-600 bg-slate-900/65 px-4 py-3 sm:py-3.5 text-sm sm:text-base text-slate-100 shadow-sm outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20 placeholder:text-slate-400 font-medium"
+    : "w-full rounded-2xl border border-slate-400 bg-white px-4 py-3 sm:py-3.5 text-sm sm:text-base text-slate-900 shadow-[inset_0_1px_1px_rgba(15,23,42,0.05)] outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-200/70 placeholder:text-slate-500 font-medium";
+  const loginPasswordClass = isDark
+    ? "w-full rounded-2xl border border-slate-600 bg-slate-900/65 px-4 py-3 sm:py-3.5 pr-12 text-sm sm:text-base text-slate-100 shadow-sm outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20 placeholder:text-slate-400 font-medium"
+    : "w-full rounded-2xl border border-slate-400 bg-white px-4 py-3 sm:py-3.5 pr-12 text-sm sm:text-base text-slate-900 shadow-[inset_0_1px_1px_rgba(15,23,42,0.05)] outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-200/70 placeholder:text-slate-500 font-medium";
+  const eyeButtonClass = isDark
+    ? "absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition p-1.5 focus:outline-none"
+    : "absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition p-1.5 focus:outline-none";
+  const signInButtonClass = isDark
+    ? "w-full rounded-2xl !border-blue-300/75 !bg-slate-900/70 px-4 py-3 sm:py-3.5 font-bold !text-blue-100 hover:!text-white shadow-md disabled:cursor-not-allowed disabled:opacity-60"
+    : "w-full rounded-2xl !border-blue-600 !bg-white px-4 py-3 sm:py-3.5 font-bold !text-blue-800 hover:!text-white shadow-md disabled:cursor-not-allowed disabled:opacity-60";
+  const registerPromptClass = isDark
+    ? "text-sm text-slate-300 font-medium tracking-wide"
+    : "text-sm text-slate-600 font-semibold tracking-wide";
+  const registerButtonClass = isDark
+    ? "mt-3.5 min-w-[172px] rounded-full !border-emerald-300/75 !bg-slate-900/70 px-6 py-2 text-[15px] font-bold !text-emerald-200 hover:!text-white"
+    : "mt-3.5 min-w-[172px] rounded-full !border-emerald-600 !bg-white px-6 py-2 text-[15px] font-bold !text-emerald-800 hover:!text-white";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -51,11 +77,14 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
 
   return (
     <>
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form
+        onSubmit={onSubmit}
+        className="mx-auto w-full max-w-[372px] space-y-4 sm:space-y-5"
+      >
         <div>
           <label
             htmlFor="login-email"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="sr-only"
           >
             Email
           </label>
@@ -68,13 +97,13 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
             onChange={(e) => setEmail(e.target.value)}
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-slate-300 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+            className={loginInputClass}
           />
         </div>
         <div>
           <label
             htmlFor="login-password"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="sr-only"
           >
             Password
           </label>
@@ -88,14 +117,13 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full rounded-lg border border-slate-300 px-3 sm:px-4 py-2 sm:py-2.5 pr-10 sm:pr-12 text-sm sm:text-base outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+              className={loginPasswordClass}
             />
-            <NeonSweepButton
+            <button
               type="button"
-              unstyled
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition p-1"
+              className={eyeButtonClass}
             >
               {showPassword ? (
                 <svg
@@ -132,18 +160,20 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
                   />
                 </svg>
               )}
-            </NeonSweepButton>
+            </button>
           </div>
         </div>
         <NeonSweepButton
           type="submit"
+          tone="violet"
+          size="lg"
           disabled={loading}
           aria-describedby={loading ? "login-loading" : undefined}
-          className="w-full rounded-lg btn-gradient-orange px-3 sm:px-4 py-2 sm:py-2.5 font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed transition-shadow flex items-center justify-center gap-2 text-sm sm:text-base"
+          className={signInButtonClass}
         >
           {loading && (
             <div
-              className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+              className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"
               aria-hidden="true"
             ></div>
           )}
@@ -152,6 +182,32 @@ export default function Login({ onLoggedIn, onSwitchToRegister }) {
           </span>
           {loading ? "Signing in..." : "Sign In"}
         </NeonSweepButton>
+
+        <GoogleAuthButton
+          mode="login"
+          enabled={showGoogle}
+          theme={theme}
+          onAuthenticated={onLoggedIn}
+          onError={(message) => {
+            setError(message);
+            setShowErrorModal(true);
+          }}
+        />
+
+        <div className="pt-2 text-center">
+          <p className={registerPromptClass}>
+            Don't have an account?
+          </p>
+          <NeonSweepButton
+            type="button"
+            tone="emerald"
+            size="md"
+            onClick={onSwitchToRegister}
+            className={registerButtonClass}
+          >
+            Create Account
+          </NeonSweepButton>
+        </div>
       </form>
 
       <InfoModal

@@ -1,11 +1,17 @@
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import EmployeeForm from "./components/EmployeeForm.jsx";
 import EmployeeList from "./components/EmployeeList.jsx";
 import Login from "./components/Login.jsx";
+import LandingPage from "./components/LandingPage.jsx";
 import NeonSweepButton from "./components/NeonSweepButton.jsx";
+import ThemeToggle from "./components/ThemeToggle.jsx";
+import GoogleAuthButton from "./components/GoogleAuthButton.jsx";
+import InfoModal from "./components/InfoModal.jsx";
+import { exchangeGoogleAuthToken } from "./services/api.js";
 
 // Use env API base (e.g. http://localhost:3000). Falls back to relative.
 const API_BASE = (import.meta.env?.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const AUTH_MODE_KEY = "wh_auth_mode";
 
 // Format date as DD/MM/YYYY
 const formatDateDDMMYYYY = (date) => {
@@ -17,7 +23,7 @@ const formatDateDDMMYYYY = (date) => {
 };
 
 // A minimal inline Register form with cleaner styling
-function Register({ onRegistered, onSwitch }) {
+function Register({ onRegistered, onSwitch, showGoogle = true, theme = "light" }) {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -28,6 +34,29 @@ function Register({ onRegistered, onSwitch }) {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
+
+  const isDark = theme === "dark";
+  const registerLabelClass = isDark
+    ? "block text-sm font-medium text-slate-200 mb-0.5"
+    : "block text-sm font-semibold text-slate-800 mb-0.5";
+  const registerInputClass = isDark
+    ? "w-full rounded-lg border border-slate-600 bg-slate-900/65 px-4 py-2 text-slate-100 placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25 transition"
+    : "w-full rounded-lg border border-slate-400 bg-white px-4 py-2 text-slate-900 placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition";
+  const registerPasswordInputClass = isDark
+    ? "w-full rounded-lg border border-slate-600 bg-slate-900/65 px-4 py-2 pr-10 text-slate-100 placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/25 transition"
+    : "w-full rounded-lg border border-slate-400 bg-white px-4 py-2 pr-10 text-slate-900 placeholder:text-slate-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition";
+  const registerToggleClass = isDark
+    ? "absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition"
+    : "absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition";
+  const registerHintClass = isDark
+    ? "mt-0.5 text-[11px] text-slate-400"
+    : "mt-0.5 text-[11px] text-slate-600";
+  const registerPrimaryButtonClass = isDark
+    ? "flex-1 rounded-xl !border-blue-300/70 !bg-slate-900/70 px-4 py-2 font-semibold !text-blue-100 hover:!text-white disabled:opacity-60 disabled:cursor-not-allowed"
+    : "flex-1 rounded-xl !border-blue-600 !bg-white px-4 py-2 font-semibold !text-blue-800 hover:!text-white disabled:opacity-60 disabled:cursor-not-allowed";
+  const registerSecondaryButtonClass = isDark
+    ? "flex-1 rounded-xl !border-cyan-300/70 !bg-slate-900/70 px-4 py-2 font-semibold !text-cyan-100 hover:!text-white"
+    : "flex-1 rounded-xl !border-cyan-600 !bg-white px-4 py-2 font-semibold !text-cyan-800 hover:!text-white";
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -102,8 +131,8 @@ function Register({ onRegistered, onSwitch }) {
   }, [error]);
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 sm:p-8 relative">
-      <h2 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 sm:mb-6 text-center">
+    <div className="w-full max-w-md mx-auto px-4 pt-4 pb-3 sm:px-6 sm:pt-5 sm:pb-4 relative">
+      <h2 className="text-2xl sm:text-3xl leading-tight font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3 sm:mb-4 text-center">
         Create Account
       </h2>
       {/* Interactive error toast/modal */}
@@ -154,11 +183,11 @@ function Register({ onRegistered, onSwitch }) {
           </div>
         </div>
       )}
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-3">
         <div>
           <label
             htmlFor="register-firstName"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className={registerLabelClass}
           >
             First Name
           </label>
@@ -170,13 +199,13 @@ function Register({ onRegistered, onSwitch }) {
             onChange={onChange}
             required
             autoComplete="given-name"
-            className="w-full rounded-lg border border-slate-300 px-4 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+            className={registerInputClass}
           />
         </div>
         <div>
           <label
             htmlFor="register-lastName"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className={registerLabelClass}
           >
             Last Name
           </label>
@@ -188,13 +217,13 @@ function Register({ onRegistered, onSwitch }) {
             onChange={onChange}
             required
             autoComplete="family-name"
-            className="w-full rounded-lg border border-slate-300 px-4 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+            className={registerInputClass}
           />
         </div>
         <div>
           <label
             htmlFor="register-email"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className={registerLabelClass}
           >
             Email
           </label>
@@ -207,13 +236,13 @@ function Register({ onRegistered, onSwitch }) {
             onChange={onChange}
             required
             autoComplete="email"
-            className="w-full rounded-lg border border-slate-300 px-4 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+            className={registerInputClass}
           />
         </div>
         <div>
           <label
             htmlFor="register-password"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className={registerLabelClass}
           >
             Password
           </label>
@@ -229,14 +258,14 @@ function Register({ onRegistered, onSwitch }) {
               minLength={4}
               autoComplete="new-password"
               aria-describedby="password-requirements"
-              className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-10 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+              className={registerPasswordInputClass}
             />
             <NeonSweepButton
               type="button"
               unstyled
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+              className={registerToggleClass}
             >
               {showPassword ? (
                 <svg
@@ -275,16 +304,18 @@ function Register({ onRegistered, onSwitch }) {
               )}
             </NeonSweepButton>
           </div>
-          <p id="password-requirements" className="mt-1 text-xs text-slate-500">
+          <p id="password-requirements" className={registerHintClass}>
             Password must be at least 4 characters long
           </p>
         </div>
-        <div className="pt-2 flex items-center gap-3">
+        <div className="pt-1.5 flex items-center gap-2">
           <NeonSweepButton
             type="submit"
+            tone="violet"
+            size="md"
             disabled={loading}
             aria-describedby={loading ? "register-loading" : undefined}
-            className="flex-1 rounded-lg btn-gradient-orange px-4 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed transition-shadow"
+            className={registerPrimaryButtonClass}
           >
             <span id="register-loading" className="sr-only">
               {loading ? "Creating account, please wait..." : ""}
@@ -293,12 +324,23 @@ function Register({ onRegistered, onSwitch }) {
           </NeonSweepButton>
           <NeonSweepButton
             type="button"
+            tone="cyan"
+            size="md"
             onClick={onSwitch}
-            className="flex-1 rounded-lg btn-gradient-violet px-4 py-2.5 font-semibold text-white hover:shadow-lg transition-shadow"
+            className={registerSecondaryButtonClass}
           >
-            Back
+            Sign In
           </NeonSweepButton>
         </div>
+
+        <GoogleAuthButton
+          mode="register"
+          enabled={showGoogle}
+          theme={theme}
+          compact
+          onAuthenticated={onRegistered}
+          onError={(message) => setError(message)}
+        />
       </form>
     </div>
   );
@@ -307,14 +349,103 @@ function Register({ onRegistered, onSwitch }) {
 export default function App() {
   const [selected, setSelected] = useState(null);
   const [user, setUser] = useState(null);
+  const [uiTheme, setUiTheme] = useState("dark");
+  const [showAuthPanel, setShowAuthPanel] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const formRef = useRef(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [googleAuthLoading, setGoogleAuthLoading] = useState(false);
+  const [googleAuthError, setGoogleAuthError] = useState("");
+  const [authTransitionLoading, setAuthTransitionLoading] = useState(false);
+  const authTransitionTimerRef = useRef(null);
+
+  const triggerAuthViewLoading = useCallback(() => {
+    if (authTransitionTimerRef.current) {
+      window.clearTimeout(authTransitionTimerRef.current);
+    }
+    setAuthTransitionLoading(true);
+    authTransitionTimerRef.current = window.setTimeout(() => {
+      setAuthTransitionLoading(false);
+      authTransitionTimerRef.current = null;
+    }, 320);
+  }, []);
+
+  const onLoggedIn = useCallback((u) => {
+    setUser(u);
+    localStorage.setItem("wh_user", JSON.stringify(u));
+    sessionStorage.removeItem(AUTH_MODE_KEY);
+    if (authTransitionTimerRef.current) {
+      window.clearTimeout(authTransitionTimerRef.current);
+      authTransitionTimerRef.current = null;
+    }
+    setAuthTransitionLoading(false);
+    setGoogleAuthError("");
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("wh_user");
     if (saved) setUser(JSON.parse(saved));
+
+    const savedTheme = localStorage.getItem("wh_theme");
+    if (savedTheme === "dark" || savedTheme === "light") {
+      setUiTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirectToken = params.get("google_token");
+    const redirectError = params.get("google_error");
+    const redirectMode = params.get("google_mode");
+
+    if (!redirectToken && !redirectError) {
+      const savedAuthMode = sessionStorage.getItem(AUTH_MODE_KEY);
+      if (savedAuthMode === "login" || savedAuthMode === "register") {
+        setShowAuthPanel(true);
+        setShowRegister(savedAuthMode === "register");
+      }
+      return;
+    }
+
+    setShowAuthPanel(true);
+    setShowRegister(redirectMode === "register");
+
+    if (redirectMode === "login" || redirectMode === "register") {
+      sessionStorage.setItem(AUTH_MODE_KEY, redirectMode);
+    }
+
+    const cleanUrl = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
+    window.history.replaceState({}, document.title, cleanUrl);
+
+    if (redirectError) {
+      setGoogleAuthError(redirectError);
+      return;
+    }
+
+    if (!redirectToken) {
+      return;
+    }
+
+    setGoogleAuthLoading(true);
+    exchangeGoogleAuthToken(redirectToken)
+      .then((resolvedUser) => {
+        onLoggedIn(resolvedUser);
+      })
+      .catch((err) => {
+        setGoogleAuthError(err?.message || "Google sign-in failed.");
+      })
+      .finally(() => {
+        setGoogleAuthLoading(false);
+      });
+  }, [onLoggedIn, triggerAuthViewLoading]);
+
+  useEffect(() => {
+    return () => {
+      if (authTransitionTimerRef.current) {
+        window.clearTimeout(authTransitionTimerRef.current);
+      }
+    };
   }, []);
 
   // Real-time clock update
@@ -326,14 +457,53 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const onLoggedIn = (u) => {
-    setUser(u);
-    localStorage.setItem("wh_user", JSON.stringify(u));
-  };
-
   const logout = () => {
     setUser(null);
+    setShowRegister(false);
+    setShowAuthPanel(false);
+    setGoogleAuthError("");
+    sessionStorage.removeItem(AUTH_MODE_KEY);
     localStorage.removeItem("wh_user");
+  };
+
+  const closeAuthExperience = () => {
+    setShowRegister(false);
+    setShowAuthPanel(false);
+    setGoogleAuthError("");
+    setAuthTransitionLoading(false);
+    if (authTransitionTimerRef.current) {
+      window.clearTimeout(authTransitionTimerRef.current);
+      authTransitionTimerRef.current = null;
+    }
+    sessionStorage.removeItem(AUTH_MODE_KEY);
+  };
+
+  const openLoginExperience = () => {
+    const shouldAnimateSwitch = showAuthPanel && showRegister;
+    setShowRegister(false);
+    setShowAuthPanel(true);
+    setGoogleAuthError("");
+    sessionStorage.setItem(AUTH_MODE_KEY, "login");
+    if (shouldAnimateSwitch) {
+      triggerAuthViewLoading();
+    }
+  };
+
+  const openRegistrationExperience = () => {
+    const shouldAnimateSwitch = showAuthPanel && !showRegister;
+    setShowRegister(true);
+    setShowAuthPanel(true);
+    setGoogleAuthError("");
+    sessionStorage.setItem(AUTH_MODE_KEY, "register");
+    if (shouldAnimateSwitch) {
+      triggerAuthViewLoading();
+    }
+  };
+
+  const changeTheme = (nextTheme) => {
+    if (nextTheme !== "dark" && nextTheme !== "light") return;
+    setUiTheme(nextTheme);
+    localStorage.setItem("wh_theme", nextTheme);
   };
 
   const handleEdit = (employee) => {
@@ -366,63 +536,185 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 safe-pt safe-pb">
       {!user ? (
-        <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 bg-[length:200%_200%] animate-bg-gradient relative overflow-hidden">
+        showAuthPanel ? (
+          <div
+            className={`min-h-screen flex flex-col bg-[length:200%_200%] animate-bg-gradient relative overflow-hidden ${
+              uiTheme === "dark"
+                ? "bg-gradient-to-br from-[#0b2247] via-[#35216e] to-[#7b234f]"
+                : "bg-gradient-to-br from-[#d6eaf5] via-[#efd9e8] to-[#dbe4ff]"
+            }`}
+          >
           {/* Animated background shapes - optimized for mobile */}
-          <div className="absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob"></div>
-          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+          <div
+            className={`absolute top-0 left-0 w-48 sm:w-96 h-48 sm:h-96 rounded-full blur-3xl animate-blob ${
+              uiTheme === "dark" ? "bg-white/10" : "bg-cyan-200/45"
+            }`}
+          ></div>
+          <div
+            className={`absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 rounded-full blur-3xl animate-blob animation-delay-2000 ${
+              uiTheme === "dark" ? "bg-white/10" : "bg-pink-200/45"
+            }`}
+          ></div>
+          <div
+            className={`absolute bottom-0 left-1/2 w-48 sm:w-96 h-48 sm:h-96 rounded-full blur-3xl animate-blob animation-delay-4000 ${
+              uiTheme === "dark" ? "bg-white/10" : "bg-violet-200/40"
+            }`}
+          ></div>
 
-          {/* Main content area - add entrance animation + mobile padding */}
-          <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
-            <div className="w-full max-w-md min-h-[560px] sm:min-h-[620px] relative z-10">
-              <div
-                className={`absolute inset-0 transition-all duration-500 ease-out ${
-                  showRegister
-                    ? "opacity-0 -translate-x-6 pointer-events-none"
-                    : "opacity-100 translate-x-0"
+          <div className="absolute inset-x-0 top-0 z-20 px-4 sm:px-6 pt-4 sm:pt-6">
+            <div className="mx-auto flex w-full max-w-[1100px] items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={closeAuthExperience}
+                className={`inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs sm:text-sm font-extrabold tracking-[0.02em] transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98] ${
+                  uiTheme === "dark"
+                    ? "border-white/40 bg-white/12 text-white hover:bg-white/22"
+                    : "border-slate-300 bg-white/90 text-slate-800 hover:bg-white"
                 }`}
               >
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 sm:p-8 border border-white/20">
+                <svg
+                  className="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                Back to landing
+              </button>
+
+              <ThemeToggle
+                theme={uiTheme}
+                onChange={changeTheme}
+                size="sm"
+                className={
+                  uiTheme === "dark"
+                    ? "border-white/30 bg-black/20"
+                    : "border-slate-500/70 bg-white/80"
+                }
+              />
+            </div>
+          </div>
+
+          {googleAuthLoading && (
+            <div className="absolute left-1/2 top-20 z-30 -translate-x-1/2 rounded-full border border-white/25 bg-black/35 px-4 py-2 text-xs font-semibold text-white shadow-lg backdrop-blur">
+              Finishing Google sign-in...
+            </div>
+          )}
+
+          {/* Main content area - add entrance animation + mobile padding */}
+          <div className="flex-1 min-h-0 flex items-stretch justify-center px-4 pb-4 pt-20 sm:px-6 sm:pb-6 sm:pt-24">
+            <div
+              className={`auth-switch-container relative z-10 ${
+                showRegister ? "is-active" : ""
+              } ${uiTheme === "dark" ? "auth-theme-dark" : "auth-theme-light"} ${
+                authTransitionLoading ? "pointer-events-none" : ""
+              }`}
+              aria-busy={authTransitionLoading}
+            >
+              {authTransitionLoading && (
+                <div
+                  className={`absolute inset-0 z-40 overflow-hidden backdrop-blur-sm ${
+                    uiTheme === "dark"
+                      ? "bg-slate-950/55 text-white"
+                      : "bg-white/80 text-slate-700"
+                  }`}
+                >
+                  <div
+                    className={`absolute inset-0 auth-panel-shimmer ${
+                      uiTheme === "dark" ? "from-white/0 via-white/20 to-white/0" : "from-blue-50/0 via-blue-200/40 to-blue-50/0"
+                    }`}
+                  ></div>
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#4F46E5] via-[#9333EA] to-[#DB2777]"></div>
+                  <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <div className="mx-auto mb-2 flex h-8 items-end justify-center gap-1.5">
+                      <span className={`auth-eq-bar h-3 w-1.5 rounded-full ${uiTheme === "dark" ? "bg-cyan-300" : "bg-blue-500"}`} style={{ animationDelay: "0ms" }}></span>
+                      <span className={`auth-eq-bar h-6 w-1.5 rounded-full ${uiTheme === "dark" ? "bg-violet-300" : "bg-indigo-500"}`} style={{ animationDelay: "80ms" }}></span>
+                      <span className={`auth-eq-bar h-4 w-1.5 rounded-full ${uiTheme === "dark" ? "bg-pink-300" : "bg-fuchsia-500"}`} style={{ animationDelay: "160ms" }}></span>
+                    </div>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em]">
+                      Switching View
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="auth-form-panel auth-sign-up">
+                <div className="auth-form-inner">
+                  <Register
+                    onRegistered={onLoggedIn}
+                    onSwitch={openLoginExperience}
+                    showGoogle={showRegister}
+                    theme={uiTheme}
+                  />
+                </div>
+              </div>
+
+              <div className="auth-form-panel auth-sign-in">
+                <div className="auth-form-inner p-5 sm:p-6">
                   <div className="text-center mb-6 sm:mb-8">
-                    <h1 className="text-3xl sm:text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-                      WorkHub
+                    <h1 className="text-4xl sm:text-5xl font-black mb-2 tracking-tight">
+                      <span className="text-[#4F46E5]">Work</span>
+                      <span className="bg-gradient-to-r from-[#9333EA] to-[#DB2777] bg-clip-text text-transparent">
+                        Hub
+                      </span>
                     </h1>
-                    <p className="text-slate-500 text-sm sm:text-base">
+                    <p
+                      className={`text-sm sm:text-base font-medium ${
+                        uiTheme === "dark" ? "text-slate-300" : "text-slate-500"
+                      }`}
+                    >
                       Employee Management System
                     </p>
                   </div>
                   <Login
                     onLoggedIn={onLoggedIn}
-                    onSwitchToRegister={() => setShowRegister(true)}
+                    onSwitchToRegister={openRegistrationExperience}
+                    showGoogle={!showRegister}
+                    theme={uiTheme}
                   />
                 </div>
-                <div className="text-center mt-4 sm:mt-6">
-                  <p className="text-white mb-3 drop-shadow-lg font-medium text-sm sm:text-base">
-                    Don't have an account?
+              </div>
+
+              <div className="auth-toggle-box">
+                <div className="auth-toggle-panel auth-toggle-left">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold">Hello, Welcome!</h2>
+                  <p className="mt-3 text-sm sm:text-base text-white/90 max-w-xs">
+                    Don&apos;t have an account? Register to unlock all WorkHub
+                    features.
                   </p>
                   <NeonSweepButton
                     type="button"
                     tone="violet"
-                    onClick={() => setShowRegister(true)}
-                    className="text-white font-semibold px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg btn-gradient-purple shadow-xl hover:shadow-2xl transition-all border border-white/30 text-sm sm:text-base"
+                    size="md"
+                    onClick={openRegistrationExperience}
+                    className="auth-toggle-btn auth-toggle-btn-sweep"
                   >
-                    Create an account
+                    Register
                   </NeonSweepButton>
                 </div>
-              </div>
 
-              <div
-                className={`absolute inset-0 transition-all duration-500 ease-out ${
-                  showRegister
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-6 pointer-events-none"
-                }`}
-              >
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20">
-                  <Register
-                    onRegistered={onLoggedIn}
-                    onSwitch={() => setShowRegister(false)}
-                  />
+                <div className="auth-toggle-panel auth-toggle-right">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold">Welcome Back!</h2>
+                  <p className="mt-3 text-sm sm:text-base text-white/90 max-w-xs">
+                    Already have an account? Sign in and continue where you left
+                    off.
+                  </p>
+                  <NeonSweepButton
+                    type="button"
+                    tone="cyan"
+                    size="md"
+                    onClick={openLoginExperience}
+                    className="auth-toggle-btn auth-toggle-btn-sweep"
+                  >
+                    Login
+                  </NeonSweepButton>
                 </div>
               </div>
             </div>
@@ -447,6 +739,14 @@ export default function App() {
               from { opacity: 0; transform: translateY(20px); }
               to { opacity: 1; transform: translateY(0); }
             }
+            @keyframes authShimmer {
+              0% { transform: translateX(-120%); }
+              100% { transform: translateX(120%); }
+            }
+            @keyframes authEqBar {
+              0%, 100% { transform: scaleY(0.55); opacity: 0.55; }
+              50% { transform: scaleY(1); opacity: 1; }
+            }
             .animate-bg-gradient {
               animation: bg-gradient 15s ease infinite;
             }
@@ -465,12 +765,38 @@ export default function App() {
             .animation-delay-4000 {
               animation-delay: 4s;
             }
+            .auth-panel-shimmer {
+              background: linear-gradient(90deg, var(--tw-gradient-stops));
+              animation: authShimmer 420ms ease-in-out both;
+            }
+            .auth-eq-bar {
+              transform-origin: bottom center;
+              animation: authEqBar 420ms ease-in-out both;
+            }
           `}</style>
-        </div>
+          </div>
+        ) : (
+          <LandingPage
+            onGetStarted={openLoginExperience}
+            onJoinNow={openRegistrationExperience}
+            theme={uiTheme}
+            onThemeChange={changeTheme}
+          />
+        )
       ) : (
-        <div className="min-h-screen flex flex-col">
+        <div
+          className={`min-h-screen flex flex-col ${
+            uiTheme === "dark" ? "dashboard-theme-dark" : "dashboard-theme-light"
+          }`}
+        >
           {/* Nav - subtle entrance */}
-          <nav className="bg-white backdrop-blur-md border-b border-slate-200 shadow-lg flex-shrink-0 relative overflow-hidden animate-fade-in-up">
+          <nav
+            className={`backdrop-blur-md border-b shadow-lg flex-shrink-0 relative overflow-hidden animate-fade-in-up ${
+              uiTheme === "dark"
+                ? "bg-slate-900/90 border-slate-700"
+                : "bg-white border-slate-200"
+            }`}
+          >
             {/* Desktop-only decorative elements */}
             <div className="hidden xl:block absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
@@ -519,6 +845,17 @@ export default function App() {
 
                 {/* User info and actions - enhanced for desktop */}
                 <div className="flex items-center gap-2 sm:gap-6">
+                  <ThemeToggle
+                    theme={uiTheme}
+                    onChange={changeTheme}
+                    size="sm"
+                    className={
+                      uiTheme === "dark"
+                        ? "border-slate-500 bg-black/20"
+                        : "border-slate-300 bg-black/15"
+                    }
+                  />
+
                   {/* Enhanced desktop time display */}
                   <div className="hidden lg:flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-slate-50 via-blue-50 to-indigo-50 rounded-xl backdrop-blur-sm border border-slate-200 shadow-lg">
                     <div className="flex items-center gap-2">
@@ -613,7 +950,8 @@ export default function App() {
                     </div>
 
                     {/* Enhanced desktop logout button */}
-                    <NeonSweepButton
+                    <button
+                      type="button"
                       onClick={logout}
                       className="group relative rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm lg:text-base"
                     >
@@ -637,7 +975,7 @@ export default function App() {
                       </span>
                       {/* Desktop-only hover effect */}
                       <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-red-400 to-red-500 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                    </NeonSweepButton>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -696,7 +1034,13 @@ export default function App() {
 
           {/* Footer - entrance animation */}
           {/* Enhanced desktop footer */}
-          <footer className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-t border-slate-200 py-4 sm:py-6 lg:py-8 shadow-inner flex-shrink-0 animate-fade-in-up">
+          <footer
+            className={`border-t py-4 sm:py-6 lg:py-8 shadow-inner flex-shrink-0 animate-fade-in-up ${
+              uiTheme === "dark"
+                ? "bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-slate-700"
+                : "bg-gradient-to-r from-slate-50 via-white to-slate-50 border-slate-200"
+            }`}
+          >
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
               {/* Desktop enhanced footer */}
               <div className="hidden lg:block">
@@ -905,6 +1249,13 @@ export default function App() {
           </footer>
         </div>
       )}
+
+      <InfoModal
+        isOpen={Boolean(googleAuthError)}
+        title="Google Sign-in Failed"
+        message={googleAuthError}
+        onClose={() => setGoogleAuthError("")}
+      />
     </div>
   );
 }

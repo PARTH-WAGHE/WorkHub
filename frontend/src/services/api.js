@@ -82,6 +82,32 @@ export async function login(email, password) {
   return res.json();
 }
 
+export function getGoogleAuthStartUrl(mode = "login") {
+  const normalizedMode = mode === "register" ? "register" : "login";
+  return `${API_BASE}/api/auth/google/start?mode=${encodeURIComponent(
+    normalizedMode
+  )}`;
+}
+
+export async function exchangeGoogleAuthToken(token) {
+  const res = await fetch(
+    `${API_BASE}/api/auth/google/exchange?token=${encodeURIComponent(token)}`
+  );
+
+  if (!res.ok) {
+    let msg = "Google sign-in failed";
+    try {
+      const data = await res.json();
+      if (data?.error) msg = data.error;
+    } catch (_) {
+      // ignore
+    }
+    throw new Error(msg);
+  }
+
+  return res.json();
+}
+
 // Admin functions
 export async function adminListEmployees() {
   const res = await fetch(adminBase);

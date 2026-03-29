@@ -1,5 +1,4 @@
 import React from "react";
-import NeonSweepButton from "./NeonSweepButton.jsx";
 
 export default function InfoModal({
   isOpen,
@@ -43,27 +42,30 @@ export default function InfoModal({
         <div className="flex items-center justify-center gap-3 px-6 py-4 bg-slate-50 rounded-b-2xl">
           {showRegisterButton ? (
             <>
-              <NeonSweepButton
+              <button
+                type="button"
                 onClick={onRegister}
                 className="rounded-lg btn-gradient-orange px-6 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all animate-buttonSlideIn"
               >
                 Create Account
-              </NeonSweepButton>
-              <NeonSweepButton
+              </button>
+              <button
+                type="button"
                 onClick={onClose}
                 className="rounded-lg bg-slate-200 px-6 py-2.5 font-semibold text-slate-700 hover:bg-slate-300 hover:scale-105 transition-all animate-buttonSlideIn"
                 style={{ animationDelay: "0.1s" }}
               >
                 Cancel
-              </NeonSweepButton>
+              </button>
             </>
           ) : (
-            <NeonSweepButton
+            <button
+              type="button"
               onClick={onClose}
               className="rounded-lg btn-gradient-blue px-6 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all animate-buttonSlideIn"
             >
               Try Again
-            </NeonSweepButton>
+            </button>
           )}
         </div>
       </div>
