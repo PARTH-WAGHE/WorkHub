@@ -52,6 +52,13 @@ public class EmployeeReferenceController {
     return ResponseEntity.ok(employeeReferenceService.createLeaveRequest(employeeId, request));
   }
 
+  @DeleteMapping("/employees/{employeeId}/leave-requests/{leaveRequestId}")
+  public ResponseEntity<?> deleteLeaveRequest(
+      @PathVariable Long employeeId,
+      @PathVariable Long leaveRequestId) {
+    return ResponseEntity.ok(employeeReferenceService.deleteLeaveRequest(employeeId, leaveRequestId));
+  }
+
   @GetMapping("/admin/leave-requests")
   public ResponseEntity<?> listLeaveRequestsForAdmin(
       @RequestParam Long adminId,
@@ -120,5 +127,12 @@ public class EmployeeReferenceController {
   @PostMapping("/employees/{employeeId}/payroll")
   public ResponseEntity<?> createPayroll(@PathVariable Long employeeId, @RequestBody PayrollCreateDto request) {
     return ResponseEntity.ok(employeeReferenceService.createPayroll(employeeId, request));
+  }
+
+  @DeleteMapping("/employees/{employeeId}/payroll/{payrollId}")
+  public ResponseEntity<?> deletePayroll(
+      @PathVariable Long employeeId,
+      @PathVariable Long payrollId) {
+    return ResponseEntity.ok(employeeReferenceService.deletePayroll(employeeId, payrollId));
   }
 }

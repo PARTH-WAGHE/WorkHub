@@ -85,6 +85,18 @@ public class EmployeeReferenceService {
     return Map.of("message", "Leave request submitted successfully.");
   }
 
+  public Map<String, Object> deleteLeaveRequest(Long employeeId, Long leaveRequestId) {
+    requireEmployee(employeeId);
+    if (leaveRequestId == null || leaveRequestId <= 0) {
+      throw new IllegalArgumentException("Invalid leave request id.");
+    }
+    int deleted = employeeReferenceRepository.deleteLeaveRequest(employeeId, leaveRequestId);
+    if (deleted == 0) {
+      throw new IllegalArgumentException("Leave request not found or cannot be deleted.");
+    }
+    return Map.of("message", "Leave request deleted.");
+  }
+
   public List<Map<String, Object>> listPendingLeaveRequests(Long adminId, String status) {
     requireAdmin(adminId);
     String normalized = normalizeDecisionStatus(status);
@@ -199,6 +211,18 @@ public class EmployeeReferenceService {
         request.bonus(),
         request.deductions(),
         payDate);
+  }
+
+  public Map<String, Object> deletePayroll(Long employeeId, Long payrollId) {
+    requireEmployee(employeeId);
+    if (payrollId == null || payrollId <= 0) {
+      throw new IllegalArgumentException("Invalid payroll id.");
+    }
+    int deleted = employeeReferenceRepository.deletePayroll(employeeId, payrollId);
+    if (deleted == 0) {
+      throw new IllegalArgumentException("Payroll entry not found.");
+    }
+    return Map.of("message", "Payroll entry deleted.");
   }
 
   private void requireEmployee(Long employeeId) {

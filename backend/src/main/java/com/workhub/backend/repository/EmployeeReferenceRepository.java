@@ -153,6 +153,13 @@ public class EmployeeReferenceRepository {
         reason);
   }
 
+  public int deleteLeaveRequest(Long employeeId, Long leaveRequestId) {
+    return jdbcTemplate.update(
+        "DELETE FROM leave_requests WHERE id = ? AND employee_id = ? AND approval_status = 'PENDING'",
+        leaveRequestId,
+        employeeId);
+  }
+
   public Map<String, Object> loadTodayAttendance(Long employeeId) {
     List<Map<String, Object>> rows = jdbcTemplate.queryForList(
       "SELECT id, attendance_date AS \"attendanceDate\", check_in_time AS \"checkInTime\", "
@@ -247,6 +254,13 @@ public class EmployeeReferenceRepository {
         bonus,
         deductions,
         payDate);
+  }
+
+  public int deletePayroll(Long employeeId, Long payrollId) {
+    return jdbcTemplate.update(
+        "DELETE FROM payroll WHERE id = ? AND employee_id = ?",
+        payrollId,
+        employeeId);
   }
 
   private void sanitizeRows(List<Map<String, Object>> rows) {

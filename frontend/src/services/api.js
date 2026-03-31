@@ -184,6 +184,18 @@ export async function createEmployeePayroll(employeeId, payload) {
   return res.json();
 }
 
+export async function deleteEmployeePayroll(employeeId, payrollId) {
+  const res = await fetch(
+    `${API_BASE}/api/dbms/employees/${employeeId}/payroll/${payrollId}`,
+    { method: "DELETE" }
+  );
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || "Failed to delete payroll entry");
+  }
+  return res.json();
+}
+
 export async function fetchReferenceOverview() {
   const res = await fetch(`${API_BASE}/api/dbms/overview`);
   if (!res.ok) throw new Error("Failed to load employee reference overview");
@@ -230,6 +242,18 @@ export async function createMyLeaveRequest(employeeId, payload) {
       // ignore
     }
     throw new Error(message);
+  }
+  return res.json();
+}
+
+export async function deleteMyLeaveRequest(employeeId, leaveRequestId) {
+  const res = await fetch(
+    `${API_BASE}/api/dbms/employees/${employeeId}/leave-requests/${leaveRequestId}`,
+    { method: "DELETE" }
+  );
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || "Failed to delete leave request");
   }
   return res.json();
 }

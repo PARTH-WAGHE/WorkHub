@@ -6,6 +6,8 @@ import {
     createEmployeePayroll,
     createMyLeaveRequest,
     decideAdminLeaveRequest,
+    deleteEmployeePayroll,
+    deleteMyLeaveRequest,
     fetchEmployeePayroll,
     fetchAdminLeaveRequests,
     fetchAdminEmployeeAttendance,
@@ -18,6 +20,7 @@ import {
     fetchTodayAttendance,
     adminListEmployees,
 } from "../services/api.js";
+import ConfirmDialog from "./ConfirmDialog.jsx";
 
 const ISO_TIMESTAMP_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?$/;
 
@@ -57,7 +60,7 @@ export default function EmployeeReferencePanel({
     const { page } = useParams();
 
     const allowedPages = isAdmin
-        ? ["attendance", "leave", "payroll", "admin-data"]
+        ? ["leave", "admin-data"]
         : ["attendance", "leave", "payroll"];
 
     const resolvedPage =
@@ -110,6 +113,9 @@ export default function EmployeeReferencePanel({
 
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmType, setConfirmType] = useState("");
+    const [confirmId, setConfirmId] = useState(null);
 
     useEffect(() => {
         setError("");
@@ -124,14 +130,16 @@ export default function EmployeeReferencePanel({
 
     const navItems = useMemo(
         () => {
-            const items = [
-                { id: "attendance", label: "Attendance" },
-                { id: "leave", label: "Leave" },
-                { id: "payroll", label: "Payroll" },
-            ];
-            if (isAdmin) {
-                items.push({ id: "admin-data", label: "Admin Data" });
-            }
+            const items = isAdmin
+                ? [
+                    { id: "leave", label: "Approve Leaves" },
+                    { id: "admin-data", label: "Employee Data" },
+                ]
+                : [
+                    { id: "attendance", label: "Attendance" },
+                    { id: "leave", label: "Leave" },
+                    { id: "payroll", label: "Payroll" },
+                ];
             return items;
         },
         [isAdmin]
@@ -405,6 +413,40 @@ export default function EmployeeReferencePanel({
         }
     };
 
+    const handleDeleteLeave = async () => {
+        if (!confirmId) return;
+        resetMessages();
+        try {
+            await deleteMyLeaveRequest(employeeId, confirmId);
+            setNotice("Leave request deleted.");
+            const rows = await fetchMyLeaveRequests(employeeId);
+            setLeaveRequests(rows || []);
+        } catch (e) {
+            setError(e.message || "Failed to delete leave request.");
+        } finally {
+            setConfirmOpen(false);
+            setConfirmId(null);
+            setConfirmType("");
+        }
+    };
+
+    const handleDeletePayroll = async () => {
+        if (!confirmId) return;
+        resetMessages();
+        try {
+            await deleteEmployeePayroll(employeeId, confirmId);
+            setNotice("Payroll entry deleted.");
+            const rows = await fetchEmployeePayroll(employeeId);
+            setPayrollRows(rows || []);
+        } catch (e) {
+            setError(e.message || "Failed to delete payroll entry.");
+        } finally {
+            setConfirmOpen(false);
+            setConfirmId(null);
+            setConfirmType("");
+        }
+    };
+
 
     const handleAddPayroll = async (event) => {
         event.preventDefault();
@@ -479,7 +521,7 @@ export default function EmployeeReferencePanel({
                             Employee Data Workspace
                         </h2>
                         <p className={`text-sm mt-1 ${isDark ? "text-slate-300" : "text-slate-600"}`}>
-                            Dedicated pages for attendance, leave, payroll, and admin data.
+                            Dedicated pages for leave and admin data.
                         </p>
                     </div>
 
@@ -671,7 +713,7 @@ export default function EmployeeReferencePanel({
                     </p>
                 )}
 
-                {mode === "page" && resolvedPage === "attendance" && (
+                {mode === "page" && resolvedPage === "attendance" && !isAdmin && (
                     <div className={panelClass}>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
                             <div>
@@ -701,83 +743,85 @@ export default function EmployeeReferencePanel({
 
                 {mode === "page" && resolvedPage === "leave" && (
                     <div className={panelClass}>
-                        <form onSubmit={handleSubmitLeave} className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                                    Leave Type <span className="text-red-500" aria-hidden="true">*</span>
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        name="leaveTypeId"
-                                        value={leaveForm.leaveTypeId}
-                                        onChange={(e) => setLeaveForm((prev) => ({ ...prev, leaveTypeId: e.target.value }))}
-                                        className={`${selectClass} appearance-none pr-12 cursor-pointer`}
-                                        required
-                                    >
-                                        <option value="" disabled>
-                                            Select leave type
-                                        </option>
-                                        {leaveTypes.map((type) => (
-                                            <option key={type.id} value={type.id}>{type.leaveName}</option>
-                                        ))}
-                                    </select>
-                                    <svg
-                                        className={`pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 ${isDark ? "text-slate-400" : "text-slate-500"}`}
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.94a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
+                        {!isAdmin && (
+                            <form onSubmit={handleSubmitLeave} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                        Leave Type <span className="text-red-500" aria-hidden="true">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="leaveTypeId"
+                                            value={leaveForm.leaveTypeId}
+                                            onChange={(e) => setLeaveForm((prev) => ({ ...prev, leaveTypeId: e.target.value }))}
+                                            className={`${selectClass} appearance-none pr-12 cursor-pointer`}
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                Select leave type
+                                            </option>
+                                            {leaveTypes.map((type) => (
+                                                <option key={type.id} value={type.id}>{type.leaveName}</option>
+                                            ))}
+                                        </select>
+                                        <svg
+                                            className={`pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 ${isDark ? "text-slate-400" : "text-slate-500"}`}
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.94a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                                    From <span className="text-red-500" aria-hidden="true">*</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    value={leaveForm.startDate}
-                                    onChange={(e) => setLeaveForm((prev) => ({ ...prev, startDate: e.target.value }))}
-                                    onClick={(e) => e.currentTarget.showPicker?.()}
-                                    onFocus={(e) => e.currentTarget.showPicker?.()}
-                                    className={`${inputClass} wh-date-input`}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                                    To <span className="text-red-500" aria-hidden="true">*</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    value={leaveForm.endDate}
-                                    onChange={(e) => setLeaveForm((prev) => ({ ...prev, endDate: e.target.value }))}
-                                    onClick={(e) => e.currentTarget.showPicker?.()}
-                                    onFocus={(e) => e.currentTarget.showPicker?.()}
-                                    min={leaveForm.startDate || undefined}
-                                    className={`${inputClass} wh-date-input`}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                                    Reason <span className="text-red-500" aria-hidden="true">*</span>
-                                </label>
-                                <input
-                                    value={leaveForm.reason}
-                                    onChange={(e) => setLeaveForm((prev) => ({ ...prev, reason: e.target.value }))}
-                                    placeholder="Reason"
-                                    className={inputClass}
-                                    required
-                                />
-                            </div>
-                            <button type="submit" className={`${primaryButtonClass} md:col-span-2`}>Submit Leave</button>
-                        </form>
+                                <div>
+                                    <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                        From <span className="text-red-500" aria-hidden="true">*</span>
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={leaveForm.startDate}
+                                        onChange={(e) => setLeaveForm((prev) => ({ ...prev, startDate: e.target.value }))}
+                                        onClick={(e) => e.currentTarget.showPicker?.()}
+                                        onFocus={(e) => e.currentTarget.showPicker?.()}
+                                        className={`${inputClass} wh-date-input`}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                        To <span className="text-red-500" aria-hidden="true">*</span>
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={leaveForm.endDate}
+                                        onChange={(e) => setLeaveForm((prev) => ({ ...prev, endDate: e.target.value }))}
+                                        onClick={(e) => e.currentTarget.showPicker?.()}
+                                        onFocus={(e) => e.currentTarget.showPicker?.()}
+                                        min={leaveForm.startDate || undefined}
+                                        className={`${inputClass} wh-date-input`}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                        Reason <span className="text-red-500" aria-hidden="true">*</span>
+                                    </label>
+                                    <input
+                                        value={leaveForm.reason}
+                                        onChange={(e) => setLeaveForm((prev) => ({ ...prev, reason: e.target.value }))}
+                                        placeholder="Reason"
+                                        className={inputClass}
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className={`${primaryButtonClass} md:col-span-2`}>Submit Leave</button>
+                            </form>
+                        )}
 
                         {isAdmin && (
                             <div className="mt-6">
@@ -868,43 +912,63 @@ export default function EmployeeReferencePanel({
                             </div>
                         )}
 
-                        <div className="mt-4 overflow-x-auto">
-                            <table className="min-w-[720px] text-xs sm:min-w-full sm:text-sm">
-                                <thead className={isDark ? "text-slate-300" : "text-slate-600"}>
-                                    <tr>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Type</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">From</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">To</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Reason</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Status</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Applied</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Approved By</th>
-                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Approved</th>
-                                    </tr>
-                                </thead>
-                                <tbody className={isDark ? "text-slate-200" : "text-slate-800"}>
-                                    {leaveRequests.slice(0, 10).map((row) => (
-                                        <tr key={row.id} className={isDark ? "border-t border-slate-800" : "border-t border-slate-100"}>
-                                            <td className="px-2 py-2 whitespace-nowrap">{row.leaveType}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap">{row.startDate}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap">{row.endDate}</td>
-                                            <td className="px-2 py-2">{row.reason || "-"}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap">{row.approvalStatus}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap">{row.appliedOn ? formatDisplayValue(row.appliedOn) : "-"}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap">{row.approvedByName || "-"}</td>
-                                            <td className="px-2 py-2 whitespace-nowrap">
-                                                {row.approvedOn ? formatDisplayValue(row.approvedOn) : "-"}
-                                            </td>
+                        {!isAdmin && (
+                            <div className="mt-4 overflow-x-auto">
+                                <table className="min-w-[720px] text-xs sm:min-w-full sm:text-sm">
+                                    <thead className={isDark ? "text-slate-300" : "text-slate-600"}>
+                                        <tr>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Type</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">From</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">To</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Reason</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Status</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Applied</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Approved By</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Approved</th>
+                                            <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Action</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody className={isDark ? "text-slate-200" : "text-slate-800"}>
+                                        {leaveRequests.slice(0, 10).map((row) => (
+                                            <tr key={row.id} className={isDark ? "border-t border-slate-800" : "border-t border-slate-100"}>
+                                                <td className="px-2 py-2 whitespace-nowrap">{row.leaveType}</td>
+                                                <td className="px-2 py-2 whitespace-nowrap">{row.startDate}</td>
+                                                <td className="px-2 py-2 whitespace-nowrap">{row.endDate}</td>
+                                                <td className="px-2 py-2">{row.reason || "-"}</td>
+                                                <td className="px-2 py-2 whitespace-nowrap">{row.approvalStatus}</td>
+                                                <td className="px-2 py-2 whitespace-nowrap">{row.appliedOn ? formatDisplayValue(row.appliedOn) : "-"}</td>
+                                                <td className="px-2 py-2 whitespace-nowrap">{row.approvedByName || "-"}</td>
+                                                <td className="px-2 py-2 whitespace-nowrap">
+                                                    {row.approvedOn ? formatDisplayValue(row.approvedOn) : "-"}
+                                                </td>
+                                                <td className="px-2 py-2 whitespace-nowrap">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setConfirmType("leave");
+                                                            setConfirmId(row.id);
+                                                            setConfirmOpen(true);
+                                                        }}
+                                                        disabled={String(row.approvalStatus || "").toUpperCase() !== "PENDING"}
+                                                        className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
+                                                            ? "border-rose-500/40 text-rose-200 hover:bg-rose-500/10"
+                                                            : "border-rose-300 text-rose-700 hover:bg-rose-50"
+                                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </div>
                 )}
 
 
-                {mode === "page" && resolvedPage === "payroll" && (
+                {mode === "page" && resolvedPage === "payroll" && !isAdmin && (
                     <div className={panelClass}>
                         <form onSubmit={handleAddPayroll} className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div>
@@ -941,6 +1005,7 @@ export default function EmployeeReferencePanel({
                                         <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Salary</th>
                                         <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Bonus</th>
                                         <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Deductions</th>
+                                        <th className="px-2 py-2 text-left font-semibold whitespace-nowrap">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className={isDark ? "text-slate-200" : "text-slate-800"}>
@@ -950,6 +1015,22 @@ export default function EmployeeReferencePanel({
                                             <td className="px-2 py-2 whitespace-nowrap">{row.salary}</td>
                                             <td className="px-2 py-2 whitespace-nowrap">{row.bonus}</td>
                                             <td className="px-2 py-2 whitespace-nowrap">{row.deductions}</td>
+                                            <td className="px-2 py-2 whitespace-nowrap">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setConfirmType("payroll");
+                                                        setConfirmId(row.id);
+                                                        setConfirmOpen(true);
+                                                    }}
+                                                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
+                                                        ? "border-rose-500/40 text-rose-200 hover:bg-rose-500/10"
+                                                        : "border-rose-300 text-rose-700 hover:bg-rose-50"
+                                                        }`}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -1068,6 +1149,26 @@ export default function EmployeeReferencePanel({
                         </button>
                     </div>
                 )}
+                <ConfirmDialog
+                    isOpen={confirmOpen}
+                    title={confirmType === "payroll" ? "Delete Payroll Entry" : "Delete Leave Request"}
+                    message={confirmType === "payroll"
+                        ? "This will delete the payroll entry permanently. Continue?"
+                        : "Only pending leave requests can be deleted. Continue?"}
+                    onCancel={() => {
+                        setConfirmOpen(false);
+                        setConfirmId(null);
+                        setConfirmType("");
+                    }}
+                    onConfirm={() => {
+                        if (confirmType === "payroll") {
+                            handleDeletePayroll();
+                        } else {
+                            handleDeleteLeave();
+                        }
+                    }}
+                    theme={theme}
+                />
             </div>
         </section>
     );

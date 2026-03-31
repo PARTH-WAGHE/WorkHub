@@ -630,6 +630,8 @@ export default function App() {
     setRefreshKey((prev) => prev + 1);
   };
 
+  const workspacePath = user?.role === "ADMIN" ? "/workspace/leave" : "/workspace/attendance";
+
   return (
     <div className="min-h-screen bg-slate-50 safe-pt safe-pb">
       {!user ? (
@@ -957,49 +959,46 @@ export default function App() {
               </div>
 
               <div className="flex flex-col gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex w-full items-center justify-between gap-2 sm:gap-4 lg:w-auto lg:justify-start">
+                <div className="flex w-full items-center gap-3 sm:gap-4 lg:w-auto">
                   {/* Desktop enhanced logo */}
-                  <div className="relative group cursor-pointer">
-                    <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-0 group-hover:opacity-30 transition-opacity duration-300 hidden lg:block"></div>
-                    <div className="relative">
-                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent hover:scale-110 transition-transform duration-300">
-                        WorkHub
-                      </h1>
-                      <div className="flex items-center gap-1 sm:gap-2 mt-1">
-                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <p className="text-xs sm:text-sm lg:text-base text-slate-500">
-                          Employee Management{" "}
-                        </p>
-                        {user.role === "ADMIN" && (
-                          <>
-                            {/* Mobile admin badge */}
-                            <span className="lg:hidden inline-flex items-center gap-1 px-1 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold">
-                              Admin
-                            </span>
-                            {/* Desktop admin badge */}
-                            <span className="hidden lg:inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold shadow-lg">
-                              <svg
-                                className="w-4 h-4"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                              Admin Dashboard
-                            </span>
-                          </>
-                        )}
-                      </div>
+                  <div className="relative min-w-0">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                      WorkHub
+                    </h1>
+                    <div className="flex items-center gap-1 sm:gap-2 mt-1">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <p className="text-xs sm:text-sm lg:text-base text-slate-500">
+                        Employee Management{" "}
+                      </p>
+                      {user.role === "ADMIN" && (
+                        <>
+                          {/* Mobile admin badge */}
+                          <span className="lg:hidden inline-flex items-center gap-1 px-1 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold">
+                            Admin
+                          </span>
+                          {/* Desktop admin badge */}
+                          <span className="hidden lg:inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold shadow-lg whitespace-nowrap">
+                            <svg
+                              className="w-4 h-4"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            Admin Dashboard
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 {/* User info and actions - enhanced for desktop */}
-                <div className="flex w-full min-w-0 items-center justify-end gap-2 sm:gap-3 lg:w-auto lg:gap-4 xl:gap-6">
+                <div className="flex w-full min-w-0 flex-wrap items-center justify-end gap-2 sm:gap-3 lg:w-auto lg:gap-4 xl:gap-6 lg:ml-auto">
                   <ThemeToggle
                     theme={uiTheme}
                     onChange={changeTheme}
@@ -1013,10 +1012,10 @@ export default function App() {
 
                   <button
                     type="button"
-                    onClick={() => navigate("/workspace/attendance")}
-                    className={`rounded-xl border px-3.5 py-2 text-xs sm:text-sm font-extrabold tracking-[0.02em] transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98] ${uiTheme === "dark"
-                      ? "border-slate-600 bg-slate-900/70 text-slate-100 hover:bg-slate-800"
-                      : "border-slate-200 bg-white/90 text-slate-800 hover:bg-white"
+                    onClick={() => navigate(workspacePath)}
+                    className={`w-full sm:w-auto rounded-xl border px-3.5 py-2 text-xs sm:text-sm font-extrabold tracking-[0.02em] shadow-md ${uiTheme === "dark"
+                      ? "border-slate-600 bg-slate-900/70 text-slate-100"
+                      : "border-slate-200 bg-white/90 text-slate-800"
                       }`}
                   >
                     Workspace
@@ -1176,11 +1175,11 @@ export default function App() {
                     <button
                       type="button"
                       onClick={logout}
-                      className="group relative shrink-0 min-w-28 sm:min-w-0 rounded-lg bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-4 sm:px-4 lg:px-5 py-2 sm:py-2 lg:py-2.5 font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm lg:text-base"
+                      className="w-full sm:w-auto relative shrink-0 min-w-28 sm:min-w-0 rounded-lg bg-gradient-to-r from-red-500 to-red-600 px-4 sm:px-4 lg:px-5 py-2 sm:py-2 lg:py-2.5 font-semibold text-white shadow-lg text-sm lg:text-base"
                     >
                       <span className="relative z-10 flex w-full items-center justify-center gap-1 sm:gap-2">
                         <svg
-                          className="w-4 h-4 sm:w-4 sm:h-4 lg:w-5 lg:h-5 group-hover:rotate-12 transition-transform"
+                          className="w-4 h-4 sm:w-4 sm:h-4 lg:w-5 lg:h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -1194,8 +1193,6 @@ export default function App() {
                         </svg>
                         <span className="lg:text-base">Logout</span>
                       </span>
-                      {/* Desktop-only hover effect */}
-                      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-red-400 to-red-500 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                     </button>
                   </div>
                 </div>
