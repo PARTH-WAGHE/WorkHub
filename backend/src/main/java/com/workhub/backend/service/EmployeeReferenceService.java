@@ -97,6 +97,49 @@ public class EmployeeReferenceService {
     return Map.of("message", "Leave request deleted.");
   }
 
+  public Map<String, Object> updateLeaveRequest(Long employeeId, Long leaveRequestId, LeaveRequestCreateDto request) {
+    requireEmployee(employeeId);
+    if (leaveRequestId == null || leaveRequestId <= 0) {
+      throw new IllegalArgumentException("Invalid leave request id.");
+    }
+    if (request == null || request.leaveTypeId() == null || request.startDate() == null || request.endDate() == null) {
+      throw new IllegalArgumentException("Leave type, start date, and end date are required.");
+    }
+    if (request.reason() == null || request.reason().isBlank()) {
+      throw new IllegalArgumentException("Reason is required.");
+    }
+
+    LocalDate start;
+    LocalDate end;
+    try {
+      start = LocalDate.parse(request.startDate());
+      end = LocalDate.parse(request.endDate());
+    } catch (Exception ex) {
+      throw new IllegalArgumentException("Invalid date format. Use YYYY-MM-DD.");
+    }
+
+    if (end.isBefore(start)) {
+      throw new IllegalArgumentException("To date must be the same as or after From date.");
+    }
+
+    if (!employeeReferenceRepository.leaveTypeExists(request.leaveTypeId())) {
+      throw new IllegalArgumentException("Invalid leave type selected.");
+    }
+
+    int updated = employeeReferenceRepository.updateLeaveRequest(
+        employeeId,
+        leaveRequestId,
+        request.leaveTypeId(),
+        start,
+        end,
+        request.reason());
+
+    if (updated == 0) {
+      throw new IllegalArgumentException("Leave request not found or cannot be updated.");
+    }
+    return Map.of("message", "Leave request updated.");
+  }
+
   public List<Map<String, Object>> listPendingLeaveRequests(Long adminId, String status) {
     requireAdmin(adminId);
     String normalized = normalizeDecisionStatus(status);
@@ -223,6 +266,38 @@ public class EmployeeReferenceService {
       throw new IllegalArgumentException("Payroll entry not found.");
     }
     return Map.of("message", "Payroll entry deleted.");
+  }
+
+  public Map<String, Object> updatePayroll(Long employeeId, Long payrollId, PayrollCreateDto request) {
+    requireEmployee(employeeId);
+    if (payrollId == null || payrollId <= 0) {
+      throw new IllegalArgumentException("Invalid payroll id.");
+    }
+
+    if (request == null || request.payDate() == null || request.payDate().isBlank()) {
+      throw new IllegalArgumentException("Pay date is required.");
+    }
+
+    LocalDate payDate;
+    try {
+      payDate = LocalDate.parse(request.payDate());
+    } catch (Exception ex) {
+      throw new IllegalArgumentException("Invalid pay date format. Use YYYY-MM-DD.");
+    }
+
+    Map<String, Object> updated = employeeReferenceRepository.updatePayroll(
+        employeeId,
+        payrollId,
+        request.salary(),
+        request.bonus(),
+        request.deductions(),
+        payDate);
+
+    if (updated == null || updated.isEmpty()) {
+      throw new IllegalArgumentException("Payroll entry not found.");
+    }
+
+    return updated;
   }
 
   private void requireEmployee(Long employeeId) {

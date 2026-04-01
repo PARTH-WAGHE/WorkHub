@@ -1021,6 +1021,8 @@ export default function App() {
                     Workspace
                   </button>
 
+
+
                   {/* Enhanced desktop time display */}
                   <div
                     className={`hidden xl:flex items-center gap-3 px-4 py-3 rounded-xl backdrop-blur-sm border shadow-lg ${uiTheme === "dark"

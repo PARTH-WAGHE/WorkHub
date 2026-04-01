@@ -100,7 +100,7 @@ public class EmployeeReferenceRepository {
 
   public List<Map<String, Object>> listLeaveRequests(Long employeeId) {
     return jdbcTemplate.queryForList(
-      "SELECT lr.id, lr.start_date AS \"startDate\", lr.end_date AS \"endDate\", lr.reason, "
+      "SELECT lr.id, lr.leave_type_id AS \"leaveTypeId\", lr.start_date AS \"startDate\", lr.end_date AS \"endDate\", lr.reason, "
         + "lr.approval_status AS \"approvalStatus\", lr.applied_on AS \"appliedOn\", lr.approved_on AS \"approvedOn\", "
         + "lr.approved_by AS \"approvedBy\", (ap.first_name || ' ' || ap.last_name) AS \"approvedByName\", "
         + "lt.leave_name AS \"leaveType\" "
@@ -156,6 +156,19 @@ public class EmployeeReferenceRepository {
   public int deleteLeaveRequest(Long employeeId, Long leaveRequestId) {
     return jdbcTemplate.update(
         "DELETE FROM leave_requests WHERE id = ? AND employee_id = ? AND approval_status = 'PENDING'",
+        leaveRequestId,
+        employeeId);
+  }
+
+  public int updateLeaveRequest(Long employeeId, Long leaveRequestId, Long leaveTypeId, LocalDate start, LocalDate end,
+      String reason) {
+    return jdbcTemplate.update(
+        "UPDATE leave_requests SET leave_type_id = ?, start_date = ?, end_date = ?, reason = ? "
+            + "WHERE id = ? AND employee_id = ? AND approval_status = 'PENDING'",
+        leaveTypeId,
+        start,
+        end,
+        reason,
         leaveRequestId,
         employeeId);
   }
@@ -259,6 +272,20 @@ public class EmployeeReferenceRepository {
   public int deletePayroll(Long employeeId, Long payrollId) {
     return jdbcTemplate.update(
         "DELETE FROM payroll WHERE id = ? AND employee_id = ?",
+        payrollId,
+        employeeId);
+  }
+
+  public Map<String, Object> updatePayroll(Long employeeId, Long payrollId, BigDecimal salary, BigDecimal bonus,
+      BigDecimal deductions, LocalDate payDate) {
+    return jdbcTemplate.queryForMap(
+        "UPDATE payroll SET salary = ?, bonus = ?, deductions = ?, pay_date = ? "
+            + "WHERE id = ? AND employee_id = ? "
+            + "RETURNING id, employee_id AS \"employeeId\", salary, bonus, deductions, pay_date AS \"payDate\"",
+        salary,
+        bonus,
+        deductions,
+        payDate,
         payrollId,
         employeeId);
   }

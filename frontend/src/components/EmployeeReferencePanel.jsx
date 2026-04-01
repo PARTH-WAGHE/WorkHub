@@ -8,6 +8,8 @@ import {
     decideAdminLeaveRequest,
     deleteEmployeePayroll,
     deleteMyLeaveRequest,
+    updateEmployeePayroll,
+    updateMyLeaveRequest,
     fetchEmployeePayroll,
     fetchAdminLeaveRequests,
     fetchAdminEmployeeAttendance,
@@ -116,6 +118,19 @@ export default function EmployeeReferencePanel({
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [confirmType, setConfirmType] = useState("");
     const [confirmId, setConfirmId] = useState(null);
+    const [editOpen, setEditOpen] = useState(false);
+    const [editType, setEditType] = useState("");
+    const [editId, setEditId] = useState(null);
+    const [editForm, setEditForm] = useState({
+        leaveTypeId: "",
+        startDate: "",
+        endDate: "",
+        reason: "",
+        salary: "",
+        bonus: "",
+        deductions: "",
+        payDate: "",
+    });
 
     useEffect(() => {
         setError("");
@@ -444,6 +459,93 @@ export default function EmployeeReferencePanel({
             setConfirmOpen(false);
             setConfirmId(null);
             setConfirmType("");
+        }
+    };
+
+    const openEditLeave = (row) => {
+        setEditType("leave");
+        setEditId(row.id);
+        setEditForm({
+            leaveTypeId: String(row.leaveTypeId || ""),
+            startDate: row.startDate || "",
+            endDate: row.endDate || "",
+            reason: row.reason || "",
+            salary: "",
+            bonus: "",
+            deductions: "",
+            payDate: "",
+        });
+        setEditOpen(true);
+    };
+
+    const openEditPayroll = (row) => {
+        setEditType("payroll");
+        setEditId(row.id);
+        setEditForm({
+            leaveTypeId: "",
+            startDate: "",
+            endDate: "",
+            reason: "",
+            salary: row.salary ?? "",
+            bonus: row.bonus ?? "",
+            deductions: row.deductions ?? "",
+            payDate: row.payDate || "",
+        });
+        setEditOpen(true);
+    };
+
+    const closeEditModal = () => {
+        setEditOpen(false);
+        setEditType("");
+        setEditId(null);
+    };
+
+    const handleEditSave = async (event) => {
+        event.preventDefault();
+        if (!editId) return;
+        resetMessages();
+
+        try {
+            if (editType === "leave") {
+                if (!editForm.leaveTypeId) {
+                    setError("Please select a leave type.");
+                    return;
+                }
+                if (editForm.startDate && editForm.endDate) {
+                    const start = new Date(`${editForm.startDate}T00:00:00`);
+                    const end = new Date(`${editForm.endDate}T00:00:00`);
+                    if (!Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime()) && end < start) {
+                        setError("To date must be the same as or after From date.");
+                        return;
+                    }
+                }
+
+                await updateMyLeaveRequest(employeeId, editId, {
+                    leaveTypeId: Number(editForm.leaveTypeId),
+                    startDate: editForm.startDate,
+                    endDate: editForm.endDate,
+                    reason: editForm.reason,
+                });
+                setNotice("Leave request updated.");
+                const rows = await fetchMyLeaveRequests(employeeId);
+                setLeaveRequests(rows || []);
+            }
+
+            if (editType === "payroll") {
+                await updateEmployeePayroll(employeeId, editId, {
+                    salary: editForm.salary === "" ? null : Number(editForm.salary),
+                    bonus: editForm.bonus === "" ? null : Number(editForm.bonus),
+                    deductions: editForm.deductions === "" ? null : Number(editForm.deductions),
+                    payDate: editForm.payDate,
+                });
+                setNotice("Payroll entry updated.");
+                const rows = await fetchEmployeePayroll(employeeId);
+                setPayrollRows(rows || []);
+            }
+
+            closeEditModal();
+        } catch (e) {
+            setError(e.message || "Failed to update entry.");
         }
     };
 
@@ -942,21 +1044,34 @@ export default function EmployeeReferencePanel({
                                                     {row.approvedOn ? formatDisplayValue(row.approvedOn) : "-"}
                                                 </td>
                                                 <td className="px-2 py-2 whitespace-nowrap">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                            setConfirmType("leave");
-                                                            setConfirmId(row.id);
-                                                            setConfirmOpen(true);
-                                                        }}
-                                                        disabled={String(row.approvalStatus || "").toUpperCase() !== "PENDING"}
-                                                        className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
-                                                            ? "border-rose-500/40 text-rose-200 hover:bg-rose-500/10"
-                                                            : "border-rose-300 text-rose-700 hover:bg-rose-50"
-                                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
-                                                    >
-                                                        Delete
-                                                    </button>
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => openEditLeave(row)}
+                                                            disabled={String(row.approvalStatus || "").toUpperCase() !== "PENDING"}
+                                                            className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
+                                                                ? "border-blue-500/40 text-blue-200 hover:bg-blue-500/10"
+                                                                : "border-blue-300 text-blue-700 hover:bg-blue-50"
+                                                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                setConfirmType("leave");
+                                                                setConfirmId(row.id);
+                                                                setConfirmOpen(true);
+                                                            }}
+                                                            disabled={String(row.approvalStatus || "").toUpperCase() !== "PENDING"}
+                                                            className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
+                                                                ? "border-rose-500/40 text-rose-200 hover:bg-rose-500/10"
+                                                                : "border-rose-300 text-rose-700 hover:bg-rose-50"
+                                                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -1016,20 +1131,32 @@ export default function EmployeeReferencePanel({
                                             <td className="px-2 py-2 whitespace-nowrap">{row.bonus}</td>
                                             <td className="px-2 py-2 whitespace-nowrap">{row.deductions}</td>
                                             <td className="px-2 py-2 whitespace-nowrap">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setConfirmType("payroll");
-                                                        setConfirmId(row.id);
-                                                        setConfirmOpen(true);
-                                                    }}
-                                                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
-                                                        ? "border-rose-500/40 text-rose-200 hover:bg-rose-500/10"
-                                                        : "border-rose-300 text-rose-700 hover:bg-rose-50"
-                                                        }`}
-                                                >
-                                                    Delete
-                                                </button>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => openEditPayroll(row)}
+                                                        className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
+                                                            ? "border-blue-500/40 text-blue-200 hover:bg-blue-500/10"
+                                                            : "border-blue-300 text-blue-700 hover:bg-blue-50"
+                                                            }`}
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setConfirmType("payroll");
+                                                            setConfirmId(row.id);
+                                                            setConfirmOpen(true);
+                                                        }}
+                                                        className={`rounded-lg px-3 py-1.5 text-xs font-semibold border transition ${isDark
+                                                            ? "border-rose-500/40 text-rose-200 hover:bg-rose-500/10"
+                                                            : "border-rose-300 text-rose-700 hover:bg-rose-50"
+                                                            }`}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -1147,6 +1274,147 @@ export default function EmployeeReferencePanel({
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
+                    </div>
+                )}
+                {editOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+                        <div className={`w-full max-w-lg rounded-2xl border shadow-2xl ${isDark ? "bg-slate-950 border-slate-800" : "bg-white border-slate-200"}`}>
+                            <div className="border-b px-5 py-4">
+                                <h3 className={`text-lg font-bold ${isDark ? "text-slate-100" : "text-slate-900"}`}>
+                                    {editType === "leave" ? "Edit Leave Request" : "Edit Payroll Entry"}
+                                </h3>
+                                <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>
+                                    Update the details and save changes.
+                                </p>
+                            </div>
+                            <form onSubmit={handleEditSave} className="px-5 py-4 space-y-3">
+                                {editType === "leave" && (
+                                    <>
+                                        <div>
+                                            <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                Leave Type <span className="text-red-500" aria-hidden="true">*</span>
+                                            </label>
+                                            <select
+                                                value={editForm.leaveTypeId}
+                                                onChange={(e) => setEditForm((prev) => ({ ...prev, leaveTypeId: e.target.value }))}
+                                                className={`${selectClass} appearance-none pr-12 cursor-pointer`}
+                                                required
+                                            >
+                                                <option value="" disabled>
+                                                    Select leave type
+                                                </option>
+                                                {leaveTypes.map((type) => (
+                                                    <option key={type.id} value={type.id}>{type.leaveName}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                    From <span className="text-red-500" aria-hidden="true">*</span>
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    value={editForm.startDate}
+                                                    onChange={(e) => setEditForm((prev) => ({ ...prev, startDate: e.target.value }))}
+                                                    className={`${inputClass} wh-date-input`}
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                    To <span className="text-red-500" aria-hidden="true">*</span>
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    value={editForm.endDate}
+                                                    onChange={(e) => setEditForm((prev) => ({ ...prev, endDate: e.target.value }))}
+                                                    className={`${inputClass} wh-date-input`}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                Reason <span className="text-red-500" aria-hidden="true">*</span>
+                                            </label>
+                                            <input
+                                                value={editForm.reason}
+                                                onChange={(e) => setEditForm((prev) => ({ ...prev, reason: e.target.value }))}
+                                                className={inputClass}
+                                                required
+                                            />
+                                        </div>
+                                    </>
+                                )}
+                                {editType === "payroll" && (
+                                    <>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                    Salary
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    value={editForm.salary}
+                                                    onChange={(e) => setEditForm((prev) => ({ ...prev, salary: e.target.value }))}
+                                                    className={`${inputClass} wh-number-input`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                    Bonus
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    value={editForm.bonus}
+                                                    onChange={(e) => setEditForm((prev) => ({ ...prev, bonus: e.target.value }))}
+                                                    className={`${inputClass} wh-number-input`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                    Deductions
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    value={editForm.deductions}
+                                                    onChange={(e) => setEditForm((prev) => ({ ...prev, deductions: e.target.value }))}
+                                                    className={`${inputClass} wh-number-input`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={`mb-1 block text-sm font-semibold ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                                                    Pay Date <span className="text-red-500" aria-hidden="true">*</span>
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    value={editForm.payDate}
+                                                    onChange={(e) => setEditForm((prev) => ({ ...prev, payDate: e.target.value }))}
+                                                    className={`${inputClass} wh-date-input`}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                                <div className="flex justify-end gap-2 pt-2">
+                                    <button
+                                        type="button"
+                                        onClick={closeEditModal}
+                                        className={`rounded-lg px-4 py-2 text-sm font-semibold border ${isDark
+                                            ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700"
+                                            : "border-slate-200 bg-slate-50 text-slate-700 hover:bg-white"
+                                            }`}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button type="submit" className={primaryButtonClass}>
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 )}
                 <ConfirmDialog

@@ -2,9 +2,11 @@ package com.workhub.backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +52,14 @@ public class EmployeeReferenceController {
   @PostMapping("/employees/{employeeId}/leave-requests")
   public ResponseEntity<?> createLeaveRequest(@PathVariable Long employeeId, @RequestBody LeaveRequestCreateDto request) {
     return ResponseEntity.ok(employeeReferenceService.createLeaveRequest(employeeId, request));
+  }
+
+  @PutMapping("/employees/{employeeId}/leave-requests/{leaveRequestId}")
+  public ResponseEntity<?> updateLeaveRequest(
+      @PathVariable Long employeeId,
+      @PathVariable Long leaveRequestId,
+      @RequestBody LeaveRequestCreateDto request) {
+    return ResponseEntity.ok(employeeReferenceService.updateLeaveRequest(employeeId, leaveRequestId, request));
   }
 
   @DeleteMapping("/employees/{employeeId}/leave-requests/{leaveRequestId}")
@@ -127,6 +137,14 @@ public class EmployeeReferenceController {
   @PostMapping("/employees/{employeeId}/payroll")
   public ResponseEntity<?> createPayroll(@PathVariable Long employeeId, @RequestBody PayrollCreateDto request) {
     return ResponseEntity.ok(employeeReferenceService.createPayroll(employeeId, request));
+  }
+
+  @PutMapping("/employees/{employeeId}/payroll/{payrollId}")
+  public ResponseEntity<?> updatePayroll(
+      @PathVariable Long employeeId,
+      @PathVariable Long payrollId,
+      @RequestBody PayrollCreateDto request) {
+    return ResponseEntity.ok(employeeReferenceService.updatePayroll(employeeId, payrollId, request));
   }
 
   @DeleteMapping("/employees/{employeeId}/payroll/{payrollId}")

@@ -196,6 +196,22 @@ export async function deleteEmployeePayroll(employeeId, payrollId) {
   return res.json();
 }
 
+export async function updateEmployeePayroll(employeeId, payrollId, payload) {
+  const res = await fetch(
+    `${API_BASE}/api/dbms/employees/${employeeId}/payroll/${payrollId}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }
+  );
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || "Failed to update payroll entry");
+  }
+  return res.json();
+}
+
 export async function fetchReferenceOverview() {
   const res = await fetch(`${API_BASE}/api/dbms/overview`);
   if (!res.ok) throw new Error("Failed to load employee reference overview");
@@ -254,6 +270,22 @@ export async function deleteMyLeaveRequest(employeeId, leaveRequestId) {
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     throw new Error(text || "Failed to delete leave request");
+  }
+  return res.json();
+}
+
+export async function updateMyLeaveRequest(employeeId, leaveRequestId, payload) {
+  const res = await fetch(
+    `${API_BASE}/api/dbms/employees/${employeeId}/leave-requests/${leaveRequestId}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }
+  );
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || "Failed to update leave request");
   }
   return res.json();
 }

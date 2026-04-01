@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AccessDeniedModal from "./AccessDeniedModal.jsx";
 
 export default function EmployeeDetailModal({
@@ -9,6 +9,19 @@ export default function EmployeeDetailModal({
   theme = "light",
 }) {
   const [showAccessDenied, setShowAccessDenied] = useState(false);
+
+  useEffect(() => {
+    if (!employee) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [employee]);
 
   if (!employee) return null;
 
@@ -51,20 +64,20 @@ export default function EmployeeDetailModal({
     ? "text-slate-100 font-medium break-words"
     : "text-slate-900 font-medium break-words";
   const headingClass = isDark
-    ? "text-lg font-bold text-slate-100 mb-4 flex items-center gap-2"
-    : "text-lg font-bold text-slate-900 mb-4 flex items-center gap-2";
+    ? "text-lg font-bold text-slate-100 mb-5 flex items-center gap-2"
+    : "text-lg font-bold text-slate-900 mb-5 flex items-center gap-2";
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-md animate-fadeIn">
+      <div className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/60 backdrop-blur-md animate-fadeIn">
         <div
-          className={`w-full modal-content max-w-3xl max-h-[96dvh] sm:max-h-[92vh] overflow-hidden transform animate-slideUp flex flex-col rounded-3xl sm:rounded-2xl shadow-2xl ${isDark
+          className={`w-full h-[100dvh] max-w-none overflow-hidden transform animate-slideUp flex flex-col rounded-none shadow-2xl ${isDark
               ? "bg-slate-950 border border-slate-700"
               : "bg-white"
             }`}
         >
           {/* Header with Gradient */}
-          <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-[length:200%_200%] animate-gradientShift p-5 sm:p-8 text-white">
+          <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-[length:200%_200%] animate-gradientShift p-6 sm:p-10 text-white">
             <button
               type="button"
               onClick={onClose}
@@ -113,7 +126,7 @@ export default function EmployeeDetailModal({
 
           {/* Content */}
           <div
-            className={`flex-1 overflow-y-auto p-4 sm:p-8 pb-24 sm:pb-8 ${isDark ? "bg-slate-950/90" : "bg-white"
+            className={`flex-1 overflow-y-auto p-6 sm:p-10 pb-28 sm:pb-10 ${isDark ? "bg-slate-950/90" : "bg-white"
               }`}
           >
             {!employee.firstName ? (
@@ -127,10 +140,10 @@ export default function EmployeeDetailModal({
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 {/* Contact Information */}
                 <div
-                  className={`rounded-2xl p-5 sm:p-6 border ${isDark
+                  className={`rounded-2xl p-6 sm:p-8 border ${isDark
                       ? "bg-gradient-to-br from-slate-900 to-blue-950 border-blue-900/50"
                       : "bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100"
                     }`}
@@ -184,7 +197,7 @@ export default function EmployeeDetailModal({
 
                 {/* Employment Details */}
                 <div
-                  className={`rounded-2xl p-5 sm:p-6 border ${isDark
+                  className={`rounded-2xl p-6 sm:p-8 border ${isDark
                       ? "bg-gradient-to-br from-slate-900 to-violet-950 border-violet-900/50"
                       : "bg-gradient-to-br from-purple-50 to-pink-50 border-purple-100"
                     }`}
@@ -250,7 +263,7 @@ export default function EmployeeDetailModal({
 
                 {/* Personal Information */}
                 <div
-                  className={`rounded-2xl p-5 sm:p-6 border ${isDark
+                  className={`rounded-2xl p-6 sm:p-8 border ${isDark
                       ? "bg-gradient-to-br from-slate-900 to-emerald-950 border-emerald-900/50"
                       : "bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-100"
                     }`}
@@ -293,7 +306,7 @@ export default function EmployeeDetailModal({
 
                 {/* Financial Information */}
                 <div
-                  className={`rounded-2xl p-5 sm:p-6 border ${isDark
+                  className={`rounded-2xl p-6 sm:p-8 border ${isDark
                       ? "bg-gradient-to-br from-slate-900 to-amber-950 border-amber-900/50"
                       : "bg-gradient-to-br from-amber-50 to-orange-50 border-amber-100"
                     }`}
@@ -338,7 +351,7 @@ export default function EmployeeDetailModal({
 
           {/* Footer */}
           <div
-            className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 px-4 sm:px-8 py-4 border-t ${isDark
+            className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 px-6 sm:px-10 py-5 border-t ${isDark
                 ? "bg-slate-900 border-slate-700"
                 : "bg-slate-50 border-slate-200"
               }`}
@@ -346,7 +359,7 @@ export default function EmployeeDetailModal({
             <button
               type="button"
               onClick={onClose}
-              className="w-full sm:w-auto rounded-lg btn-gradient-slate px-4 py-2 font-semibold text-white hover:shadow-lg transition-shadow"
+              className="w-full sm:w-auto rounded-lg btn-gradient-slate px-5 py-2.5 font-semibold text-white hover:shadow-lg transition-shadow"
             >
               Close
             </button>
@@ -357,7 +370,7 @@ export default function EmployeeDetailModal({
                   onEdit(employee);
                   onClose();
                 }}
-                className="w-full sm:w-auto rounded-lg btn-gradient-orange px-4 py-2 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
+                className="w-full sm:w-auto rounded-lg btn-gradient-orange px-5 py-2.5 font-semibold text-white shadow-lg hover:shadow-xl transition-shadow"
               >
                 Edit Employee
               </button>
@@ -365,7 +378,7 @@ export default function EmployeeDetailModal({
               <button
                 type="button"
                 onClick={() => setShowAccessDenied(true)}
-                className={`w-full sm:w-auto rounded-lg px-4 py-2 font-semibold cursor-not-allowed ${isDark
+                className={`w-full sm:w-auto rounded-lg px-5 py-2.5 font-semibold cursor-not-allowed ${isDark
                     ? "bg-slate-800 border border-slate-600 text-slate-300"
                     : "bg-slate-200 text-slate-400"
                   }`}
@@ -399,9 +412,9 @@ export default function EmployeeDetailModal({
         }
         @media (max-width: 640px) {
           .modal-content {
-            height: calc(100dvh - 12px);
-            margin-top: 6px;
-            border-radius: 20px 20px 0 0;
+            height: 100dvh;
+            margin-top: 0;
+            border-radius: 0;
           }
         }
       `}</style>
